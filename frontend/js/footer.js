@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <span class="stat-num" style="color: #22c55e;">24</span>
                         </div>
                     </div>
-                    
+                     
                     <h3 style="margin-top: 25px; font-size: 1rem;">Quick Links</h3>
                     <ul class="footer-links">
                         <li><a href="login.html">Login / Signup</a></li>
@@ -76,11 +76,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         <li><a href="terms.html">Terms & Conditions</a></li>
                     </ul>
                 </div>
-
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2026 FastSewa Super Portal. All rights reserved. | Developed by <a href="https://www.linkedin.com/in/nitish-kumar-762461281/" target="_blank" style="color: #ff5722; text-decoration: none; font-weight: 600;">Team Nitish Kumar</a> and <a href="https://www.linkedin.com/in/vivek-kumar-024765265/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" style="color: #ff5722; text-decoration: none; font-weight: 600;">Team Vivek Kumar</a>.</p>
+                <p>&copy; 2026 FastSewa Super Portal. All rights reserved. | Developed by <a href="https://www.anikeshroy.xyz" target="_blank" style="color: #ff5722; text-decoration: none; font-weight: 600;">Anikesh Roy</a> and <a href="" style="color: #ff5722; text-decoration: none; font-weight: 600;">Amit Kumar</a>.</p>
             </div>
         </footer>
 

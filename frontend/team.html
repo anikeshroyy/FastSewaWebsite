@@ -1,258 +1,505 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Elite Team | FastSewa Super Portal</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/chatbot.css">
 
     <style>
-        body { background-color: #f8fafc; font-family: 'Poppins', sans-serif; overflow-x: hidden; }
+        :root {
+            --primary: #ff5722;
+            --primary-dark: #e64a19;
+            --secondary: #0f172a;
+            --accent: #38bdf8;
+            --bg-light: #f8fafc;
+            --glass: rgba(255, 255, 255, 0.8);
+            --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            color: #334155;
+        }
+
+        /* --- MODERN NAVBAR --- */
         .navbar {
-            position: fixed; top: 0; width: 100%; z-index: 1000;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 0;
+            transition: all 0.3s ease;
         }
 
         /* --- HERO SECTION --- */
         .team-hero {
-            padding: 140px 20px 80px;
+            position: relative;
+            padding: 180px 20px 120px;
             text-align: center;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
             color: white;
-            clip-path: ellipse(150% 100% at 50% 0%);
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
+            overflow: hidden;
         }
-        .team-hero h1 { font-size: 3.5rem; font-weight: 800; color: #ff5722; }
-        .main-quote { font-size: 1.2rem; font-style: italic; max-width: 800px; margin: 0 auto; color: #cbd5e1; }
+
+        .team-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(255, 87, 34, 0.08) 0%, transparent 40%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-badge {
+            background: rgba(255, 87, 34, 0.15);
+            color: var(--primary);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline-block;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            position: relative;
+        }
+
+        .team-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            position: relative;
+        }
+
+        .team-hero h1 span {
+            color: var(--primary);
+            background: linear-gradient(to right, #ff5722, #ff8a65);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .main-quote {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #94a3b8;
+            line-height: 1.6;
+            font-weight: 300;
+            position: relative;
+        }
 
         /* --- SECTION HEADINGS --- */
-        .dept-title { 
-            text-align: center; font-size: 2.2rem; font-weight: 700; color: #0f172a; 
-            margin: 60px 0 40px; position: relative;
+        .dept-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin: 80px 0 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
-        .dept-title span { color: #ff5722; }
+
+        .dept-title::before, .dept-title::after {
+            content: '';
+            height: 2px;
+            width: 50px;
+            background: linear-gradient(to right, transparent, var(--primary));
+        }
+        .dept-title::after { background: linear-gradient(to left, transparent, var(--primary)); }
+
+        .dept-title span { color: var(--primary); }
 
         /* --- TEAM GRID --- */
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
         }
 
-        /* --- MEMBER CARD --- */
+        /* --- PREMIUM MEMBER CARD --- */
         .member-card {
             background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            transition: 0.4s ease;
-            border: 1px solid #f1f5f9;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-bottom: 25px;
+            border-radius: 24px;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            padding: 12px;
+            text-align: center;
         }
-        .member-card:hover { transform: translateY(-10px); border-color: #ff5722; box-shadow: 0 20px 40px rgba(255, 87, 34, 0.1); }
 
-        .image-box {
+        .member-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 30px 60px -12px rgba(15, 23, 42, 0.15);
+        }
+
+        .image-wrapper {
+            position: relative;
             width: 100%;
-            height: 350px;
-            background: #e2e8f0;
-            margin-bottom: 20px;
+            height: 380px;
+            border-radius: 18px;
             overflow: hidden;
+            margin-bottom: 25px;
         }
-        .image-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .member-card:hover .image-box img { transform: scale(1.05); }
 
-        .member-info { padding: 0 20px; text-align: center; flex-grow: 1; }
-        .member-name { font-size: 1.5rem; font-weight: 700; color: #0f172a; margin-bottom: 5px; }
-        .member-role { color: #ff5722; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; display: block; margin-bottom: 10px; }
-        .member-college { font-size: 0.85rem; color: #64748b; font-weight: 500; margin-bottom: 15px; display: block; }
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .member-card:hover .image-wrapper img {
+            transform: scale(1.1) rotate(1deg);
+        }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.8), transparent);
+            opacity: 0;
+            transition: 0.4s;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 20px;
+        }
+
+        .member-card:hover .image-overlay { opacity: 1; }
+
+        .member-info {
+            padding: 0 15px 15px;
+        }
+
+        .member-role {
+            display: inline-block;
+            background: rgba(255, 87, 34, 0.1);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .member-name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+
+        .member-college {
+            display: block;
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 500;
+            margin-top: 8px;
+            min-height: 40px;
+        }
+
+        .member-bio {
+            font-size: 0.95rem;
+            color: #475569;
+            line-height: 1.5;
+            margin-top: 10px;
+        }
 
         /* --- SOCIAL BUTTONS --- */
-        .contact-btns { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
-        .social-btn {
-            width: 45px; height: 45px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            background: #f1f5f9; color: #0f172a; transition: 0.3s;
-            text-decoration: none; font-size: 1.2rem;
+        .contact-btns {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
         }
-        .social-btn.linkedin:hover { background: #0077b5; color: white; transform: rotate(360deg); }
-        .social-btn.email:hover { background: #ff5722; color: white; transform: rotate(360deg); }
 
-        @media (max-width: 768px) { .team-hero h1 { font-size: 2.5rem; } }
+        .social-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f1f5f9;
+            color: var(--secondary);
+            transition: 0.4s;
+            text-decoration: none;
+            font-size: 1.3rem;
+        }
+
+        .social-btn:hover {
+            transform: scale(1.1) translateY(-3px);
+            color: white;
+        }
+
+        .social-btn.linkedin:hover { background: #0077b5; box-shadow: 0 10px 15px -3px rgba(0, 119, 181, 0.4); }
+        .social-btn.email:hover { background: var(--primary); box-shadow: 0 10px 15px -3px rgba(255, 87, 34, 0.4); }
+
+        /* --- DECORATIVE BLOBS --- */
+        .blob {
+            position: absolute;
+            z-index: -1;
+            filter: blur(80px);
+            opacity: 0.4;
+            border-radius: 50%;
+        }
+
+        @media (max-width: 768px) {
+            .team-hero { padding: 140px 20px 80px; }
+            .dept-title { font-size: 1.8rem; }
+        }
     </style>
 </head>
+
 <body>
 
     <nav class="navbar">
-        <div class="container nav-container" style="display: flex; justify-content: space-between; align-items: center; width: 90%; margin: 0 auto;">
+        <div class="container"
+            style="display: flex; justify-content: space-between; align-items: center;">
             <div class="logo">
                 <a href="index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
-                    <img src="images/logo1.png" alt="FS" style="height: 50px; width: auto;">
-                    <div style="font-size: 24px; font-weight: 800; color: #0f172a;">FastSewa<span>.</span></div>
+                    <img src="images/logo1.png" alt="FS" style="height: 45px; width: auto;">
+                    <div style="font-size: 22px; font-weight: 800; color: #0f172a;">FastSewa<span style="color:var(--primary)">.</span></div>
                 </a>
             </div>
             <ul class="nav-links" style="display: flex; gap: 30px; list-style: none;">
-                <li><a href="index.html" style="color: #0f172a; font-weight: 500;">Home</a></li>
-                <li><a href="about.html" style="color: #0f172a; font-weight: 500;">About</a></li>
-                <li><a href="team.html" style="color: #ff5722; font-weight: 700;">Team</a></li>
+                <li><a href="index.html" style="color: #0f172a; font-weight: 500; text-decoration: none;">Home</a></li>
+                <li><a href="about.html" style="color: #0f172a; font-weight: 500; text-decoration: none;">About</a></li>
+                <li><a href="team.html" style="color: #ff5722; font-weight: 700; text-decoration: none;">Team</a></li>
             </ul>
         </div>
     </nav>
 
     <header class="team-hero">
         <div class="container">
-            <h1>Meet Our Elite Squad</h1>
+            <div class="hero-badge">The A-Team</div>
+            <h1>Meet Our <span>Elite Squad</span></h1>
             <p class="main-quote">"Individually we are one drop, but together we are an ocean. Dedicated to redefining transparency in home services."</p>
         </div>
     </header>
 
-    <section class="container">
-        
+    <main class="container">
+        <div class="blob" style="width: 400px; height: 400px; background: #ff5722; top: 500px; left: -200px;"></div>
+        <div class="blob" style="width: 300px; height: 300px; background: #38bdf8; top: 800px; right: -150px;"></div>
+
         <h2 class="dept-title">The <span>Visionaries</span></h2>
+        
         <div class="team-grid">
             <div class="member-card">
-                <div class="image-box"><img src="images/AKHILESH.jpeg" alt="Akhilesh Kumar" onerror="this.src='https://ui-avatars.com/api/?name=Akhilesh+Kumar&background=0f172a&color=fff'"></div>
+                <div class="image-wrapper">
+                    <img src="images/AKHILESH.jpeg" alt="Akhilesh Kumar" onerror="this.src='https://ui-avatars.com/api/?name=Akhilesh+Kumar&background=0f172a&color=fff'">
+                    <div class="image-overlay">
+                        <div class="contact-btns">
+                            <a href="mailto:ceo@fastsewa.com" class="social-btn email"><i class="fas fa-envelope"></i></a>
+                            <a href="#" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
                 <div class="member-info">
                     <span class="member-role">Founder & CEO</span>
                     <h3 class="member-name">Akhilesh Kumar</h3>
                     <p class="member-bio">The core brain behind the FastSewa ecosystem and strategic expansion.</p>
                 </div>
-                <div class="contact-btns">
-                    <a href="mailto:ceo@fastsewa.com" class="social-btn email"><i class="fas fa-envelope"></i></a>
-                    <a href="#" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
-                </div>
             </div>
 
             <div class="member-card">
-                <div class="image-box"><img src="images/PRIYANKA JHA.jpeg" alt="Priyanka Jha" onerror="this.src='https://ui-avatars.com/api/?name=Priyanka+Jha&background=ff5722&color=fff'"></div>
+                <div class="image-wrapper">
+                    <img src="images/PRIYANKA JHA.jpeg" alt="Priyanka Jha" onerror="this.src='https://ui-avatars.com/api/?name=Priyanka+Jha&background=ff5722&color=fff'">
+                    <div class="image-overlay">
+                        <div class="contact-btns">
+                            <a href="mailto:strategy@fastsewa.com" class="social-btn email"><i class="fas fa-envelope"></i></a>
+                            <a href="#" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
                 <div class="member-info">
                     <span class="member-role">Co-Founder & Head of Strategy</span>
                     <h3 class="member-name">Priyanka Jha</h3>
                     <p class="member-bio">Architect of long-term business goals and sustainable growth patterns.</p>
                 </div>
-                <div class="contact-btns">
-                    <a href="mailto:strategy@fastsewa.com" class="social-btn email"><i class="fas fa-envelope"></i></a>
-                    <a href="#" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
-                </div>
             </div>
 
             <div class="member-card">
-                <div class="image-box"><img src="images/varun.jpeg" alt="Varun Kr Jha" onerror="this.src='https://ui-avatars.com/api/?name=Varun+Kr+Jha&background=0f172a&color=fff'"></div>
+                <div class="image-wrapper">
+                    <img src="images/varun.jpeg" alt="Varun Kr Jha" onerror="this.src='https://ui-avatars.com/api/?name=Varun+Kr+Jha&background=0f172a&color=fff'">
+                    <div class="image-overlay">
+                        <div class="contact-btns">
+                            <a href="mailto:coo@fastsewa.com" class="social-btn email"><i class="fas fa-envelope"></i></a>
+                            <a href="#" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
                 <div class="member-info">
                     <span class="member-role">COO</span>
                     <h3 class="member-name">Varun Kr Jha</h3>
                     <p class="member-bio">Leading on-ground operations and managing service delivery excellence.</p>
                 </div>
-                <div class="contact-btns">
-                    <a href="mailto:coo@fastsewa.com" class="social-btn email"><i class="fas fa-envelope"></i></a>
-                    <a href="#" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
-                </div>
             </div>
         </div>
 
         <h2 class="dept-title">The <span>Developer</span> Squad</h2>
+        
         <div class="team-grid">
-            
             <div class="member-card">
-                <div class="image-box"><img src="images/nitish.jpeg" alt="Nitish Kumar" onerror="this.src='https://ui-avatars.com/api/?name=Nitish+Kumar&background=334155&color=fff'"></div>
+                <div class="image-wrapper">
+                    <img src="images/nitish.jpeg" alt="Nitish Kumar" onerror="this.src='https://ui-avatars.com/api/?name=Nitish+Kumar&background=334155&color=fff'">
+                    <div class="image-overlay">
+                        <div class="contact-btns">
+                            <a href="mailto:er.nitshkumar@gmail.com" class="social-btn email"><i class="fas fa-envelope"></i></a>
+                            <a href="https://www.linkedin.com/in/nitish-kumar-762461281/" target="_blank" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
                 <div class="member-info">
                     <span class="member-role">Chief Developer</span>
                     <h3 class="member-name">Nitish Kumar</h3>
-                    <span class="member-college">Govt. Engineering College, Aurangabad</span>
-                </div>
-                <div class="contact-btns">
-                    <a href="mailto:er.nitshkumar@gmail.com" class="social-btn email"><i class="fas fa-envelope"></i></a>
-                    <a href="https://www.linkedin.com/in/nitish-kumar-762461281/" target="_blank" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                    <span class="member-college"><i class="fas fa-university"></i> Govt. Engineering College, Aurangabad</span>
                 </div>
             </div>
+
             <div class="member-card">
-                <div class="image-box"><img src="images/vivek.jpeg" alt="Vivek Kumar" onerror="this.src='https://ui-avatars.com/api/?name=Vivek+Kumar&background=334155&color=fff'"></div>
+                <div class="image-wrapper">
+                    <img src="images/vivek.jpeg" alt="Vivek Kumar" onerror="this.src='https://ui-avatars.com/api/?name=Vivek+Kumar&background=334155&color=fff'">
+                    <div class="image-overlay">
+                        <div class="contact-btns">
+                            <a href="mailto:viveklvs1234kumar@gmail.com" class="social-btn email"><i class="fas fa-envelope"></i></a>
+                            <a href="https://www.linkedin.com/in/vivek-kumar-024765265" target="_blank" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
                 <div class="member-info">
                     <span class="member-role">Chief Developer (Frontend)</span>
                     <h3 class="member-name">Vivek Kumar</h3>
-                    <span class="member-college">Govt. Engineering College, Jamui</span>
-                </div>
-                <div class="contact-btns">
-                    <a href="mailto:viveklvs1234kumar@gmail.com" class="social-btn email"><i class="fas fa-envelope"></i></a>
-                    <a href="https://www.linkedin.com/in/vivek-kumar-024765265?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                    <span class="member-college"><i class="fas fa-university"></i> Govt. Engineering College, Jamui</span>
                 </div>
             </div>
 
             <div class="member-card">
-                <div class="image-box"><img src="images/nurag Kumar  .jpeg" alt="Anurag Kumar" onerror="this.src='https://ui-avatars.com/api/?name=Anurag+Kumar&background=334155&color=fff'"></div>
+                <div class="image-wrapper">
+                    <img src="images/nurag Kumar  .jpeg" alt="Anurag Kumar" onerror="this.src='https://ui-avatars.com/api/?name=Anurag+Kumar&background=334155&color=fff'">
+                    <div class="image-overlay">
+                        <div class="contact-btns">
+                            <a href="mailto:anu28112002@gmail.com" class="social-btn email"><i class="fas fa-envelope"></i></a>
+                            <a href="https://www.linkedin.com/in/anurag-kumar-ln" target="_blank" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
                 <div class="member-info">
                     <span class="member-role">Co-Developer</span>
                     <h3 class="member-name">Anurag Kumar</h3>
-                    <span class="member-college">Govt. Engineering College, Jamui</span>
-                </div>
-                <div class="contact-btns">
-                    <a href="mailto:anu28112002@gmail.com" class="social-btn email"><i class="fas fa-envelope"></i></a>
-                    <a href="https://www.linkedin.com/in/anurag-kumar-ln" target="_blank" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                    <span class="member-college"><i class="fas fa-university"></i> Govt. Engineering College, Jamui</span>
                 </div>
             </div>
 
             <div class="member-card">
-                <div class="image-box"><img src="images/Harikesh Kumar.jpeg" alt="Harikesh Kumar" onerror="this.src='https://ui-avatars.com/api/?name=Harikesh+Kumar&background=334155&color=fff'"></div>
+                <div class="image-wrapper">
+                    <img src="images/Harikesh Kumar.jpeg" alt="Harikesh Kumar" onerror="this.src='https://ui-avatars.com/api/?name=Harikesh+Kumar&background=334155&color=fff'">
+                    <div class="image-overlay">
+                        <div class="contact-btns">
+                            <a href="mailto:harikeshku83@gmail.com" class="social-btn email"><i class="fas fa-envelope"></i></a>
+                            <a href="https://www.linkedin.com/in/harikesh-kumar-70062a258" target="_blank" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
                 <div class="member-info">
                     <span class="member-role">Co-Developer</span>
                     <h3 class="member-name">Harikesh Kumar</h3>
-                    <span class="member-college">Govt. Engineering College, Aurangabad</span>
-                </div>
-                <div class="contact-btns">
-                    <a href="mailto:harikeshku83@gmail.com" class="social-btn email"><i class="fas fa-envelope"></i></a>
-                    <a href="https://www.linkedin.com/in/harikesh-kumar-70062a258" target="_blank" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                    <span class="member-college"><i class="fas fa-university"></i> Govt. Engineering College, Aurangabad</span>
                 </div>
             </div>
 
             <div class="member-card">
-                <div class="image-box"><img src="images/Shudhanshu Sekhar  .jpeg" alt="Shudhanshu Sekhar" onerror="this.src='https://ui-avatars.com/api/?name=Shudhanshu+Sekhar&background=334155&color=fff'"></div>
+                <div class="image-wrapper">
+                    <img src="images/Shudhanshu Sekhar  .jpeg" alt="Shudhanshu Sekhar" onerror="this.src='https://ui-avatars.com/api/?name=Shudhanshu+Sekhar&background=334155&color=fff'">
+                    <div class="image-overlay">
+                        <div class="contact-btns">
+                            <a href="mailto:shudhanshusekhar7@gmail.com" class="social-btn email"><i class="fas fa-envelope"></i></a>
+                            <a href="https://in.linkedin.com/in/shudhanshu-sekhar-09b3231a0" target="_blank" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
                 <div class="member-info">
                     <span class="member-role">Co-Developer</span>
                     <h3 class="member-name">Shudhanshu Sekhar</h3>
-                    <span class="member-college">Govt. Engineering College, Jamui</span>
-                </div>
-                <div class="contact-btns">
-                    <a href="mailto:shudhanshusekhar7@gmail.com" class="social-btn email"><i class="fas fa-envelope"></i></a>
-                    <a href="https://in.linkedin.com/in/shudhanshu-sekhar-09b3231a0" target="_blank" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                    <span class="member-college"><i class="fas fa-university"></i> Govt. Engineering College, Jamui</span>
                 </div>
             </div>
-
         </div>
-    </section>
+    </main>
 
     <div id="fastsewa-footer"></div>
 
     <script src="js/footer.js"></script>
     <script src="js/chatbot.js"></script>
-    
+
     <script>
-        // Navbar Profile Persistence
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
+            // Navbar Scroll Effect
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    document.querySelector('.navbar').style.padding = '8px 0';
+                    document.querySelector('.navbar').style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+                } else {
+                    document.querySelector('.navbar').style.padding = '12px 0';
+                    document.querySelector('.navbar').style.boxShadow = 'none';
+                }
+            });
+
+            // User Profile Persistence
             const user = JSON.parse(localStorage.getItem("fastsewaUser"));
             const authAction = document.getElementById("auth-action");
 
             if (user && user.isLoggedIn && authAction) {
                 const firstName = user.name.split(" ")[0];
                 authAction.innerHTML = `
-                    <div class="user-nav-profile" style="position: relative; display: inline-block;">
+                    <div class="user-nav-profile">
                         <a href="dashboard.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; background: white; padding: 5px 15px 5px 5px; border-radius: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 1px solid #eee;">
-                            <div style="width: 35px; height: 35px; background: #ff5722; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                            <div style="width: 32px; height: 32px; background: #ff5722; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px;">
                                 ${firstName.charAt(0).toUpperCase()}
                             </div>
-                            <span style="font-weight: 600; font-size: 14px; color: #333;">${firstName}</span>
+                            <span style="font-weight: 600; font-size: 13px; color: #333;">${firstName}</span>
                         </a>
                     </div>
                 `;

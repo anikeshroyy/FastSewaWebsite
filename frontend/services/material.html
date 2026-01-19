@@ -1,169 +1,615 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FastSewa - Construction Materials Marketplace</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link rel="stylesheet" href="css/style.css">     
-    <link rel="stylesheet" href="css/footer.css">    
-    <link rel="stylesheet" href="css/chatbot.css">   
-    
+    <link rel="stylesheet" href="../css/style.css">
+
     <style>
-        /* --- PAGE STYLES --- */
-        body { background-color: #f8fafc; font-family: 'Poppins', sans-serif; overflow-x: hidden; }
+        /* --- MERGED CSS STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f8fafc;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+            color: #333;
+        }
 
         /* Navbar Fix */
         .navbar {
-            position: fixed; top: 0; width: 100%; z-index: 1000;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             padding: 15px 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
         }
 
         /* Hero Section - Construction Theme (Amber/Dark) */
         .material-hero {
-            position: relative; height: 60vh; min-height: 500px;
-            display: flex; align-items: center; justify-content: center;
-            text-align: center; color: white;
+            position: relative;
+            height: 60vh;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
             background: linear-gradient(135deg, #1c1917 0%, #451a03 100%);
-            margin-top: 80px; overflow: hidden;
+            margin-top: 80px;
+            overflow: hidden;
         }
 
         .material-hero::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: url('https://images.unsplash.com/photo-1541888946425-d03df1329b76?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
-            background-size: cover; background-position: center; opacity: 0.3;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
         }
 
-        .hero-content { z-index: 2; padding: 0 20px; }
+        .hero-content {
+            z-index: 2;
+            padding: 0 20px;
+        }
+
         .hero-content h1 {
-            font-size: 3.5rem; font-weight: 700; margin-bottom: 15px;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
             background: linear-gradient(to right, #fbbf24, #f59e0b);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .hero-content p { font-size: 1.2rem; color: #fcd34d; max-width: 700px; margin: 0 auto; }
 
-        /* --- PACKAGES SHOWCASE SECTION (New Design) --- */
-        .packages-section { padding: 80px 0; background: #fff; }
-        .section-header { text-align: center; margin-bottom: 50px; }
-        .section-header h2 { font-size: 2.2rem; color: #451a03; font-weight: 700; }
-        
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #fcd34d;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            margin: -40px auto 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Marketplace Section (Suppliers) */
+        .market-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 15px 120px 15px 25px;
+            border: 2px solid #e0e0e0;
+            border-radius: 30px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .filters {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .filter-group select {
+            padding: 8px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            background: white;
+        }
+
+        .suppliers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .supplier-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .supplier-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .supplier-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: white;
+        }
+
+        .supplier-name {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .supplier-category {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .supplier-body {
+            padding: 20px;
+        }
+
+        .supplier-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stars {
+            color: #ffc107;
+            font-size: 18px;
+        }
+
+        .materials-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .material-tag {
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .inquiry-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        /* Packages Section */
+        .packages-section {
+            padding: 80px 0;
+            background: #fff;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            color: #451a03;
+            font-weight: 700;
+        }
+
         .pricing-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;
-            max-width: 1200px; margin: 0 auto; padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
         .pricing-card {
-            background: white; border-radius: 16px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; transition: 0.3s;
-            position: relative; overflow: hidden; display: flex; flex-direction: column;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
-        .pricing-card:hover { transform: translateY(-8px); border-color: #f59e0b; box-shadow: 0 20px 40px rgba(245, 158, 11, 0.1); }
-        
-        /* Image Styling in Cards */
-        .package-image-box {
-            height: 200px; overflow: hidden;
-        }
-        .package-image-box img {
-            width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;
-        }
-        .pricing-card:hover .package-image-box img { transform: scale(1.05); }
 
-        .package-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
-        .package-content h3 { font-size: 1.5rem; color: #451a03; margin-bottom: 15px; }
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            border-color: #f59e0b;
+        }
+
+        .package-image-box {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .package-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .package-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .package-content h3 {
+            font-size: 1.5rem;
+            color: #451a03;
+            margin-bottom: 15px;
+        }
 
         .popular-ribbon {
-            position: absolute; top: 15px; right: -30px; transform: rotate(45deg);
-            background: #f59e0b; color: white; padding: 5px 40px; font-size: 0.8rem; font-weight: bold; z-index: 2;
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            transform: rotate(45deg);
+            background: #f59e0b;
+            color: white;
+            padding: 5px 40px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 2;
         }
 
-        .features-list { list-style: none; padding: 0; text-align: left; margin-bottom: 25px; flex-grow: 1; }
-        .features-list li { margin-bottom: 12px; color: #475569; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; }
-        .features-list li i { color: #f59e0b; }
+        .features-list {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        .features-list li {
+            margin-bottom: 12px;
+            color: #475569;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .features-list li i {
+            color: #f59e0b;
+        }
 
         .btn-select {
-            width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer;
-            transition: 0.3s; background: #1c1917; color: white; text-align: center;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            background: #1c1917;
+            color: white;
+            text-align: center;
         }
-        .btn-select:hover { background: #f59e0b; }
-        .pricing-card.featured .btn-select { background: #f59e0b; }
-        .pricing-card.featured .btn-select:hover { background: #d97706; }
 
-        /* --- ORDER FORM SECTION --- */
-        .filing-section { padding: 80px 0; background: #f8fafc; }
-        .filing-container { display: flex; flex-wrap: wrap; gap: 50px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .btn-select:hover {
+            background: #f59e0b;
+        }
 
-        /* Left: Dynamic Docs */
-        .info-side { flex: 1; min-width: 320px; }
+        /* Order Form Section */
+        .filing-section {
+            padding: 80px 0;
+            background: #f8fafc;
+        }
+
+        .filing-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .info-side {
+            flex: 1;
+            min-width: 320px;
+        }
+
         .docs-card {
-            background: white; border-radius: 16px; padding: 30px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #e5e7eb;
-            position: sticky; top: 120px;
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            position: sticky;
+            top: 120px;
         }
-        .docs-card h3 { font-size: 1.2rem; color: #451a03; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        .doc-list li { margin-bottom: 12px; padding-left: 10px; border-left: 3px solid #f59e0b; color: #334155; font-size: 0.95rem; }
 
-        /* Right: Form (No Labels) */
-        .form-side { flex: 1.2; min-width: 350px; }
+        .docs-card h3 {
+            font-size: 1.2rem;
+            color: #451a03;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .doc-list li {
+            margin-bottom: 12px;
+            padding-left: 10px;
+            border-left: 3px solid #f59e0b;
+            color: #334155;
+            font-size: 0.95rem;
+            list-style: none;
+        }
+
+        .form-side {
+            flex: 1.2;
+            min-width: 350px;
+        }
+
         .booking-form-card {
-            background: white; padding: 40px; border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08); border: 1px solid #e2e8f0;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
         }
-        
-        .form-header h3 { font-size: 1.5rem; color: #451a03; margin-bottom: 5px; font-weight: 700; }
-        .form-header p { color: #64748b; font-size: 0.95rem; margin-bottom: 25px; }
 
-        .form-group { margin-bottom: 20px; }
-        
-        /* Input Styling */
-        .form-input, .form-select, .form-textarea {
-            width: 100%; padding: 15px 15px; border: 1px solid #cbd5e1;
-            border-radius: 8px; font-size: 1rem; background-color: #ffffff;
-            color: #1e293b; outline: none; transition: 0.2s; font-family: 'Poppins', sans-serif;
+        .form-header h3 {
+            font-size: 1.5rem;
+            color: #451a03;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .form-header p {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 15px 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #ffffff;
+            color: #1e293b;
+            outline: none;
+            transition: 0.2s;
+            font-family: 'Poppins', sans-serif;
             box-sizing: border-box;
         }
-        .form-input::placeholder, .form-textarea::placeholder { color: #94a3b8; }
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            border-color: #f59e0b; box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
         }
 
         .btn-submit {
-            width: 100%; padding: 15px; background: #f59e0b; color: white;
-            border: none; border-radius: 10px; font-weight: 600; font-size: 1rem;
-            cursor: pointer; transition: 0.3s;
+            width: 100%;
+            padding: 15px;
+            background: #f59e0b;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
         }
-        .btn-submit:hover { background: #d97706; }
 
-        /* Mobile */
-        @media (max-width: 900px) {
-            .filing-container { flex-direction: column; }
-            .hero-content h1 { font-size: 2.2rem; }
+        .btn-submit:hover {
+            background: #d97706;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .filing-container {
+                flex-direction: column;
+            }
+
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-bar {
+                gap: 10px;
+            }
         }
     </style>
 </head>
-<body>
 
+<body>
     <nav class="navbar">
-        <div class="container nav-container" style="display: flex; justify-content: space-between; align-items: center; width: 90%; margin: 0 auto; max-width: 1200px;">
+        <div class="nav-container">
             <div class="logo">
-                <a href="../index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
-                    <img src="../images/logo1.png" alt="FS" style="height: 50px; width: auto;">
-                    <div style="font-size: 24px; font-weight: 800; color: #0f172a;">FastSewa<span> Facilities</span></div>
+                <a href="../index.html">
+                    <img src="../images/logo1.png" alt="FS" class="logo-img">
+                    <div class="logo-text">Fast<span>Sewa</span></div>
                 </a>
             </div>
-            <ul class="nav-links" style="display: flex; gap: 30px; list-style: none;">
-                <li><a href="index.html" style="color: #0f172a; font-weight: 500; text-decoration: none;">Home</a></li>
-                <li><a href="index.html#services" style="color: #0f172a; font-weight: 500; text-decoration: none;">Services</a></li>
+
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="../index.html" class="nav-item">Home</a></li>
+                <li><a href="../index.html#services" class="nav-item">Services</a></li>
+                <li><a href="../index.html#contact" class="nav-item">Contact</a></li>
+                <li><a href="../about.html" class="nav-item">About</a></li>
                 <li id="auth-action">
-                    <a href="login.html" style="padding: 10px 25px; border-radius: 50px; background: #ff5722; color: white; font-weight: 600; text-decoration: none;">Login/Signup</a>
+                    <a href="../login.html" class="btn-nav">Login/Signup</a>
                 </li>
             </ul>
+
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </div>
     </nav>
 
@@ -174,20 +620,77 @@
         </div>
     </header>
 
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-number" id="supplierCount">0+</div>
+            <div class="stat-label">Verified Suppliers</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Quality Support</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Site Delivery</div>
+        </div>
+    </div>
+
+    <div class="market-section" id="market">
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search for cement, steel, bricks or supplier name...">
+            <button class="search-btn" onclick="searchSuppliers()">Search</button>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label>Category:</label>
+                <select id="categoryFilter" onchange="filterSuppliers()">
+                    <option value="all">All Categories</option>
+                    <option value="construction">Construction</option>
+                    <option value="electrical">Electrical</option>
+                    <option value="plumbing">Plumbing</option>
+                    <option value="painting">Painting</option>
+                    <option value="hardware">Hardware</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Location:</label>
+                <select id="locationFilter" onchange="filterSuppliers()">
+                    <option value="all">All Locations</option>
+                    <option value="delhi">Delhi</option>
+                    <option value="mumbai">Mumbai</option>
+                    <option value="bangalore">Bangalore</option>
+                    <option value="pune">Pune</option>
+                    <option value="hyderabad">Hyderabad</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Sort By:</label>
+                <select id="sortFilter" onchange="filterSuppliers()">
+                    <option value="rating">Top Rated</option>
+                    <option value="orders">Most Orders</option>
+                    <option value="name">Alphabetical</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="suppliers-grid" id="suppliersGrid">
+        </div>
+    </div>
+
     <section class="packages-section">
         <div class="section-header">
             <h2>Material Categories</h2>
             <p style="color:#64748b;">Explore our range of high-quality supplies.</p>
         </div>
         <div class="pricing-grid">
-            
             <div class="pricing-card">
                 <div class="package-image-box">
-                    <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Cement and Steel">
+                    <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                        alt="Cement and Steel">
                 </div>
                 <div class="package-content">
                     <h3>Foundation Materials</h3>
-                    <p style="color: #666; margin-bottom: 15px;">Core materials for a strong base.</p>
                     <ul class="features-list">
                         <li><i class="fas fa-check"></i> Premium Grade Cement</li>
                         <li><i class="fas fa-check"></i> TMT Steel Bars (All sizes)</li>
@@ -200,11 +703,11 @@
             <div class="pricing-card featured">
                 <div class="popular-ribbon">Top Seller</div>
                 <div class="package-image-box">
-                    <img src="https://images.unsplash.com/photo-1623009657785-256134a3a998?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Bricks and Blocks">
+                    <img src="https://images.unsplash.com/photo-1623009657785-256134a3a998?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                        alt="Bricks and Blocks">
                 </div>
                 <div class="package-content">
                     <h3>Structure & Walling</h3>
-                    <p style="color: #666; margin-bottom: 15px;">Quality bricks and blocks for walls.</p>
                     <ul class="features-list">
                         <li><i class="fas fa-check"></i> Red Clay Bricks (No. 1)</li>
                         <li><i class="fas fa-check"></i> Fly Ash / AAC Blocks</li>
@@ -216,11 +719,11 @@
 
             <div class="pricing-card">
                 <div class="package-image-box">
-                    <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Interiors and Finishing">
+                    <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                        alt="Interiors and Finishing">
                 </div>
                 <div class="package-content">
                     <h3>Finishing & Interiors</h3>
-                    <p style="color: #666; margin-bottom: 15px;">Make your space look perfect.</p>
                     <ul class="features-list">
                         <li><i class="fas fa-check"></i> Tiles & Granite/Marble</li>
                         <li><i class="fas fa-check"></i> Paints, Putty & Primer</li>
@@ -229,26 +732,25 @@
                     <button class="btn-select" onclick="scrollToForm('Finishing Materials')">Request Quote</button>
                 </div>
             </div>
-
         </div>
     </section>
 
     <section class="filing-section">
         <div class="filing-container">
-            
             <div class="info-side">
                 <div class="docs-card">
                     <h3><i class="fas fa-clipboard-list"></i> Order Checklist</h3>
                     <p style="color:#64748b; font-size:0.9rem; margin-bottom:15px;">Details needed for quote:</p>
                     <ul class="doc-list" id="dynamicDocs">
-                        <li>Select a category below to view checklist...</li>
+                        <li>Select a category above to view checklist...</li>
                     </ul>
                 </div>
-
                 <div class="docs-card" style="margin-top: 30px;">
                     <h3><i class="fas fa-truck-loading"></i> Bulk Inquiry?</h3>
-                    <p style="color:#475569; margin-bottom: 10px;">Contact us directly for large project supplies.</p>
-                    <a href="tel:+918275723755" style="color: #f59e0b; font-weight: bold; text-decoration: none; font-size: 1.1rem;">+91 82757 23755</a>
+                    <p style="color:#475569; margin-bottom: 10px;">Contact us directly for large projects.</p>
+                    <a href="tel:+918275723755"
+                        style="color: #f59e0b; font-weight: bold; text-decoration: none; font-size: 1.1rem;">+91 82757
+                        23755</a>
                 </div>
             </div>
 
@@ -258,21 +760,21 @@
                         <h3>Get Price Quotation</h3>
                         <p>Fill details to get the best rates delivered to your site.</p>
                     </div>
-                    
                     <form id="materialForm">
                         <div class="form-group">
-                            <input type="text" name="fullName" id="fullName" class="form-input" required placeholder="Full Name (Ex: Rahul Kumar)">
+                            <input type="text" name="fullName" id="fullName" class="form-input" required
+                                placeholder="Full Name (Ex: Rahul Kumar)">
                         </div>
-
                         <div style="display: flex; gap: 15px;">
                             <div class="form-group" style="flex: 1;">
-                                <input type="email" name="email" id="email" class="form-input" required placeholder="Email Address">
+                                <input type="email" name="email" id="email" class="form-input" required
+                                    placeholder="Email Address">
                             </div>
                             <div class="form-group" style="flex: 1;">
-                                <input type="tel" name="phone" id="phone" class="form-input" required placeholder="Phone Number">
+                                <input type="tel" name="phone" id="phone" class="form-input" required
+                                    placeholder="Phone Number">
                             </div>
                         </div>
-
                         <div class="form-group">
                             <select id="serviceType" class="form-select" required onchange="updateDocs()">
                                 <option value="" disabled selected>Select Material Category</option>
@@ -288,47 +790,229 @@
                                 </optgroup>
                             </select>
                         </div>
-
                         <div class="form-group">
-                            <textarea name="message" id="message" class="form-textarea" rows="4" placeholder="Enter Required Quantity, Brand Preference & Site Address..."></textarea>
+                            <textarea name="message" id="message" class="form-textarea" rows="4"
+                                placeholder="Enter Required Quantity, Brand Preference & Site Address..."></textarea>
                         </div>
-
                         <button type="submit" id="submitBtn" class="btn-submit">Submit Inquiry</button>
                     </form>
+                    <div id="successMessage" class="success-message">Thank you! Your inquiry has been submitted.</div>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <div id="fastsewa-footer"></div>
-
-    <button class="fastsewa-chatbot-toggle" id="toggleBtn"><i class="fas fa-comment-dots"></i></button>
-    <div class="fastsewa-chatbot-container" id="chatbox" style="display: none;">
-        <div class="fastsewa-chatbot-header">
-            <div><i class="fas fa-robot"></i> FastSewa AI</div>
-            <button id="closeBtn" style="background:none; border:none; color:white; cursor:pointer;">✕</button>
-        </div>
-        <div class="fastsewa-chatbot-body" id="chatBody"></div>
-        <div class="fastsewa-chatbot-footer">
-            <input id="chatInput" class="fastsewa-chatbot-input" placeholder="Type message..." />
-            <button class="fastsewa-chatbot-send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">✕</button>
+            <div id="modalBody"></div>
         </div>
     </div>
 
-    <script src="js/footer.js"></script>
-    <script src="js/chatbot.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <footer style="background: #1a202c; color: white; padding: 40px 20px; text-align: center;">
+        <p>&copy; 2026 FastSewa Facilities. All Rights Reserved.</p>
+    </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script>
-        // --- 1. Smooth Scroll to Form ---
+        /* --- SUPPLIER DATA --- */
+        const suppliers = [
+            {
+                name: "BuildMart Supplies",
+                category: "construction",
+                location: "delhi",
+                rating: 4.8,
+                orders: 1250,
+                phone: "+91 98765-43210",
+                email: "contact@buildmart.com",
+                materials: ["Cement", "Steel", "Bricks", "Sand", "Aggregates"],
+                description: "Leading supplier of construction materials with 15+ years experience"
+            },
+            {
+                name: "Electric World",
+                category: "electrical",
+                location: "mumbai",
+                rating: 4.6,
+                orders: 980,
+                phone: "+91 98765-43211",
+                email: "info@electricworld.com",
+                materials: ["Wires", "Switches", "LED Lights", "Circuit Breakers"],
+                description: "Complete electrical solutions for residential and commercial projects"
+            },
+            {
+                name: "PlumbTech Solutions",
+                category: "plumbing",
+                location: "bangalore",
+                rating: 4.9,
+                orders: 1450,
+                phone: "+91 98765-43212",
+                email: "sales@plumbtech.com",
+                materials: ["Pipes", "Fittings", "Taps", "Sanitaryware"],
+                description: "Premium quality plumbing materials and fixtures"
+            },
+            {
+                name: "ColorMax Paints",
+                category: "painting",
+                location: "pune",
+                rating: 4.7,
+                orders: 850,
+                phone: "+91 98765-43213",
+                email: "support@colormax.com",
+                materials: ["Paints", "Brushes", "Rollers", "Primers", "Putty"],
+                description: "Wide range of paints and painting accessories"
+            },
+            {
+                name: "Hardware Hub",
+                category: "hardware",
+                location: "delhi",
+                rating: 4.5,
+                orders: 720,
+                phone: "+91 98765-43214",
+                email: "contact@hardwarehub.com",
+                materials: ["Tools", "Fasteners", "Locks", "Hinges"],
+                description: "One-stop shop for all hardware and tools"
+            },
+            {
+                name: "Modern Electricals",
+                category: "electrical",
+                location: "hyderabad",
+                rating: 4.8,
+                orders: 1100,
+                phone: "+91 98765-43215",
+                email: "info@modernelectricals.com",
+                materials: ["MCBs", "Cables", "Fans", "Sockets", "Lights"],
+                description: "Trusted name in electrical supplies"
+            },
+            {
+                name: "Steel Masters",
+                category: "construction",
+                location: "mumbai",
+                rating: 4.9,
+                orders: 1580,
+                phone: "+91 98765-43216",
+                email: "sales@steelmasters.com",
+                materials: ["TMT Bars", "MS Angles", "Channels", "Beams"],
+                description: "Premium quality steel products for construction"
+            },
+            {
+                name: "Aqua Flow Systems",
+                category: "plumbing",
+                location: "bangalore",
+                rating: 4.6,
+                orders: 890,
+                phone: "+91 98765-43217",
+                email: "contact@aquaflow.com",
+                materials: ["PVC Pipes", "CPVC Pipes", "Water Tanks", "Pumps"],
+                description: "Complete water management solutions"
+            }
+        ];
+
+        let filteredSuppliers = [...suppliers];
+
+        function renderSuppliers(suppliersToRender) {
+            const grid = document.getElementById('suppliersGrid');
+            grid.innerHTML = '';
+
+            suppliersToRender.forEach(supplier => {
+                const card = document.createElement('div');
+                card.className = 'supplier-card';
+                card.onclick = () => openContactModal(supplier);
+
+                card.innerHTML = `
+                    <div class="supplier-header">
+                        <div class="supplier-name">${supplier.name}</div>
+                        <div class="supplier-category">${supplier.category.charAt(0).toUpperCase() + supplier.category.slice(1)}</div>
+                    </div>
+                    <div class="supplier-body">
+                        <div class="supplier-info">
+                            <div class="info-row">
+                                <div class="info-icon">📍</div>
+                                <span>${supplier.location.charAt(0).toUpperCase() + supplier.location.slice(1)}</span>
+                            </div>
+                            <div class="info-row">
+                                <div class="rating">
+                                    <span class="stars">★</span>
+                                    <span><strong>${supplier.rating}</strong> (${supplier.orders} orders)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="materials-list">
+                            ${supplier.materials.map(m => `<span class="material-tag">${m}</span>`).join('')}
+                        </div>
+                        <button class="inquiry-btn">Send Inquiry</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            document.getElementById('supplierCount').textContent = suppliersToRender.length + '+';
+        }
+
+        function filterSuppliers() {
+            const category = document.getElementById('categoryFilter').value;
+            const location = document.getElementById('locationFilter').value;
+            const sortBy = document.getElementById('sortFilter').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            filteredSuppliers = suppliers.filter(supplier => {
+                const matchCategory = category === 'all' || supplier.category === category;
+                const matchLocation = location === 'all' || supplier.location === location;
+                const matchSearch = searchTerm === '' ||
+                    supplier.name.toLowerCase().includes(searchTerm) ||
+                    supplier.materials.some(m => m.toLowerCase().includes(searchTerm));
+
+                return matchCategory && matchLocation && matchSearch;
+            });
+
+            if (sortBy === 'rating') {
+                filteredSuppliers.sort((a, b) => b.rating - a.rating);
+            } else if (sortBy === 'orders') {
+                filteredSuppliers.sort((a, b) => b.orders - a.orders);
+            } else if (sortBy === 'name') {
+                filteredSuppliers.sort((a, b) => a.name.localeCompare(b.name));
+            }
+
+            renderSuppliers(filteredSuppliers);
+        }
+
+        function searchSuppliers() {
+            filterSuppliers();
+        }
+
+        function openContactModal(supplier) {
+            const modal = document.getElementById('contactModal');
+            const modalBody = document.getElementById('modalBody');
+
+            modalBody.innerHTML = `
+                <h3 style="color:#451a03; font-size:1.8rem; margin-bottom:10px;">${supplier.name}</h3>
+                <p style="color: #666; margin: 10px 0;">${supplier.description}</p>
+                <hr style="margin: 20px 0; border: none; border-top: 1px solid #e0e0e0;">
+                <div style="margin: 15px 0;"><strong>Category:</strong> ${supplier.category.charAt(0).toUpperCase() + supplier.category.slice(1)}</div>
+                <div style="margin: 15px 0;"><strong>Location:</strong> ${supplier.location.charAt(0).toUpperCase() + supplier.location.slice(1)}</div>
+                <div style="margin: 15px 0;"><strong>Rating:</strong> ${supplier.rating} ★ (${supplier.orders} orders)</div>
+                <div style="margin: 15px 0;"><strong>Phone:</strong> ${supplier.phone}</div>
+                <div style="margin: 15px 0;"><strong>Email:</strong> ${supplier.email}</div>
+                <div style="margin: 15px 0;">
+                    <strong>Materials Supplied:</strong>
+                    <div class="materials-list" style="margin-top: 10px;">
+                        ${supplier.materials.map(m => `<span class="material-tag">${m}</span>`).join('')}
+                    </div>
+                </div>
+                <button class="inquiry-btn" style="margin-top: 20px;" onclick="closeModal()">Close</button>
+            `;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('contactModal').classList.remove('active');
+        }
+
+        /* --- LANDING PAGE LOGIC --- */
         function scrollToForm(interest) {
             document.querySelector('.filing-section').scrollIntoView({ behavior: 'smooth' });
             document.getElementById('message').value = `I am interested in a quote for: ${interest}. \nMy requirements are: `;
             document.getElementById('message').focus();
         }
 
-        // --- 2. DYNAMIC DOCS LOGIC ---
         const docsData = {
             "Cement & Steel": ["Estimated Quantity needed", "Preferred Brands (if any)", "Delivery Location"],
             "Bricks & Sand": ["Quantity (approx. numbers/trucks)", "Site accessibility for truck", "Delivery Location"],
@@ -341,8 +1025,7 @@
         function updateDocs() {
             const service = document.getElementById("serviceType").value;
             const list = document.getElementById("dynamicDocs");
-            list.innerHTML = ""; // Clear old list
-
+            list.innerHTML = "";
             if (docsData[service]) {
                 docsData[service].forEach(doc => {
                     const li = document.createElement("li");
@@ -354,60 +1037,52 @@
             }
         }
 
-        // --- 3. EMAILJS LOGIC (Inquiry Only - No Payment) ---
-        (function () { 
-            emailjs.init("82w8_I7wL3TeHxJa6"); // YOUR PUBLIC KEY
-        })();
+        (function () { emailjs.init("82w8_I7wL3TeHxJa6"); })();
 
         document.getElementById("materialForm").addEventListener("submit", function (e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            
             btn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
             btn.disabled = true;
 
             const formData = {
                 from_name: document.getElementById('fullName').value,
                 from_email: document.getElementById('email').value,
-                message: `
-                    Phone: ${document.getElementById('phone').value}
-                    Category Interest: ${document.getElementById('serviceType').value}
-                    Requirement Details: ${document.getElementById('message').value}
-                `
+                message: `Phone: ${document.getElementById('phone').value}\nCategory: ${document.getElementById('serviceType').value}\nDetails: ${document.getElementById('message').value}`
             };
 
             emailjs.send("service_ap93y7a", "template_hvuzvq9", formData)
-            .then(function() {
-                alert("✅ Inquiry Submitted! Our supplier team will contact you with the best quote soon.");
-                document.getElementById("materialForm").reset();
-                btn.innerHTML = 'Submit Inquiry';
-                btn.disabled = false;
-            }, function(error) {
-                alert("❌ Failed to send inquiry. Please check connection and try again.");
-                btn.innerHTML = 'Submit Inquiry';
-                btn.disabled = false;
-            });
+                .then(function () {
+                    document.getElementById('successMessage').classList.add('show');
+                    document.getElementById("materialForm").reset();
+                    btn.innerHTML = 'Submit Inquiry';
+                    btn.disabled = false;
+                    setTimeout(() => { document.getElementById('successMessage').classList.remove('show'); }, 5000);
+                }, function (error) {
+                    alert("❌ Failed to send inquiry. Please check connection.");
+                    btn.innerHTML = 'Submit Inquiry';
+                    btn.disabled = false;
+                });
         });
 
-        // --- 4. AUTH LOGIC ---
-        document.addEventListener("DOMContentLoaded", function() {
-            const user = JSON.parse(localStorage.getItem("fastsewaUser"));
-            const authAction = document.getElementById("auth-action");
+        document.getElementById('searchInput').addEventListener('keyup', function (e) {
+            if (e.key === 'Enter') searchSuppliers();
+        });
 
-            if (user && user.isLoggedIn && authAction) {
+        document.addEventListener("DOMContentLoaded", function () {
+            const user = JSON.parse(localStorage.getItem("fastsewaUser"));
+            if (user && user.isLoggedIn) {
                 const firstName = user.name.split(" ")[0];
-                authAction.innerHTML = `
-                    <div class="user-nav-profile" style="position: relative; display: inline-block;">
-                        <a href="dashboard.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; background: white; padding: 5px 15px 5px 5px; border-radius: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 1px solid #eee;">
-                            <div style="width: 35px; height: 35px; background: #ff5722; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">
-                                ${firstName.charAt(0).toUpperCase()}
-                            </div>
-                            <span style="font-weight: 600; font-size: 14px; color: #333;">${firstName}</span>
-                        </a>
-                    </div>
-                `;
+                document.getElementById("auth-action").innerHTML = `
+                    <div style="display: inline-block; background: white; padding: 5px 15px; border-radius: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                        <span style="font-weight: 600; font-size: 14px; color: #333;">${firstName}</span>
+                    </div>`;
             }
         });
+
+        renderSuppliers(suppliers);
     </script>
+    <script src="../js/script.js"></script>
 </body>
+
 </html>

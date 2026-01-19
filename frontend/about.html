@@ -1,29 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About FastSewa | Bihar's First Super Portal</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link rel="stylesheet" href="css/style.css">     
-    <link rel="stylesheet" href="css/footer.css">    
-    <link rel="stylesheet" href="css/chatbot.css">   
-    
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/style.css">
+
     <style>
         /* --- BASE STYLES --- */
-        body { background-color: #f8fafc; font-family: 'Poppins', sans-serif; overflow-x: hidden; margin: 0; }
+        body {
+            background-color: #f8fafc;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+        }
 
         /* Navbar Fix */
         .navbar {
-            position: fixed; top: 0; width: 100%; z-index: 1000;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             padding: 15px 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
         }
 
         /* Disclaimer Bar */
@@ -34,177 +42,332 @@
             text-align: center;
             font-size: 0.85rem;
             border-bottom: 1px solid #ffeeba;
-            margin-top: 80px; /* Sits below navbar */
+            margin-top: 80px;
+            /* Sits below navbar */
             line-height: 1.4;
         }
 
         /* --- HERO SECTION --- */
         .about-hero {
-            position: relative; height: 50vh; min-height: 400px;
-            display: flex; align-items: center; justify-content: center;
-            text-align: center; color: white;
+            position: relative;
+            height: 50vh;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
             background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
             overflow: hidden;
         }
 
         .about-hero::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1950&q=80');
-            background-size: cover; background-position: center; opacity: 0.15;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
         }
 
-        .hero-content { z-index: 2; padding: 0 20px; max-width: 900px; }
-        .hero-content h1 {
-            font-size: 3rem; font-weight: 700; margin-bottom: 20px;
-            background: linear-gradient(to right, #fff, #94a3b8);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        .hero-content {
+            z-index: 2;
+            padding: 0 20px;
+            max-width: 900px;
         }
-        .hero-content p { font-size: 1.1rem; color: #cbd5e1; max-width: 750px; margin: 0 auto; }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            max-width: 750px;
+            margin: 0 auto;
+        }
 
         /* --- LOGIC/STORY SECTION --- */
-        .logic-section { padding: 80px 0; background: white; }
-        .logic-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px;
-            max-width: 1200px; margin: 0 auto; padding: 0 20px; align-items: center;
+        .logic-section {
+            padding: 80px 0;
+            background: white;
         }
-        .logic-text h2 { font-size: 2.2rem; color: #1e293b; margin: 15px 0; }
-        .logic-text p { color: #64748b; font-size: 1.05rem; margin-bottom: 20px; line-height: 1.7; }
-        
-        .stat-row { display: flex; gap: 40px; margin-top: 30px; }
-        .stat-item h3 { font-size: 2.5rem; color: #ff5722; font-weight: 700; margin-bottom: 5px; }
-        .stat-item p { color: #64748b; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
+
+        .logic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            align-items: center;
+        }
+
+        .logic-text h2 {
+            font-size: 2.2rem;
+            color: #1e293b;
+            margin: 15px 0;
+        }
+
+        .logic-text p {
+            color: #64748b;
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .stat-row {
+            display: flex;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            color: #ff5722;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-item p {
+            color: #64748b;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
 
         /* --- CORE SERVICES ECOSYSTEM --- */
-        .eco-section { padding: 80px 0; background: #f1f5f9; }
-        .eco-header { text-align: center; margin-bottom: 60px; padding: 0 20px; }
-        .eco-header h2 { font-size: 2.5rem; color: #1e293b; margin-bottom: 10px; }
-        
+        .eco-section {
+            padding: 80px 0;
+            background: #f1f5f9;
+        }
+
+        .eco-header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 0 20px;
+        }
+
+        .eco-header h2 {
+            font-size: 2.5rem;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
         .eco-cards {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;
-            max-width: 1200px; margin: 0 auto; padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
+
         .eco-card {
-            background: white; padding: 35px 25px; border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center;
-            border-top: 4px solid #ff5722; transition: 0.3s;
+            background: white;
+            padding: 35px 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            border-top: 4px solid #ff5722;
+            transition: 0.3s;
         }
-        .eco-card:hover { transform: translateY(-10px); }
-        .eco-icon { font-size: 2.5rem; color: #ff5722; margin-bottom: 20px; }
-        .eco-card h3 { font-size: 1.25rem; margin-bottom: 15px; color: #1e293b; }
-        .eco-card p { color: #64748b; font-size: 0.95rem; line-height: 1.6; }
+
+        .eco-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .eco-icon {
+            font-size: 2.5rem;
+            color: #ff5722;
+            margin-bottom: 20px;
+        }
+
+        .eco-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+            color: #1e293b;
+        }
+
+        .eco-card p {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
 
         /* --- OFFICIAL LINKS SECTION --- */
-       /* --- ENHANCED OFFICIAL SOURCES SECTION --- */
-.official-sources-dark {
-    background: #1e293b; /* Deep slate background */
-    background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
-    background-size: 40px 40px; /* Subtle grid/dot pattern like the image */
-    padding: 80px 0;
-    text-align: center;
-    color: white;
-}
+        /* --- ENHANCED OFFICIAL SOURCES SECTION --- */
+        .official-sources-dark {
+            background: #1e293b;
+            /* Deep slate background */
+            background-image: radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+            /* Subtle grid/dot pattern like the image */
+            padding: 80px 0;
+            text-align: center;
+            color: white;
+        }
 
-.source-title-container {
-    display: inline-block;
-    margin-bottom: 20px;
-}
+        .source-title-container {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
 
-.source-title-container h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: white;
-    margin: 0;
-    padding-bottom: 10px;
-    border-bottom: 4px solid #ff5722; /* Underline accent */
-}
+        .source-title-container h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin: 0;
+            padding-bottom: 10px;
+            border-bottom: 4px solid #ff5722;
+            /* Underline accent */
+        }
 
-.source-subtitle {
-    color: #cbd5e1;
-    font-size: 1.1rem;
-    margin-bottom: 40px;
-    font-weight: 300;
-}
+        .source-subtitle {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
 
-.links-flex {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    max-width: 1100px;
-    margin: 0 auto;
-}
+        .links-flex {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
 
-.gradient-btn {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 18px 35px;
-    border-radius: 12px;
-    text-decoration: none;
-    color: white;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    min-width: 250px;
-    justify-content: center;
-    /* Beautiful Orange-Red Gradient */
-    background: linear-gradient(135deg, #ff8a3d 0%, #ee4d38 100%);
-    box-shadow: 0 10px 20px rgba(238, 77, 56, 0.2);
-}
+        .gradient-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 35px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            min-width: 250px;
+            justify-content: center;
+            /* Beautiful Orange-Red Gradient */
+            background: linear-gradient(135deg, #ff8a3d 0%, #ee4d38 100%);
+            box-shadow: 0 10px 20px rgba(238, 77, 56, 0.2);
+        }
 
-.gradient-btn i {
-    font-size: 1.4rem;
-}
+        .gradient-btn i {
+            font-size: 1.4rem;
+        }
 
-.gradient-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(238, 77, 56, 0.4);
-    filter: brightness(1.1);
-}
+        .gradient-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(238, 77, 56, 0.4);
+            filter: brightness(1.1);
+        }
 
-/* Responsive adjustment */
-@media (max-width: 768px) {
-    .gradient-btn { width: 90%; }
-}
-        .source-link:hover { border-color: #ff5722; color: #ff5722; background: #fff5f2; }
+        /* Responsive adjustment */
+        @media (max-width: 768px) {
+            .gradient-btn {
+                width: 90%;
+            }
+        }
+
+        .source-link:hover {
+            border-color: #ff5722;
+            color: #ff5722;
+            background: #fff5f2;
+        }
 
         /* --- TECH BAR --- */
-        .tech-bar { background: #1e293b; padding: 60px 0; text-align: center; color: white; }
-        .tech-icons { display: flex; justify-content: center; gap: 50px; margin-top: 30px; flex-wrap: wrap; }
-        .t-icon { display: flex; flex-direction: column; align-items: center; gap: 10px; opacity: 0.8; }
-        .t-icon i { font-size: 2.5rem; color: #ff5722; }
+        .tech-bar {
+            background: #1e293b;
+            padding: 60px 0;
+            text-align: center;
+            color: white;
+        }
+
+        .tech-icons {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .t-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.8;
+        }
+
+        .t-icon i {
+            font-size: 2.5rem;
+            color: #ff5722;
+        }
 
         @media (max-width: 900px) {
-            .logic-grid, .eco-cards { grid-template-columns: 1fr; }
-            .hero-content h1 { font-size: 2.2rem; }
-            .stat-row { justify-content: center; }
+
+            .logic-grid,
+            .eco-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+
+            .stat-row {
+                justify-content: center;
+            }
         }
     </style>
 </head>
-<body>
 
+<body>
     <nav class="navbar">
-        <div class="container nav-container" style="display: flex; justify-content: space-between; align-items: center; width: 90%; margin: 0 auto; max-width: 1200px;">
+        <div class="nav-container">
             <div class="logo">
-                <a href="index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
-                    <img src="images/logo1.png" alt="FS" style="height: 50px; width: auto;">
-                    <div style="font-size: 24px; font-weight: 800; color: #0f172a;">FastSewa<span> About</span></div>
+                <a href="index.html">
+                    <img src="images/logo1.png" alt="FS" class="logo-img">
+                    <div class="logo-text">Fast<span>Sewa</span></div>
                 </a>
             </div>
-            <ul class="nav-links" style="display: flex; gap: 30px; list-style: none;">
-                <li><a href="index.html" style="color: #0f172a; font-weight: 500; text-decoration: none;">Home</a></li>
-                <li><a href="about.html" style="color: #ff5722; font-weight: 600; text-decoration: none;">About</a></li>
-                <li><a href="team.html" style="color: #0f172a; font-weight: 500; text-decoration: none;">Team</a></li>
+
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="index.html" class="nav-item">Home</a></li>
+                <li><a href="index.html#services" class="nav-item">Services</a></li>
+                <li><a href="index.html#contact" class="nav-item">Contact</a></li>
+                <li><a href="about.html" class="nav-item">About</a></li>
                 <li id="auth-action">
-                    <a href="login.html" style="padding: 10px 25px; border-radius: 50px; background: #ff5722; color: white; font-weight: 600; text-decoration: none;">Login</a>
+                    <a href="login.html" class="btn-nav">Login/Signup</a>
                 </li>
             </ul>
+
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </div>
     </nav>
 
     <div class="disclaimer-br">
         <div class="container">
-            <i class="fas fa-info-circle"></i> <strong>Notice:</strong> Fastsewa Facilities is a private platform and is <strong>not affiliated with any government entity</strong>. 
+            <i class="fas fa-info-circle"></i> <strong>Notice:</strong> Fastsewa Facilities is a private platform and is
+            <strong>not affiliated with any government entity</strong>.
             All consultancy services are provided by private experts.
         </div>
     </div>
@@ -212,23 +375,31 @@
     <header class="about-hero">
         <div class="hero-content">
             <h1>India's Private Super Service Ecosystem</h1>
-            <p>Fastsewa Facilities – Quality, Speed, and Trust in Every Service. <br>Bringing verified experts from 9+ essential industries to Bihar's first Super Portal.</p>
+            <p>Fastsewa Facilities – Quality, Speed, and Trust in Every Service. <br>Bringing verified experts from 9+
+                essential industries to Bihar's first Super Portal.</p>
         </div>
     </header>
 
     <section class="logic-section">
         <div class="logic-grid">
             <div class="logic-text">
-                <span style="color: #ff5722; font-weight: 700; letter-spacing: 1px; font-size: 2rem;">WHY CHOOSE FASTSEWA?</span>
+                <span style="color: #ff5722; font-weight: 700; letter-spacing: 1px; font-size: 2rem;">WHY CHOOSE
+                    FASTSEWA?</span>
                 <h2>Organizing the Unorganized</h2>
-                <p>Fastsewa Facilities is a private service platform. We are not affiliated with, authorized by, or endorsed by any government entity. The services provided (such as GST consultancy, Income Tax assistance, and Land verification) are professional consultancy services offered by private experts.</p>
-                <p>
-                    Finding a trustworthy professional shouldn’t require calling ten different people with no transparency in pricing. Fastsewa changes that by onboarding experts only after thorough background and quality checks.
+                <p>Fastsewa Facilities is a private service platform. We are not affiliated with, authorized by, or
+                    endorsed by any government entity. The services provided (such as GST consultancy, Income Tax
+                    assistance, and Land verification) are professional consultancy services offered by private experts.
                 </p>
                 <p>
-                    Whether you are building a home or need expert assistance with business filings, we ensure a seamless experience with <strong>transparent pricing and no hidden costs.</strong>
+                    Finding a trustworthy professional shouldn’t require calling ten different people with no
+                    transparency in pricing. Fastsewa changes that by onboarding experts only after thorough background
+                    and quality checks.
                 </p>
-                
+                <p>
+                    Whether you are building a home or need expert assistance with business filings, we ensure a
+                    seamless experience with <strong>transparent pricing and no hidden costs.</strong>
+                </p>
+
                 <div class="stat-row">
                     <div class="stat-item">
                         <h3 class="counter" data-target="279">0</h3>
@@ -245,7 +416,9 @@
                 </div>
             </div>
             <div class="logic-img">
-                <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80" alt="Professional Service" style="width: 100%; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.1);">
+                <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80"
+                    alt="Professional Service"
+                    style="width: 100%; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.1);">
             </div>
         </div>
     </section>
@@ -255,64 +428,69 @@
             <h2>Our Core Services</h2>
             <p style="color:#64748b;">Comprehensive professional help for your home and business needs.</p>
         </div>
-        
+
         <div class="eco-cards">
             <div class="eco-card">
                 <div class="eco-icon"><i class="fas fa-hammer"></i></div>
                 <h3>Construction & Supply</h3>
-                <p>Plan projects with our cost calculators and get high-quality materials delivered directly to your site.</p>
+                <p>Plan projects with our cost calculators and get high-quality materials delivered directly to your
+                    site.</p>
             </div>
             <div class="eco-card" style="border-top-color: #3b82f6;">
                 <div class="eco-icon" style="color: #3b82f6;"><i class="fas fa-gavel"></i></div>
                 <h3>Legal & Corporate</h3>
-                <p>Expert assistance for GST filing, Income Tax (ITR), Trademark registration, and Land Verification.</p>
+                <p>Expert assistance for GST filing, Income Tax (ITR), Trademark registration, and Land Verification.
+                </p>
             </div>
             <div class="eco-card" style="border-top-color: #22c55e;">
                 <div class="eco-icon" style="color: #22c55e;"><i class="fas fa-heartbeat"></i></div>
                 <h3>Medical Aid</h3>
-                <p>Quick access to essential healthcare support, emergency guidance, and verified medical assistance.</p>
+                <p>Quick access to essential healthcare support, emergency guidance, and verified medical assistance.
+                </p>
             </div>
             <div class="eco-card" style="border-top-color: #6366f1;">
                 <div class="eco-icon" style="color: #6366f1;"><i class="fas fa-user-shield"></i></div>
                 <h3>Home & Safety</h3>
-                <p>Professional security guards and reliable home repair services to keep your family and property safe.</p>
+                <p>Professional security guards and reliable home repair services to keep your family and property safe.
+                </p>
             </div>
             <div class="eco-card" style="border-top-color: #f59e0b;">
                 <div class="eco-icon" style="color: #f59e0b;"><i class="fas fa-hand-holding-usd"></i></div>
                 <h3>Finance & Loans</h3>
-                <p>Simplified financial consulting and assistance for various loan types through our private experts.</p>
+                <p>Simplified financial consulting and assistance for various loan types through our private experts.
+                </p>
             </div>
         </div>
     </section>
 
     <section class="official-sources-dark">
-    <div class="container">
-        <div class="source-title-container">
-            <h2>Sources of Official Information</h2>
+        <div class="container">
+            <div class="source-title-container">
+                <h2>Sources of Official Information</h2>
+            </div>
+            <p class="source-subtitle">
+                For government-related tasks, we assist users via official portals. <br>
+                You may also access them directly:
+            </p>
+
+            <div class="links-flex">
+                <a href="https://www.gst.gov.in/" target="_blank" class="gradient-btn">
+                    <i class="fas fa-indian-rupee-sign"></i>
+                    <span>GST Portal</span>
+                </a>
+
+                <a href="https://www.incometax.gov.in/" target="_blank" class="gradient-btn">
+                    <i class="fas fa-building-columns"></i>
+                    <span>Income Tax Dept</span>
+                </a>
+
+                <a href="https://land.bihar.gov.in/" target="_blank" class="gradient-btn">
+                    <i class="fas fa-map-location-dot"></i>
+                    <span>Bihar Land Records</span>
+                </a>
+            </div>
         </div>
-        <p class="source-subtitle">
-            For government-related tasks, we assist users via official portals. <br>
-            You may also access them directly:
-        </p>
-
-        <div class="links-flex">
-            <a href="https://www.gst.gov.in/" target="_blank" class="gradient-btn">
-                <i class="fas fa-indian-rupee-sign"></i> 
-                <span>GST Portal</span>
-            </a>
-
-            <a href="https://www.incometax.gov.in/" target="_blank" class="gradient-btn">
-                <i class="fas fa-building-columns"></i> 
-                <span>Income Tax Dept</span>
-            </a>
-
-            <a href="https://land.bihar.gov.in/" target="_blank" class="gradient-btn">
-                <i class="fas fa-map-location-dot"></i> 
-                <span>Bihar Land Records</span>
-            </a>
-        </div>
-    </div>
-</section>
+    </section>
 
     <section class="tech-bar">
         <div class="container">
@@ -337,15 +515,17 @@
         <div class="fastsewa-chatbot-body" id="chatBody"></div>
         <div class="fastsewa-chatbot-footer">
             <input id="chatInput" class="fastsewa-chatbot-input" placeholder="Type message..." />
-            <button class="fastsewa-chatbot-send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+            <button class="fastsewa-chatbot-send-btn" onclick="sendMessage()"><i
+                    class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
     <script src="js/footer.js"></script>
     <script src="js/chatbot.js"></script>
-    
+    <script src="../js/script.js"></script>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             // Navbar Auth Logic
             const user = JSON.parse(localStorage.getItem("fastsewaUser"));
             const authAction = document.getElementById("auth-action");
@@ -366,7 +546,7 @@
 
             // Animated Counter Logic
             const counters = document.querySelectorAll('.counter');
-            const speed = 200; 
+            const speed = 200;
 
             counters.forEach(counter => {
                 const updateCount = () => {
@@ -386,4 +566,5 @@
         });
     </script>
 </body>
+
 </html>

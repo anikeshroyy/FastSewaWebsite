@@ -118,27 +118,42 @@ document.addEventListener('DOMContentLoaded', function () {
     // ======================================================
     // 5. CONTACT FORM & EMAIL JS
     // ======================================================
-    if (typeof emailjs !== 'undefined') {
-        emailjs.init("82w8_I7wL3TeHxJa6");
-    }
+ const contactForm = document.getElementById("contactForm");
 
-    const contactForm = document.getElementById("contactForm");
-    if (contactForm) {
-        contactForm.addEventListener("submit", function (e) {
-            e.preventDefault();
-            const btn = this.querySelector('button');
-            btn.innerHTML = 'Sending...';
-            emailjs.sendForm("service_ap93y7a", "template_hvuzvq9", this)
-                .then(() => {
-                    alert("✅ Message sent successfully!");
-                    this.reset();
-                    btn.innerHTML = 'Send Message';
-                }, (err) => {
-                    alert("❌ Failed to send.");
-                    btn.innerHTML = 'Send Message';
-                });
-        });
-    }
+if (contactForm) {
+    contactForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        
+        const btn = this.querySelector('button');
+        const originalContent = btn.innerHTML;
+        
+        // Visual Feedback: Loading State
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Sending...`;
+        btn.style.opacity = "0.7";
+
+        emailjs.sendForm("service_ap93y7a", "template_hvuzvq9", this)
+            .then(() => {
+                // Success: Update UI
+                btn.innerHTML = `<i class="fas fa-check"></i> Sent Successfully!`;
+                btn.style.background = "#10b981"; // Green color
+                this.reset();
+                
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalContent;
+                    btn.style.background = ""; // Revert to CSS default
+                    btn.style.opacity = "1";
+                }, 4000);
+            }, (err) => {
+                // Error handling
+                alert("❌ Failed to send. Please try again or call us.");
+                btn.disabled = false;
+                btn.innerHTML = originalContent;
+                btn.style.opacity = "1";
+            });
+    });
+}
 
     // ======================================================
     // 6. PREMIUM APP POPUP LOGIC

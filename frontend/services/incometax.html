@@ -23,19 +23,6 @@
             padding: 0;
         }
 
-        /* Navbar Fix */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            padding: 15px 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-        }
-
         /* Hero Section - Emerald Green */
         .tax-hero {
             position: relative;
@@ -482,29 +469,42 @@
         }
 
         // --- 3. Form Submission ---
-        (function () { emailjs.init("82w8_I7wL3TeHxJa6"); })();
-
-        document.getElementById("itrForm").addEventListener("submit", function (e) {
+        document.getElementById("itrForm").addEventListener("submit", async function (e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
-            btn.disabled = true;
 
+            // Prepare Data for Backend
             const formData = {
-                from_name: document.getElementById('fullName').value,
-                message: `Service: ${document.getElementById('serviceType').value}, Txn ID: ${document.getElementById('txnId').value}`
+                category: 'incometax',
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                serviceType: document.getElementById('serviceType').value,
+                txnId: document.getElementById('txnId').value,
+                message: document.getElementById('message').value
             };
 
-            emailjs.send("service_ap93y7a", "template_hvuzvq9", formData)
-                .then(() => {
-                    alert("✅ Success! Our CA will contact you shortly.");
-                    this.reset();
-                    btn.innerHTML = 'Submit & Hire CA';
-                    btn.disabled = false;
-                }, () => {
-                    alert("❌ Error sending request.");
-                    btn.disabled = false;
+            try {
+                btn.disabled = true;
+                btn.innerHTML = 'Processing...';
+
+                const response = await fetch('http://127.0.0.1:5000/api/bookings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
                 });
+
+                if (response.ok) {
+                    alert("✅ Data saved to Dashboard and Email Sent!");
+                    document.getElementById("itrForm").reset();
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("❌ Error connecting to server.");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Submit & Book Engineer';
+            }
         });
     </script>
     <script src="../js/script.js"></script>

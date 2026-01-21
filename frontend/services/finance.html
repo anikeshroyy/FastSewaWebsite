@@ -12,310 +12,580 @@
     <link rel="stylesheet" href="../css/style.css">
 
     <style>
-        /* --- INTEGRATED CSS (Base & Themes) --- */
+        /* --- ENHANCED CSS VARIABLES --- */
         :root {
             --primary-orange: #ff5722;
             --primary-green: #22c55e;
-            --dark-bg: #0b1120;
-            --light-bg: #f3f4f6;
+            --dark-bg: #0f172a;
+            --light-bg: #f8fafc;
             --text-dark: #1e293b;
             --text-muted: #64748b;
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             background-color: var(--light-bg);
             font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
-            margin: 0;
             color: var(--text-dark);
+            scroll-behavior: smooth;
         }
 
-        /* Navbar Styling */
-        .navbar {
-            position: fixed;
-            top: 0;
+
+
+        /* --- ANIMATED BACKGROUND PARTICLES --- */
+        .particles {
+            position: absolute;
             width: 100%;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            padding: 15px 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            height: 100%;
+            overflow: hidden;
+            top: 0;
+            left: 0;
         }
 
-        /* Hero Section */
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* --- ENHANCED HERO SECTION --- */
         .finance-hero {
             position: relative;
-            height: 50vh;
-            min-height: 400px;
+            height: 60vh;
+            min-height: 500px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             color: white;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
             overflow: hidden;
-            margin-top: 80px;
+            margin-top: 60px;
         }
 
         .finance-hero::before {
             content: '';
             position: absolute;
-            top: 0;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 87, 34, 0.15), transparent);
+            border-radius: 50%;
+            top: -300px;
+            right: -200px;
+            animation: pulse-glow 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        .finance-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=1950&q=80');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.15;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to top, var(--light-bg), transparent);
+            z-index: 1;
         }
 
         .hero-content {
             z-index: 2;
             padding: 0 20px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .badge-pill {
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: #a7f3d0;
+            border: 1px solid rgba(167, 243, 208, 0.2);
+            backdrop-filter: blur(10px);
+            animation: slideDown 0.6s ease-out 0.2s both;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .hero-content h1 {
-            font-size: 3rem;
-            font-weight: 700;
+            font-size: 3.5rem;
+            letter-spacing: -1px;
             margin-bottom: 15px;
-            background: linear-gradient(to right, #fff, #ffccbc);
+            background: linear-gradient(135deg, #fff 0%, #ffccbc 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
         }
 
         .hero-content p {
-            font-size: 1.2rem;
-            color: #cbd5e1;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
             max-width: 600px;
             margin: 0 auto;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
         }
 
-        /* Booking Section */
+        /* --- BOOKING SECTION --- */
         .booking-section {
-            padding: 60px 0;
-            background: #f3f4f6;
+            padding: 80px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .booking-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 50px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
         }
 
-        /* Left Side */
-        .info-side {
-            flex: 1;
-            min-width: 300px;
-        }
-
+        /* --- ENHANCED IMAGE CARD --- */
         .finance-image-card {
-            background: white;
-            border-radius: 20px;
+            border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
             margin-bottom: 30px;
-            border: 1px solid #e5e7eb;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .finance-image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.2);
         }
 
         .finance-image-card img {
             width: 100%;
-            height: 250px;
+            height: 300px;
             object-fit: cover;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .finance-image-card:hover img {
+            transform: scale(1.05);
         }
 
         .quote-box {
-            padding: 25px;
-            text-align: center;
-            background: #fff;
+            padding: 30px;
+            background: linear-gradient(135deg, #fff 0%, #fff9f7 100%);
+            border-top: 4px solid var(--primary-orange);
+            position: relative;
+        }
+
+        .quote-box::before {
+            content: "\f10d";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 2rem;
+            color: rgba(255, 87, 34, 0.05);
         }
 
         .quote-box p {
-            font-size: 1.1rem;
-            color: #334155;
             font-style: italic;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-size: 0.95rem;
             line-height: 1.6;
         }
 
         .quote-author {
-            display: block;
-            margin-top: 10px;
-            font-size: 0.9rem;
             color: var(--primary-orange);
             font-weight: 600;
+            font-size: 0.85rem;
         }
 
+        /* --- ENHANCED FEATURE CARDS --- */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
         .feature-card {
             background: white;
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid #e5e7eb;
-            transition: 0.3s;
+            padding: 24px;
+            border-radius: 20px;
+            border: 1px solid rgba(229, 231, 235, 0.5);
+            transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 18px;
+            box-shadow: var(--card-shadow);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 87, 34, 0.05), transparent);
+            transition: left 0.5s;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
         }
 
         .feature-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-8px);
             border-color: var(--primary-orange);
-            box-shadow: 0 5px 15px rgba(255, 87, 34, 0.1);
+            box-shadow: 0 20px 25px -5px rgba(255, 87, 34, 0.1);
         }
 
         .feature-icon {
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             background: #fff3e0;
-            border-radius: 10px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--primary-orange);
-            font-size: 1.2rem;
+            font-size: 1.4rem;
+            transition: var(--transition);
+            flex-shrink: 0;
         }
 
-        /* Right Side Form */
-        .form-side {
-            flex: 1;
-            min-width: 350px;
+        .feature-card:hover .feature-icon {
+            background: var(--primary-orange);
+            color: white;
+            transform: rotate(-10deg) scale(1.1);
         }
 
+        .feature-text h4 {
+            margin: 0;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .feature-text p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        /* --- ENHANCED FORM STYLING --- */
         .booking-form-card {
             background: white;
-            padding: 35px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e5e7eb;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #fff;
             position: sticky;
-            top: 100px;
+            top: 120px;
         }
 
         .form-header h3 {
-            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 8px;
             color: var(--text-dark);
-            margin-bottom: 5px;
         }
 
         .form-header p {
             color: var(--text-muted);
-            margin-bottom: 25px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            pointer-events: none;
+            transition: var(--transition);
         }
 
         .form-input,
         .form-select,
         .form-textarea {
             width: 100%;
-            padding: 14px 15px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 1rem;
-            background-color: #ffffff;
-            color: var(--text-dark);
-            outline: none;
-            transition: 0.2s;
+            padding: 14px 15px 14px 45px;
+            border: 1.5px solid #e2e8f0;
+            background: #f8fafc;
+            border-radius: 12px;
             font-family: 'Poppins', sans-serif;
-            box-sizing: border-box;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            outline: none;
         }
 
         .form-input:focus,
         .form-select:focus,
         .form-textarea:focus {
+            background: #fff;
             border-color: var(--primary-orange);
-            box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.1);
+            box-shadow: 0 0 0 4px rgba(255, 87, 34, 0.05);
+        }
+
+        .form-input:focus+.input-icon,
+        .form-select:focus+.input-icon,
+        .form-textarea:focus+.input-icon {
+            color: var(--primary-orange);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
         }
 
         .btn-submit {
             width: 100%;
-            padding: 14px;
-            background: var(--primary-orange);
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary-orange), #f4511e);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
-            transition: 0.3s;
-            margin-top: 10px;
-            box-shadow: 0 4px 12px rgba(255, 87, 34, 0.25);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px -5px rgba(255, 87, 34, 0.3);
         }
 
         .btn-submit:hover {
-            background: #e64a19;
             transform: translateY(-2px);
+            box-shadow: 0 15px 30px -5px rgba(255, 87, 34, 0.4);
         }
 
-        .btn-submit:disabled {
-            background: #94a3b8;
-            cursor: not-allowed;
+        .btn-submit:active {
+            transform: translateY(0);
         }
 
-        /* Status Messages */
         .form-status {
-            margin-top: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
             font-size: 0.9rem;
+            font-weight: 500;
             text-align: center;
-            display: none;
-            padding: 10px;
-            border-radius: 8px;
         }
 
         .form-status.success {
-            display: block;
-            background: #dcfce7;
-            color: #166534;
-            border: 1px solid #bbf7d0;
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
         }
 
         .form-status.error {
-            display: block;
             background: #fee2e2;
             color: #991b1b;
-            border: 1px solid #fecaca;
+            border: 1px solid #fca5a5;
         }
 
-        /* Chatbot (Merged Styles) */
+        #financeActions button {
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        #goToDashboard {
+            border: 2px solid var(--primary-orange);
+            color: var(--primary-orange);
+            background: white;
+            margin-right: 10px;
+        }
+
+        #goToDashboard:hover {
+            background: var(--primary-orange);
+            color: white;
+        }
+
+        #newFinanceRequest {
+            border: 2px solid #cbd5e1;
+            color: #64748b;
+            background: white;
+        }
+
+        #newFinanceRequest:hover {
+            border-color: #64748b;
+            color: var(--text-dark);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- CHATBOT TOGGLE --- */
         .fastsewa-chatbot-toggle {
             position: fixed;
             bottom: 30px;
             right: 30px;
             width: 60px;
             height: 60px;
-            background: var(--primary-orange);
-            color: white;
-            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-orange), #f4511e);
             border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
             cursor: pointer;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            z-index: 2000;
-            font-size: 24px;
+            box-shadow: 0 10px 25px rgba(255, 87, 34, 0.3);
+            transition: var(--transition);
+            animation: pulse 2s infinite;
+            z-index: 999;
+        }
+
+        .fastsewa-chatbot-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 87, 34, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 87, 34, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 87, 34, 0);
+            }
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 1024px) {
+            .booking-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .booking-form-card {
+                position: relative;
+                top: 0;
+            }
         }
 
         @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
             .features-grid {
                 grid-template-columns: 1fr;
             }
 
-            .booking-form-card {
-                padding: 25px;
+            .booking-section {
+                padding: 50px 20px;
             }
 
+            .booking-form-card {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
             .hero-content h1 {
-                font-size: 2.5rem;
+                font-size: 2rem;
+            }
+
+            #financeActions button {
+                display: block;
+                width: 100%;
+                margin: 10px 0;
             }
         }
     </style>
@@ -330,54 +600,40 @@
                     <div class="logo-text">Fast<span>Sewa</span></div>
                 </a>
             </div>
-
             <ul class="nav-links" id="nav-menu">
                 <li><a href="../index.html" class="nav-item">Home</a></li>
                 <li><a href="../index.html#services" class="nav-item">Services</a></li>
                 <li><a href="../index.html#contact" class="nav-item">Contact</a></li>
                 <li><a href="../about.html" class="nav-item">About</a></li>
-                <li id="auth-action">
-                    <a href="../login.html" class="btn-nav">Login/Signup</a>
-                </li>
+                <li id="auth-action"><a href="../login.html" class="btn-nav">Login/Signup</a></li>
             </ul>
-
             <div class="hamburger" id="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
             </div>
         </div>
     </nav>
 
     <header class="finance-hero">
+        <div class="particles" id="particles"></div>
         <div class="hero-content">
-            <div class="badge-pill"
-                style="margin-bottom: 15px; display: inline-flex; align-items: center; gap: 5px; background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.8rem; color: #a7f3d0;">
+            <div class="badge-pill">
                 <i class="fas fa-shield-halved"></i> SECURE FINANCIAL PLANNING
             </div>
             <h1>Finance Assistant</h1>
             <p>Smart financial planning, loan assistance, and tax expert advice at your fingertips.</p>
-        </div>
-        <div style="position: absolute; bottom: 0; left: 0; width: 100%; overflow: hidden; line-height: 0;">
-            <svg viewBox="0 0 1200 120" preserveAspectRatio="none"
-                style="position: relative; display: block; width: calc(100% + 1.3px); height: 50px;">
-                <path
-                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-                    style="fill: #f3f4f6;"></path>
-            </svg>
         </div>
     </header>
 
     <section class="booking-section">
         <div class="booking-container">
 
-            <div class="info-side">
+            <div class="info-side reveal">
                 <div class="finance-image-card">
                     <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
                         alt="Finance">
                     <div class="quote-box">
                         <p>"Do not save what is left after spending, but spend what is left after saving."</p>
-                        <span class="quote-author">- Warren Buffett</span>
+                        <span class="quote-author">— Warren Buffett</span>
                     </div>
                 </div>
 
@@ -385,35 +641,35 @@
                     <div class="feature-card">
                         <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
                         <div class="feature-text">
-                            <h4 style="margin:0">Investment</h4>
-                            <p style="margin:0; font-size: 0.8rem; color: #64748b;">Maximize returns.</p>
+                            <h4>Investment</h4>
+                            <p>Maximize returns.</p>
                         </div>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon"><i class="fas fa-file-invoice"></i></div>
                         <div class="feature-text">
-                            <h4 style="margin:0">Tax Filing</h4>
-                            <p style="margin:0; font-size: 0.8rem; color: #64748b;">Easy ITR & GST.</p>
+                            <h4>Tax Filing</h4>
+                            <p>Easy ITR & GST.</p>
                         </div>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon"><i class="fas fa-hand-holding-usd"></i></div>
                         <div class="feature-text">
-                            <h4 style="margin:0">Quick Loans</h4>
-                            <p style="margin:0; font-size: 0.8rem; color: #64748b;">Low interest rates.</p>
+                            <h4>Quick Loans</h4>
+                            <p>Low interest rates.</p>
                         </div>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
                         <div class="feature-text">
-                            <h4 style="margin:0">Insurance</h4>
-                            <p style="margin:0; font-size: 0.8rem; color: #64748b;">Secure family.</p>
+                            <h4>Insurance</h4>
+                            <p>Secure family.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="form-side">
+            <div class="form-side reveal">
                 <div class="booking-form-card">
                     <div class="form-header">
                         <h3>Request Consultation</h3>
@@ -422,16 +678,19 @@
 
                     <form id="financeForm">
                         <div class="form-group">
+                            <!-- <i class="fas fa-user input-icon"></i> -->
                             <input type="text" name="fullName" id="fullName" class="form-input" required
                                 placeholder="Full Name (Ex: Rahul Kumar)">
                         </div>
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                             <div class="form-group">
+                                <!-- <i class="fas fa-envelope input-icon"></i> -->
                                 <input type="email" name="email" id="email" class="form-input" required
                                     placeholder="Email Address">
                             </div>
                             <div class="form-group">
+                                <!-- <i class="fas fa-phone input-icon"></i> -->
                                 <input type="tel" name="phone" id="phone" class="form-input" required
                                     placeholder="Phone Number">
                             </div>
@@ -439,16 +698,19 @@
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                             <div class="form-group">
+                                <!-- <i class="fas fa-wallet input-icon"></i> -->
                                 <input type="number" name="monthlyIncome" id="monthlyIncome" class="form-input"
                                     placeholder="Monthly Income (₹)">
                             </div>
                             <div class="form-group">
+                                <!-- <i class="fas fa-receipt input-icon"></i> -->
                                 <input type="number" name="monthlyExpense" id="monthlyExpense" class="form-input"
                                     placeholder="Monthly Expense (₹)">
                             </div>
                         </div>
 
                         <div class="form-group">
+                            <i class="fas fa-briefcase input-icon"></i>
                             <select name="goalType" id="goalType" class="form-select" required>
                                 <option value="" disabled selected>Select Service Required</option>
                                 <option value="Investment">Investment Planning</option>
@@ -460,22 +722,20 @@
                         </div>
 
                         <div class="form-group">
+                            <!-- <i class="fas fa-pen input-icon" style="top: 25px;"></i> -->
                             <textarea name="notes" id="notes" class="form-textarea" rows="3"
                                 placeholder="Additional Details (Optional)"></textarea>
                         </div>
 
-                        <button type="submit" id="financeSubmit" class="btn-submit">Submit Request</button>
+                        <button type="submit" id="financeSubmit" class="btn-submit">
+                            Submit Request <i class="fas fa-arrow-right"></i>
+                        </button>
                     </form>
 
                     <div id="financeStatus" class="form-status"></div>
-
                     <div id="financeActions" style="display: none; margin-top: 20px; text-align: center;">
-                        <button id="goToDashboard"
-                            style="padding: 10px 20px; border: 1px solid #ff5722; color: #ff5722; background: white; border-radius: 50px; cursor: pointer; margin-right: 10px;">Go
-                            to Dashboard</button>
-                        <button id="newFinanceRequest"
-                            style="padding: 10px 20px; border: 1px solid #cbd5e1; color: #64748b; background: white; border-radius: 50px; cursor: pointer;">New
-                            Request</button>
+                        <button id="goToDashboard">Dashboard</button>
+                        <button id="newFinanceRequest">New Request</button>
                     </div>
                 </div>
             </div>
@@ -484,129 +744,98 @@
     </section>
 
     <div id="fastsewa-footer"></div>
-
     <button class="fastsewa-chatbot-toggle" id="toggleBtn"><i class="fas fa-comment-dots"></i></button>
 
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script>
-        // Initialize EmailJS
-        (function () {
-            emailjs.init("82w8_I7wL3TeHxJa6"); // YOUR PUBLIC KEY
-        })();
+        (function () { emailjs.init("82w8_I7wL3TeHxJa6"); })();
 
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Scroll Reveal Animation Logic
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+
+        // Form handling
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('financeForm');
             const statusEl = document.getElementById('financeStatus');
             const submitBtn = document.getElementById('financeSubmit');
             const actionsBox = document.getElementById('financeActions');
-            const goToDashboardBtn = document.getElementById('goToDashboard');
-            const newRequestBtn = document.getElementById('newFinanceRequest');
 
-            // --- 1. Navbar Logic ---
-            const user = JSON.parse(localStorage.getItem("fastsewaUser"));
-            const authAction = document.getElementById("auth-action");
-            if (user && user.isLoggedIn && authAction) {
-                const firstName = user.name.split(" ")[0];
-                authAction.innerHTML = `
-                    <div class="user-nav-profile" style="position: relative; display: inline-block;">
-                        <a href="dashboard.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; background: white; padding: 5px 15px 5px 5px; border-radius: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 1px solid #eee;">
-                            <div style="width: 35px; height: 35px; background: #ff5722; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">
-                                ${firstName.charAt(0).toUpperCase()}
-                            </div>
-                            <span style="font-weight: 600; font-size: 14px; color: #333;">${firstName}</span>
-                        </a>
-                    </div>
-                `;
-            }
-
-            // --- 2. Form Submission (Unified Logic) ---
             if (form) {
-                form.addEventListener('submit', function (e) {
+                form.addEventListener('submit', async function (e) {
                     e.preventDefault();
 
-                    // Visual Loading State
+                    // UI State: Loading
                     const originalText = submitBtn.innerHTML;
-                    submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
+                    submitBtn.innerHTML = 'Processing... <i class="fas fa-spinner fa-spin"></i>';
                     submitBtn.disabled = true;
-                    statusEl.style.display = 'none';
 
-                    // Prepare Data for EmailJS
+                    // Prepare Data for Backend
                     const formData = {
-                        from_name: document.getElementById('fullName').value,
-                        from_email: document.getElementById('email').value,
-                        message: `
-                            Phone: ${document.getElementById('phone').value}
-                            Service: ${document.getElementById('goalType').value}
-                            Income: ₹${document.getElementById('monthlyIncome').value}
-                            Expense: ₹${document.getElementById('monthlyExpense').value}
-                            Notes: ${document.getElementById('notes').value}
-                        `
+                        category: 'finance', // Crucial for sorting in MongoDB
+                        fullName: document.getElementById('fullName').value,
+                        email: document.getElementById('email').value,
+                        phone: document.getElementById('phone').value,
+                        monthlyIncome: document.getElementById('monthlyIncome').value,
+                        monthlyExpense: document.getElementById('monthlyExpense').value,
+                        serviceType: document.getElementById('goalType').value,
+                        notes: document.getElementById('notes').value
                     };
 
-                    // Send Email via EmailJS
-                    emailjs.send("service_ap93y7a", "template_hvuzvq9", formData)
-                        .then(function () {
-                            // Success Logic
-                            statusEl.innerHTML = "✅ Request sent successfully! Our team will contact you soon.";
-                            statusEl.className = "form-status success";
-                            statusEl.style.display = "block";
-
-                            form.reset();
-                            form.style.display = "none";
-                            actionsBox.style.display = "block";
-
-                            // Mock Local Storage (Matching your finance.js logic)
-                            if (window.BookingStorage) {
-                                BookingStorage.addBooking({
-                                    serviceName: 'Finance Assistant',
-                                    serviceType: 'finance',
-                                    status: 'pending',
-                                    date: new Date().toISOString(),
-                                    meta: formData
-                                });
-                            }
-
-                            submitBtn.innerHTML = originalText;
-                            submitBtn.disabled = false;
-                        }, function (error) {
-                            // Error Logic
-                            statusEl.innerHTML = "❌ Failed to send request. Please check your internet.";
-                            statusEl.className = "form-status error";
-                            statusEl.style.display = "block";
-                            console.error(error);
-                            submitBtn.innerHTML = originalText;
-                            submitBtn.disabled = false;
+                    try {
+                        // Send to your Node.js API
+                        const response = await fetch('http://127.0.0.1:5000/api/bookings', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(formData)
                         });
-                });
-            }
 
-            // --- 3. Action Button Logic ---
-            if (goToDashboardBtn) {
-                goToDashboardBtn.addEventListener('click', () => {
-                    window.location.href = 'dashboard.html';
-                });
-            }
-
-            if (newRequestBtn) {
-                newRequestBtn.addEventListener('click', () => {
-                    form.reset();
-                    form.style.display = "block";
-                    actionsBox.style.display = "none";
-                    statusEl.style.display = "none";
+                        if (response.ok) {
+                            statusEl.innerHTML = "✅ Consultation request saved! Our experts will call you shortly.";
+                            statusEl.className = "form-status success";
+                            form.style.display = "none";
+                            actionsBox.style.display = "none";
+                        } else {
+                            throw new Error('Server error');
+                        }
+                    } catch (error) {
+                        console.error("Error:", error);
+                        statusEl.innerHTML = "❌ Connection failed. Please check if the server is running.";
+                        statusEl.className = "form-status error";
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalText;
+                    }
                 });
             }
         });
-
-        // Chatbot Placeholder Function
-        function sendMessage() {
-            const input = document.getElementById('chatInput');
-            if (input.value.trim() !== "") {
-                alert("AI: Thank you for your message! Our finance experts will get back to you.");
-                input.value = "";
-            }
-        }
     </script>
-
     <script src="../js/script.js"></script>
 </body>
 

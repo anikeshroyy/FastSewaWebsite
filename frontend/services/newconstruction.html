@@ -1504,12 +1504,12 @@
                 });
 
                 if (response.ok) {
-                    alert("✅ Data saved to Dashboard and Email Sent!");
+                    alert("Data saved to Dashboard and Email Sent!");
                     document.getElementById("constForm").reset();
                 }
             } catch (error) {
                 console.error("Error:", error);
-                alert("❌ Error connecting to server.");
+                alert("Error connecting to server.");
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = 'Submit & Book Engineer';

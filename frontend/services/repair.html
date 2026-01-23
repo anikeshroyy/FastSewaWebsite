@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FastSewa Repair | Expert Home Maintenance</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
 
@@ -37,85 +38,236 @@
             scroll-behavior: smooth;
         }
 
-        /* Navbar Fix */
-        .navbar {
-            position: fixed;
-            top: 0; width: 100%; z-index: 1000;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            padding: 15px 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-        }
-
-        .nav-container {
-            display: flex; justify-content: space-between; align-items: center;
-            max-width: 1200px; margin: 0 auto; padding: 0 5%;
-        }
-
         /* Hero Section */
         .repair-hero {
             position: relative;
-            height: 65vh; min-height: 500px;
-            display: flex; align-items: center; justify-content: center;
-            text-align: center; color: white;
+            height: 65vh;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
             background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-            margin-top: 80px; overflow: hidden;
+            margin-top: 80px;
+            overflow: hidden;
         }
 
         .repair-hero::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
-            background-size: cover; background-position: center; opacity: 0.3;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
         }
 
-        .hero-content { z-index: 2; padding: 0 20px; }
+        .hero-content {
+            z-index: 2;
+            padding: 0 20px;
+        }
+
         .hero-content h1 {
-            font-size: 3.5rem; font-weight: 700; margin-bottom: 15px;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
             background: linear-gradient(to right, #fb923c, #ea580c);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .btn-hero {
-            padding: 12px 35px; background: #ea580c; color: white;
-            border-radius: 50px; font-weight: 600; margin-top: 25px;
-            display: inline-block; text-decoration: none; transition: 0.3s;
+            padding: 12px 35px;
+            background: #ea580c;
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-top: 25px;
+            display: inline-block;
+            text-decoration: none;
+            transition: 0.3s;
             box-shadow: 0 5px 15px rgba(234, 88, 12, 0.4);
         }
 
         /* Category Grid */
-        .category-section { padding: 60px 0; background: #f3f4f6; }
-        .cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .cat-card { background: white; padding: 20px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
-        .cat-card:hover { border-color: #ea580c; transform: scale(1.05); }
-        .cat-icon { font-size: 2.5rem; color: #ea580c; margin-bottom: 10px; }
+        .category-section {
+            padding: 60px 0;
+            background: #f3f4f6;
+        }
+
+        .cat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .cat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .cat-card:hover {
+            border-color: #ea580c;
+            transform: scale(1.05);
+        }
+
+        .cat-icon {
+            font-size: 2.5rem;
+            color: #ea580c;
+            margin-bottom: 10px;
+        }
 
         /* Estimator Section */
-        .estimator-section { background: var(--dark); padding: 5rem 0; color: white; }
-        .estimator-box { display: flex; background: white; border-radius: 20px; overflow: hidden; max-width: 900px; margin: 0 auto; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); }
-        .est-left { flex: 1.5; padding: 3rem; color: var(--dark); }
-        .est-right { flex: 1; background: var(--primary); padding: 3rem; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; }
-        .qty-control { display: flex; align-items: center; gap: 15px; margin-top: 10px; }
-        .qty-control button { width: 40px; height: 40px; border-radius: 50%; border: none; background: #e2e8f0; font-size: 1.2rem; cursor: pointer; font-weight: bold; }
-        .btn-book-est { background: white; color: var(--primary-dark); border: none; padding: 12px 30px; border-radius: 50px; font-weight: 700; cursor: pointer; margin-top: 20px; }
+        .estimator-section {
+            background: var(--dark);
+            padding: 5rem 0;
+            color: white;
+        }
+
+        .estimator-box {
+            display: flex;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            max-width: 900px;
+            margin: 0 auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .est-left {
+            flex: 1.5;
+            padding: 3rem;
+            color: var(--dark);
+        }
+
+        .est-right {
+            flex: 1;
+            background: var(--primary);
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .qty-control button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: #e2e8f0;
+            font-size: 1.2rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-book-est {
+            background: white;
+            color: var(--primary-dark);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+        }
 
         /* Booking Form */
-        .booking-section { padding: 80px 0; background: #fff; }
-        .booking-container { display: flex; flex-wrap: wrap; gap: 50px; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        .booking-form-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08); border: 1px solid #e2e8f0; flex: 1.2; }
-        .form-input, .form-select, .form-textarea { width: 100%; padding: 14px 15px; border: 1px solid #cbd5e1; border-radius: 8px; margin-bottom: 20px; outline: none; }
-        .urgent-toggle { margin: 20px 0; background: #fff1f2; padding: 15px; border-radius: 10px; border: 1px solid #fecdd3; display: flex; align-items: center; gap: 10px; color: #ef4444; font-weight: 600; }
-        .btn-confirm { width: 100%; background: var(--dark); color: white; border: none; padding: 15px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .booking-section {
+            padding: 80px 0;
+            background: #fff;
+        }
+
+        .booking-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 50px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .booking-form-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            flex: 1.2;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            outline: none;
+        }
+
+        .urgent-toggle {
+            margin: 20px 0;
+            background: #fff1f2;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #fecdd3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        .btn-confirm {
+            width: 100%;
+            background: var(--dark);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
 
         @media (max-width: 768px) {
-            .estimator-box, .booking-container { flex-direction: column; }
-            .hero-content h1 { font-size: 2.5rem; }
+
+            .estimator-box,
+            .booking-container {
+                flex-direction: column;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>
 
 <body>
-<nav class="navbar">
+    <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
                 <a href="../index.html">
@@ -164,6 +316,10 @@
                 <div class="cat-icon"><i class="fas fa-snowflake"></i></div>
                 <div class="cat-name">AC Repair</div>
             </div>
+            <div class="cat-card" onclick="selectCategory('Carpentry')">
+                <div class="cat-icon"><i class="fa-solid fa-hammer"></i></div>
+                <div class="cat-name">Carpentry</div>
+            </div>
         </div>
     </section>
 
@@ -175,7 +331,8 @@
                     <p>Select your job and quantity to see the estimated cost.</p>
                     <div class="est-controls">
                         <label style="display:block; font-weight:600; margin-bottom:10px;">Select Job</label>
-                        <select id="estService" onchange="calculateTotal()" style="width:100%; padding:12px; border-radius:8px; border:2px solid #e2e8f0;">
+                        <select id="estService" onchange="calculateTotal()"
+                            style="width:100%; padding:12px; border-radius:8px; border:2px solid #e2e8f0;">
                             <option value="0" disabled selected>Choose a specific job...</option>
                             <option value="199">General Inspection (₹199)</option>
                             <option value="450">Switch/Socket Repair (₹450)</option>
@@ -209,11 +366,17 @@
                     <h3 style="color:#ea580c; margin-bottom: 20px;">Why FastSewa Repair?</h3>
                     <div style="display:flex; gap:15px; margin-bottom:20px;">
                         <i class="fas fa-user-shield" style="color:#ea580c; font-size:1.5rem;"></i>
-                        <div><h4 style="margin:0;">Verified Pros</h4><p style="margin:0; font-size:0.9rem; color:#666;">Background checked experts.</p></div>
+                        <div>
+                            <h4 style="margin:0;">Verified Pros</h4>
+                            <p style="margin:0; font-size:0.9rem; color:#666;">Background checked experts.</p>
+                        </div>
                     </div>
                     <div style="display:flex; gap:15px;">
                         <i class="fas fa-tools" style="color:#ea580c; font-size:1.5rem;"></i>
-                        <div><h4 style="margin:0;">30 Days Warranty</h4><p style="margin:0; font-size:0.9rem; color:#666;">Service guaranteed.</p></div>
+                        <div>
+                            <h4 style="margin:0;">30 Days Warranty</h4>
+                            <p style="margin:0; font-size:0.9rem; color:#666;">Service guaranteed.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -231,9 +394,11 @@
                             <input type="checkbox" id="urgentCheck" style="width:20px; height:20px;">
                             <label for="urgentCheck">Urgent: Need within 60 mins (+₹100)</label>
                         </div>
-                        <textarea id="message" class="form-textarea" rows="3" placeholder="Describe the issue..."></textarea>
+                        <textarea id="message" class="form-textarea" rows="3"
+                            placeholder="Describe the issue..."></textarea>
                         <button type="button" class="btn-confirm" onclick="confirmBooking()">Confirm Booking</button>
-                        <div id="successMsg" style="text-align:center; margin-top:15px; font-weight:600; color:#10b981;"></div>
+                        <div id="successMsg"
+                            style="text-align:center; margin-top:15px; font-weight:600; color:#10b981;"></div>
                     </form>
                 </div>
             </div>
@@ -284,19 +449,61 @@
         function confirmBooking() {
             const btn = document.querySelector('.btn-confirm');
             const msg = document.getElementById('successMsg');
-            const isUrgent = document.getElementById('urgentCheck').checked;
-            
-            btn.innerText = "Processing...";
+
+            // Map your Repair form fields to your MongoDB Schema keys
+            const formData = {
+                category: 'repair', // Explicitly set based on your Schema enum
+                fullName: document.getElementById('fullName').value,
+                phone: document.getElementById('phone').value,
+                bookDate: document.getElementById('date').value,
+                serviceType: document.getElementById('finalService').value, // Maps to serviceType in Schema
+                message: document.getElementById('message').value,
+                notes: document.getElementById('urgentCheck').checked ? "URGENT REQUEST" : "Standard Request"
+            };
+
+            // Basic Validation
+            if (!formData.fullName || !formData.phone || !formData.bookDate) {
+                alert("Please fill in your Name, Phone, and Preferred Date.");
+                return;
+            }
+
+            btn.innerText = "Sending Request...";
             btn.disabled = true;
 
-            setTimeout(() => {
-                btn.innerText = "Booking Confirmed";
-                btn.style.background = "#10b981";
-                const timeStr = isUrgent ? "WITHIN 60 MINS" : "scheduled time";
-                msg.innerHTML = `<i class="fas fa-check-circle"></i> Request received! Technician arriving at ${timeStr}.`;
-            }, 1500);
+            // Send data to your Node.js backend
+            fetch('http://127.0.0.1:5000/api/bookings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                    btn.innerText = "Booking Confirmed";
+                    btn.style.background = "#10b981";
+
+                    const isUrgent = document.getElementById('urgentCheck').checked;
+                    const timeStr = isUrgent ? "WITHIN 60 MINS" : "scheduled time";
+                    msg.innerHTML = `<i class="fas fa-check-circle"></i> Request saved! Technician arriving at ${timeStr}.`;
+
+                    // Optional: Reset form after success
+                    document.getElementById('repairForm').reset();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    btn.innerText = "Error - Try Again";
+                    btn.disabled = false;
+                    btn.style.background = "#ef4444";
+                    alert("Could not connect to the server. Is your backend running?");
+                });
         }
     </script>
     <script src="../js/script.js"></script>
 </body>
+
 </html>

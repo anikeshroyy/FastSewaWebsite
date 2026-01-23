@@ -468,12 +468,6 @@
             .hero-content h1 {
                 font-size: 2.5rem;
             }
-
-            .nav-links {
-                display: none !important;
-            }
-
-            /* Simplified for merge */
         }
     </style>
 </head>
@@ -748,31 +742,43 @@
             document.getElementById('txnId').focus();
         }
 
-        // --- 3. EMAILJS ---
-        (function () { emailjs.init("82w8_I7wL3TeHxJa6"); })();
-
-        document.getElementById("securityForm").addEventListener("submit", function (e) {
+        // --- 3. Form Submission ---
+        document.getElementById("securityForm").addEventListener("submit", async function (e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.innerHTML = 'Booking...';
-            btn.disabled = true;
 
+            // Prepare Data for Backend
             const formData = {
-                from_name: document.getElementById('fullName').value,
-                from_email: document.getElementById('email').value,
-                message: `Phone: ${document.getElementById('phone').value} | Service: ${document.getElementById('serviceType').value} | Txn: ${document.getElementById('txnId').value} | Details: ${document.getElementById('message').value}`
+                category: 'security',
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                serviceType: document.getElementById('serviceType').value,
+                txnId: document.getElementById('txnId').value,
+                message: document.getElementById('message').value
             };
 
-            emailjs.send("service_ap93y7a", "template_hvuzvq9", formData)
-                .then(function () {
-                    alert("✅ Booking Confirmed!");
-                    document.getElementById("securityForm").reset();
-                    btn.innerHTML = 'Confirm Booking';
-                    btn.disabled = false;
-                }, function (error) {
-                    alert("❌ Failed. Contact Support.");
-                    btn.disabled = false;
+            try {
+                btn.disabled = true;
+                btn.innerHTML = 'Processing...';
+
+                const response = await fetch('http://127.0.0.1:5000/api/bookings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
                 });
+
+                if (response.ok) {
+                    alert("Data saved to Dashboard and Email Sent!");
+                    document.getElementById("securityForm").reset();
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error connecting to server.");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Confirm Booking';
+            }
         });
     </script>
     <script src="../js/script.js"></script>

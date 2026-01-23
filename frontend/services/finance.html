@@ -818,7 +818,7 @@
                         });
 
                         if (response.ok) {
-                            statusEl.innerHTML = "✅ Consultation request saved! Our experts will call you shortly.";
+                            statusEl.innerHTML = "Consultation request saved! Our experts will call you shortly.";
                             statusEl.className = "form-status success";
                             form.style.display = "none";
                             actionsBox.style.display = "none";
@@ -827,7 +827,7 @@
                         }
                     } catch (error) {
                         console.error("Error:", error);
-                        statusEl.innerHTML = "❌ Connection failed. Please check if the server is running.";
+                        statusEl.innerHTML = "Connection failed. Please check if the server is running.";
                         statusEl.className = "form-status error";
                         submitBtn.disabled = false;
                         submitBtn.innerHTML = originalText;

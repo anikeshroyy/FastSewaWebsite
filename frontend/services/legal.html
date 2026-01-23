@@ -36,19 +36,6 @@
             padding: 0;
         }
 
-        /* Navbar Styling */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            padding: 15px 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-        }
-
         /* Hero Section - Corporate Theme */
         .gst-hero {
             position: relative;
@@ -145,8 +132,8 @@
 
         .popular-ribbon {
             position: absolute;
-            top: 15px;
-            right: -30px;
+            top: 28px;
+            right: -40px;
             transform: rotate(45deg);
             background: var(--accent-color);
             color: white;
@@ -514,7 +501,7 @@
                         <p>Fill details and enter Transaction ID after payment.</p>
                     </div>
 
-                    <form id="gstForm">
+                    <form id="legalForm">
                         <div class="form-group">
                             <input type="text" name="fullName" id="fullName" class="form-input" required
                                 placeholder="Full Name (Ex: Rahul Kumar)">
@@ -585,10 +572,6 @@
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2026 FastSewa Facilities. All Rights Reserved.</p>
-    </footer>
-
     <button class="fastsewa-chatbot-toggle" id="toggleBtn"><i class="fas fa-comment-dots"></i></button>
 
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
@@ -639,41 +622,43 @@
             document.getElementById("txnId").focus();
         }
 
-        // --- 3. EMAILJS LOGIC ---
-        (function () {
-            emailjs.init("82w8_I7wL3TeHxJa6");
-        })();
-
-        document.getElementById("gstForm").addEventListener("submit", function (e) {
+        // --- 3. Form Submission ---
+        document.getElementById("legalForm").addEventListener("submit", async function (e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            const txnId = document.getElementById('txnId').value;
 
-            btn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
-            btn.disabled = true;
-
+            // Prepare Data for Backend
             const formData = {
-                from_name: document.getElementById('fullName').value,
-                from_email: document.getElementById('email').value,
-                message: `
-                    Phone: ${document.getElementById('phone').value}
-                    Service: ${document.getElementById('serviceType').value}
-                    Transaction ID: ${txnId ? txnId : 'Not Paid Yet'}
-                    Business Details: ${document.getElementById('message').value}
-                `
+                category: 'legal',
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                serviceType: document.getElementById('serviceType').value,
+                txnId: document.getElementById('txnId').value,
+                message: document.getElementById('message').value
             };
 
-            emailjs.send("service_ap93y7a", "template_hvuzvq9", formData)
-                .then(function () {
-                    alert("✅ Application Submitted! Our CA will verify payment and contact you.");
-                    document.getElementById("gstForm").reset();
-                    btn.innerHTML = 'Submit & Hire CA';
-                    btn.disabled = false;
-                }, function (error) {
-                    alert("❌ Failed to send. Please try again.");
-                    btn.innerHTML = 'Submit & Hire CA';
-                    btn.disabled = false;
+            try {
+                btn.disabled = true;
+                btn.innerHTML = 'Processing...';
+
+                const response = await fetch('http://127.0.0.1:5000/api/bookings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
                 });
+
+                if (response.ok) {
+                    alert("Data saved to Dashboard and Email Sent!");
+                    document.getElementById("legalForm").reset();
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error connecting to server.");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Submit & Hire CA';
+            }
         });
 
         // --- 4. AUTH & NAV LOGIC ---

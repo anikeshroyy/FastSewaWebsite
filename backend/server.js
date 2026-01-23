@@ -12,8 +12,8 @@ app.use(bodyParser.json());
 
 // Change 'localhost' to '127.0.0.1' MongoDB connection
 mongoose.connect('mongodb://127.0.0.1:27017/fastsewa')
-    .then(() => console.log("✅ MongoDB Connected Successfully"))
-    .catch(err => console.error("❌ MongoDB Connection Error:", err));
+    .then(() => console.log("MongoDB Connected Successfully"))
+    .catch(err => console.error("MongoDB Connection Error:", err));
 
 // 2. Define the Schema
 const BookingSchema = new mongoose.Schema({
@@ -32,6 +32,10 @@ const BookingSchema = new mongoose.Schema({
     monthlyExpense: Number,
     serviceType: String, // Maps to goalType in your form
     notes: String,       // Maps to additional details
+    // Medical Specific Fields
+    selectedDoc: String,
+    bookDate: Date,
+    timeSlot: String,
     date: { type: Date, default: Date.now }
 });
 
@@ -41,14 +45,14 @@ const Booking = mongoose.model('Booking', BookingSchema);
 
 // Route to save data (from the frontend form)
 app.post('/api/bookings', async (req, res) => {
-    console.log("📥 Received Data:", req.body); // Check your terminal for this!
+    console.log("Received Data:", req.body); // Check your terminal for this!
     try {
         const newBooking = new Booking(req.body);
         const savedBooking = await newBooking.save();
-        console.log("💾 Saved to DB:", savedBooking);
+        console.log("Saved to DB:", savedBooking);
         res.status(201).json({ message: "Booking saved successfully!", data: savedBooking });
     } catch (err) {
-        console.error("❌ Save Error:", err.message);
+        console.error("Save Error:", err.message);
         res.status(500).json({ error: err.message });
     }
 });

@@ -9,9 +9,10 @@ const app = express();
 // 1. Middleware
 // CORS for hosted frontend
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'https://fastsewa.vercel.app/',
+    origin: '*', // This allows requests from ANY website (local or hosted)
     methods: ['GET', 'POST']
 }));
+
 app.use(bodyParser.json());
 
 // MongoDB connection For LocalHost

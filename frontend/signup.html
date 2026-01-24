@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/auth.js"></script>
 
     <style>
         /* --- THEME VARIABLES (Same as Login) --- */
@@ -319,14 +320,14 @@
                     <div class="form-group">
                         <label>First Name</label>
                         <div class="input-group">
-                            <input type="text" id="fname" class="form-control" placeholder="John" required>
+                            <input type="text" id="firstName" class="form-control" placeholder="John" required>
                             <i class="fas fa-user"></i>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Last Name</label>
                         <div class="input-group">
-                            <input type="text" id="lname" class="form-control" placeholder="Doe" required>
+                            <input type="text" id="lastName" class="form-control" placeholder="Doe" required>
                             <i class="fas fa-user"></i>
                         </div>
                     </div>
@@ -335,7 +336,8 @@
                 <div class="form-group">
                     <label>Email Address</label>
                     <div class="input-group">
-                        <input type="email" id="email" class="form-control" placeholder="example@mail.com" required>
+                        <input type="email" id="signupEmail" class="form-control" placeholder="example@mail.com"
+                            required>
                         <i class="fas fa-envelope"></i>
                     </div>
                 </div>
@@ -356,14 +358,16 @@
                     <div class="form-group">
                         <label>Password</label>
                         <div class="input-group">
-                            <input type="password" id="pass" class="form-control" placeholder="******" required>
+                            <input type="password" id="signupPassword" class="form-control" placeholder="******"
+                                required>
                             <i class="fas fa-lock"></i>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Confirm</label>
                         <div class="input-group">
-                            <input type="password" id="cpass" class="form-control" placeholder="******" required>
+                            <input type="password" id="confirmPassword" class="form-control" placeholder="******"
+                                required>
                             <i class="fas fa-lock"></i>
                         </div>
                     </div>
@@ -389,51 +393,78 @@
     </div>
 
     <script>
-        document.getElementById("signupForm").addEventListener("submit", function (e) {
+        // Ensure auth.js is loaded before this script runs
+        document.getElementById("signupForm").addEventListener("submit", async function (e) {
             e.preventDefault();
 
             const btn = document.getElementById("signupBtn");
             const btnText = document.getElementById("btnText");
             const spinner = document.getElementById("btnSpinner");
 
-            const fname = document.getElementById("fname").value;
-            const lname = document.getElementById("lname").value;
-            const email = document.getElementById("email").value;
-            const pass = document.getElementById("pass").value;
-            const cpass = document.getElementById("cpass").value;
+            // 1. Get Values
+            const firstName = document.getElementById("firstName").value;
+            const lastName = document.getElementById("lastName").value;
+            const email = document.getElementById("signupEmail").value;
+            const userType = document.getElementById("userType").value;
+            const password = document.getElementById("signupPassword").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
 
-            // 1. Password Match Check
-            if (pass !== cpass) {
+            // 2. Validation
+            if (password !== confirmPassword) {
                 alert("❌ Passwords do not match!");
                 return;
             }
 
-            // 2. Start Loading
+            // 3. UI Loading State
             btnText.style.display = "none";
             spinner.style.display = "block";
-            btn.style.opacity = "0.7";
             btn.disabled = true;
 
-            // 3. Fake API Call (2 Seconds)
-            setTimeout(() => {
-                // User Object Creation
-                const userData = {
-                    name: fname + " " + lname,
-                    email: email,
-                    role: document.getElementById("userType").value,
-                    isLoggedIn: true // Auto Login after signup
-                };
+            try {
+                // 4. Call your real auth.js signup function
+                // window.fastsewaAuth is initialized in your auth.js file
+                const result = await window.fastsewaAuth.signup(
+                    firstName,
+                    lastName,
+                    email,
+                    "0000000000", // Placeholder phone if you don't have a field for it yet
+                    password,
+                    userType
+                );
 
-                // Save to LocalStorage
-                localStorage.setItem("fastsewaUser", JSON.stringify(userData));
+                if (result.success) {
+                    alert("Account created successfully!");
 
-                alert("✅ Account created successfully! Logging you in...");
+                    // 5. Check for pending data (Logic inside auth.js handles this redirect)
+                    const pendingBooking = localStorage.getItem('pending_booking');
 
-                // Redirect to Home
-                window.location.href = "index.html";
+                    setTimeout(() => {
+                        const pending = localStorage.getItem("pending_booking");
 
-            }, 2000);
+                        if (pending) {
+                            const { redirectTo } = JSON.parse(pending);
+                            window.location.href = redirectTo;
+                        } else {
+                            window.location.href = "dashboard.html";
+                        }
+                    }, 500);
+
+                } else {
+                    alert("❌ Signup failed: " + result.message);
+                    resetBtn(btn, btnText, spinner);
+                }
+            } catch (error) {
+                console.error("Signup Error:", error);
+                alert("❌ Network error. Is your backend running on Port 5000?");
+                resetBtn(btn, btnText, spinner);
+            }
         });
+
+        function resetBtn(btn, text, spinner) {
+            text.style.display = "block";
+            spinner.style.display = "none";
+            btn.disabled = false;
+        }
     </script>
 </body>
 

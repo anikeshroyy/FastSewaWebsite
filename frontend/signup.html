@@ -10,6 +10,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="js/auth.js"></script>
+    <link rel="stylesheet" href="./css/toast.css">
 
     <style>
         /* --- THEME VARIABLES (Same as Login) --- */
@@ -411,7 +412,7 @@
 
             // 2. Validation
             if (password !== confirmPassword) {
-                alert("❌ Passwords do not match!");
+                alert("Passwords do not match!");
                 return;
             }
 
@@ -427,7 +428,6 @@
                     firstName,
                     lastName,
                     email,
-                    "0000000000", // Placeholder phone if you don't have a field for it yet
                     password,
                     userType
                 );
@@ -450,12 +450,12 @@
                     }, 500);
 
                 } else {
-                    alert("❌ Signup failed: " + result.message);
+                    alert("Signup failed: " + result.message);
                     resetBtn(btn, btnText, spinner);
                 }
             } catch (error) {
                 console.error("Signup Error:", error);
-                alert("❌ Network error. Is your backend running on Port 5000?");
+                alert("Network error. Is your backend running on Port 5000?");
                 resetBtn(btn, btnText, spinner);
             }
         });

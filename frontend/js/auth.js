@@ -1,4 +1,5 @@
 const API_CONFIG = {
+    // BASE_URL: 'http://127.0.0.1:5000/api',
     BASE_URL: 'https://fastsewawebsite-production.up.railway.app/api',
     ENDPOINTS: {
         REGISTER: '/auth/register',
@@ -143,21 +144,21 @@ class FastSewaAuth {
 // --- UTILITY: RESTORE FORM DATA ---
 function checkAndFillPendingForm() {
     const savedData = localStorage.getItem('pending_booking');
-    if (savedData && fastsewaAuth.isLoggedIn()) {
-        const data = JSON.parse(savedData);
-        const fieldIds = ['fullName', 'email', 'phone', 'serviceType', 'txnId', 'message'];
+    if (!savedData || !fastsewaAuth.isLoggedIn()) return;
 
-        fieldIds.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.value = data[id] || '';
-        });
-        showToast("Form details restored! You can now submit.", "success");
-    }
+    const { formData } = JSON.parse(savedData);
+    if (!formData) return;
+
+    Object.keys(formData).forEach(key => {
+        const el = document.getElementById(key);
+        if (el) el.value = formData[key];
+    });
 }
+
 
 async function performLogout() {
     try { await fastsewaAuth.logout(); }
-    finally { window.location.replace('login.html'); }
+    finally { window.location.replace('/frontend/index.html'); }
 }
 
 const fastsewaAuth = new FastSewaAuth();
@@ -179,21 +180,27 @@ function initLogin() {
 
             if (result.success) {
                 showToast('Login successful!', 'success');
-                const pendingBooking = localStorage.getItem('pending_booking');
+
                 setTimeout(() => {
                     const pending = localStorage.getItem("pending_booking");
+                    const forcedRedirect = localStorage.getItem("auth_redirect");
 
                     if (pending) {
                         const { redirectTo } = JSON.parse(pending);
-                        window.location.href = redirectTo;
+                        window.location.href = redirectTo.startsWith("/")
+                            ? redirectTo
+                            : "/frontend/" + redirectTo;
+
+                    } else if (forcedRedirect) {
+                        localStorage.removeItem("auth_redirect");
+                        window.location.href = forcedRedirect;
+
                     } else {
-                        window.location.href = "dashboard.html";
+                        window.location.href = "/frontend/index.html";
                     }
                 }, 500);
-            } else {
-                showToast(result.message || 'Login failed', 'error');
-                loginBtn.disabled = false;
             }
+
         } catch (error) {
             showToast('Network error.', 'error');
             loginBtn.disabled = false;
@@ -202,23 +209,37 @@ function initLogin() {
 }
 
 // Global Toast function
-function showToast(message, type = 'success') {
-    let toast = document.getElementById('fastsewa-toast');
+function showToast(message, type = "success") {
+    let toast = document.getElementById("fastsewa-toast");
+
     if (!toast) {
-        toast = document.createElement('div');
-        toast.id = 'fastsewa-toast';
+        toast = document.createElement("div");
+        toast.id = "fastsewa-toast";
         document.body.appendChild(toast);
     }
-    toast.className = `toast ${type}`;
-    toast.innerHTML = `<div class="toast-content"><span>${message}</span></div>`;
-    setTimeout(() => { toast.className = 'toast hidden'; }, 3000);
+
+    toast.className = `fs-toast fs-${type}`;
+    toast.innerHTML = `
+        <div class="fs-toast-icon">
+            ${type === "success" ? "✔" : type === "error" ? "✖" : "ℹ"}
+        </div>
+        <div class="fs-toast-message">${message}</div>
+    `;
+
+    toast.style.opacity = "1";
+    toast.style.transform = "translateY(0)";
+
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(20px)";
+    }, 3000);
 }
+
 
 // --- INITIALIZATION ON LOAD ---
 document.addEventListener('DOMContentLoaded', function () {
     // 1. Check if we need to fill the form
     checkAndFillPendingForm();
-
     // 2. Initialize page specific logic
     if (window.location.pathname.includes('login.html')) {
         initLogin();

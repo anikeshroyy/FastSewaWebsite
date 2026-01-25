@@ -118,42 +118,42 @@ document.addEventListener('DOMContentLoaded', function () {
     // ======================================================
     // 5. CONTACT FORM & EMAIL JS
     // ======================================================
- const contactForm = document.getElementById("contactForm");
+    const contactForm = document.getElementById("contactForm");
 
-if (contactForm) {
-    contactForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-        
-        const btn = this.querySelector('button');
-        const originalContent = btn.innerHTML;
-        
-        // Visual Feedback: Loading State
-        btn.disabled = true;
-        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Sending...`;
-        btn.style.opacity = "0.7";
+    if (contactForm) {
+        contactForm.addEventListener("submit", function (e) {
+            e.preventDefault();
 
-        emailjs.sendForm("service_ap93y7a", "template_hvuzvq9", this)
-            .then(() => {
-                // Success: Update UI
-                btn.innerHTML = `<i class="fas fa-check"></i> Sent Successfully!`;
-                btn.style.background = "#10b981"; // Green color
-                this.reset();
-                
-                setTimeout(() => {
+            const btn = this.querySelector('button');
+            const originalContent = btn.innerHTML;
+
+            // Visual Feedback: Loading State
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Sending...`;
+            btn.style.opacity = "0.7";
+
+            emailjs.sendForm("service_ap93y7a", "template_hvuzvq9", this)
+                .then(() => {
+                    // Success: Update UI
+                    btn.innerHTML = `<i class="fas fa-check"></i> Sent Successfully!`;
+                    btn.style.background = "#10b981"; // Green color
+                    this.reset();
+
+                    setTimeout(() => {
+                        btn.disabled = false;
+                        btn.innerHTML = originalContent;
+                        btn.style.background = ""; // Revert to CSS default
+                        btn.style.opacity = "1";
+                    }, 4000);
+                }, (err) => {
+                    // Error handling
+                    alert("❌ Failed to send. Please try again or call us.");
                     btn.disabled = false;
                     btn.innerHTML = originalContent;
-                    btn.style.background = ""; // Revert to CSS default
                     btn.style.opacity = "1";
-                }, 4000);
-            }, (err) => {
-                // Error handling
-                alert("❌ Failed to send. Please try again or call us.");
-                btn.disabled = false;
-                btn.innerHTML = originalContent;
-                btn.style.opacity = "1";
-            });
-    });
-}
+                });
+        });
+    }
 
     // ======================================================
     // 6. PREMIUM APP POPUP LOGIC
@@ -188,52 +188,83 @@ if (contactForm) {
     }
 
     // ======================================================
-    // 7. AUTHENTICATION PERSISTENCE
+    // 7. AUTHENTICATION PERSISTENCE (REAL APP)
     // ======================================================
-    const user = JSON.parse(localStorage.getItem("fastsewaUser"));
     const authAction = document.getElementById("auth-action");
+    const currentUser = JSON.parse(localStorage.getItem("fastsewa_current_user"));
+    const token = localStorage.getItem("fastsewa_token");
 
-    if (user && user.isLoggedIn && authAction) {
-        const firstName = user.name.split(" ")[0];
-        const initial = firstName.charAt(0).toUpperCase();
+    if (authAction) {
 
-        authAction.innerHTML = `
+        // ❌ NOT LOGGED IN
+        if (!currentUser || !token) {
+            authAction.innerHTML = `
+            <a href="/frontend/login.html" class="btn-nav" onclick="saveRedirect()">Login/Signup</a>
+        `;
+        }
+
+        // ✅ LOGGED IN
+        else {
+            const firstName = currentUser.firstName || "User";
+            const initial = firstName.charAt(0).toUpperCase();
+
+            authAction.innerHTML = `
             <div class="user-nav-profile" style="position: relative; display: inline-block;">
                 <div id="profileTrigger" style="display: flex; align-items: center; gap: 10px; cursor: pointer; background: rgba(255,87,34,0.1); padding: 5px 15px 5px 5px; border-radius: 30px; border: 1px solid rgba(255,87,34,0.2);">
-                    <div style="width: 35px; height: 35px; background: #ff5722; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">${initial}</div>
-                    <span style="font-weight: 600; font-size: 14px; color: #333;">${firstName}</span>
+                    <div style="width: 35px; height: 35px; background: #ff5722; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                        ${initial}
+                    </div>
+                    <span style="font-weight: 600; font-size: 14px; color: #333;">
+                        ${firstName}
+                    </span>
                     <i class="fas fa-chevron-down" style="font-size: 12px; color: #666;"></i>
                 </div>
+
                 <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 50px; background: white; width: 200px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-radius: 12px; padding: 10px; z-index: 1000; border: 1px solid #eee;">
                     <div style="padding: 10px; border-bottom: 1px solid #eee; margin-bottom: 5px;">
                         <p style="font-size: 12px; color: #888;">Signed in as</p>
-                        <p style="font-weight: 600; color: #333; overflow: hidden; text-overflow: ellipsis;">${user.email}</p>
+                        <p style="font-weight: 600; color: #333; overflow: hidden; text-overflow: ellipsis;">
+                            ${currentUser.email}
+                        </p>
                     </div>
-                    <a href="dashboard.html" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: #333; font-size: 14px;"><i class="fas fa-th-large" style="color: #ff5722;"></i> Dashboard</a>
-                    <a href="#" id="logoutBtn" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: #ef4444; font-size: 14px;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a href="/frontend/dashboard.html" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: #333; font-size: 14px;">
+                        <i class="fas fa-th-large" style="color: #ff5722;"></i> Dashboard
+                    </a>
+                    <a href="#" id="logoutBtn" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: #ef4444; font-size: 14px;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
                 </div>
             </div>
         `;
 
-        document.getElementById("profileTrigger").addEventListener("click", toggleDropdown);
-        document.getElementById("logoutBtn").addEventListener("click", logoutUser);
+            document.getElementById("profileTrigger").addEventListener("click", toggleDropdown);
+            document.getElementById("logoutBtn").addEventListener("click", logoutUser);
+        }
     }
-});
 
-// Global Helper Functions
-function toggleDropdown() {
-    const dropdown = document.getElementById("userDropdown");
-    if (dropdown) dropdown.style.display = (dropdown.style.display === "none") ? "block" : "none";
-}
+    // Global Helper Functions
+    function toggleDropdown() {
+        const dropdown = document.getElementById("userDropdown");
+        if (dropdown) dropdown.style.display = (dropdown.style.display === "none") ? "block" : "none";
+    }
 
 function logoutUser() {
-    localStorage.removeItem("fastsewaUser");
-    window.location.reload();
+    localStorage.removeItem("fastsewa_token");
+    localStorage.removeItem("fastsewa_current_user");
+    localStorage.removeItem("auth_redirect");
+    localStorage.removeItem("pending_booking");
+    window.location.href = "/frontend/index.html";
 }
 
-window.onclick = function (event) {
-    if (!event.target.closest('.user-nav-profile')) {
-        const dropdown = document.getElementById("userDropdown");
-        if (dropdown) dropdown.style.display = "none";
-    }
-};
+
+    window.onclick = function (event) {
+        if (!event.target.closest('.user-nav-profile')) {
+            const dropdown = document.getElementById("userDropdown");
+            if (dropdown) dropdown.style.display = "none";
+        }
+    };
+})
+
+function saveRedirect() {
+    localStorage.setItem("auth_redirect", window.location.href);
+}

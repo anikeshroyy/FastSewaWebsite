@@ -24,7 +24,6 @@
 </head>
 
 <body>
-
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
@@ -40,7 +39,7 @@
                 <li><a href="about.html" class="nav-item">About</a></li>
                 <li><a href="#contact" class="nav-item">Contact</a></li>
                 <li id="auth-action">
-                    <a href="login.html" class="btn-nav">Login/Signup</a>
+                    <a href="login.html" class="btn-nav" id="loginLink">Login/Signup</a>
                 </li>
             </ul>
 
@@ -59,9 +58,6 @@
 
         <div class="container hero-wrapper">
             <div class="hero-text-content">
-                <!-- <div class="hero-badge reveal">
-                <span class="pulse"></span> Trusted by 10k+ Users in Bihar
-            </div> -->
                 <h1 class="reveal">The Future of <br><span class="text-gradient">Home Services</span></h1>
                 <p class="reveal">Experience India's first Super Portal. From architectural planning to emergency
                     medical aid—verified experts are just one click away.</p>
@@ -108,7 +104,7 @@
 
     <section id="services" class="section-pad">
         <div class="container">
-            <h2 class="section-title reveal">Premium <span>Services</span></h2>
+            <h2 class="section-title reveal"><span>Premium Services</span></h2>
             <div class="grid-3">
                 <div class="service-card reveal" onclick="location.href='services/newconstruction.html';">
                     <div class="icon-box"><i class="fas fa-hard-hat"></i></div>
@@ -176,75 +172,70 @@
     </section>
 
     <section id="contact" class="contact-section">
-    <div class="container">
-        <h2 class="section-title">Get In Touch</h2>
-        <p class="section-subtitle">Have questions? Our team is here to help you 24/7.</p>
-        
-        <div class="contact-wrapper reveal">
-            <div class="contact-info">
-                <div class="info-card">
-                    <h3 class="info-title">Contact Information</h3>
-                    
-                    <div class="info-item">
-                        <div class="icon-box"><i class="fas fa-map-marker-alt"></i></div>
-                        <div>
-                            <h4>Visit Us</h4>
-                            <p>B Hub, Gandhi Maidan, Patna, Bihar</p>
-                        </div>
-                    </div>
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="section-subtitle">Have questions? Our team is here to help you 24/7.</p>
+            <div class="contact-wrapper reveal">
+                <div class="contact-info">
+                    <div class="info-card">
+                        <h3 class="info-title">Contact Information</h3>
 
-                    <div class="info-item">
-                        <div class="icon-box"><i class="fas fa-phone-alt"></i></div>
-                        <div>
-                            <h4>Call Us</h4>
-                            <p>+91 8275723755</p>
+                        <div class="info-item">
+                            <div class="icon-box"><i class="fas fa-map-marker-alt"></i></div>
+                            <div>
+                                <h4>Visit Us</h4>
+                                <p>B Hub, Gandhi Maidan, Patna, Bihar</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="info-item">
-                        <div class="icon-box"><i class="fas fa-envelope"></i></div>
-                        <div>
-                            <h4>Email Us</h4>
-                            <p>fastsewa2020@gmail.com</p>
+                        <div class="info-item">
+                            <div class="icon-box"><i class="fas fa-phone-alt"></i></div>
+                            <div>
+                                <h4>Call Us</h4>
+                                <p>+91 8275723755</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://wa.me/918275723755"><i class="fab fa-whatsapp"></i></a>
+                        <div class="info-item">
+                            <div class="icon-box"><i class="fas fa-envelope"></i></div>
+                            <div>
+                                <h4>Email Us</h4>
+                                <p>fastsewa2020@gmail.com</p>
+                            </div>
+                        </div>
+
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://wa.me/918275723755"><i class="fab fa-whatsapp"></i></a>
+                        </div>
                     </div>
                 </div>
-<!-- 
-                <div class="map-container">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3597.741870404314!2d85.1413812!3d25.6135835!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ed59002384959b%3A0x6b4904b68e0e64b7!2sB-HUB!5e0!3m2!1sen!2sin!4v1700000000000" width="100%" height="200" style="border:0; border-radius: 15px;" allowfullscreen="" loading="lazy"></iframe>
-                </div> -->
-            </div>
 
-            <div class="contact-form-box">
-                <form id="contactForm">
-                    <div class="form-group">
-                        <input type="text" name="name" id="name" placeholder=" " required>
-                        <label>Your Name</label>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" name="email" id="email" placeholder=" " required>
-                        <label>Email Address</label>
-                    </div>
-                    <div class="form-group">
-                        <textarea name="message" id="message" rows="4" placeholder=" " required></textarea>
-                        <label>How can we help?</label>
-                    </div>
-                    <button type="submit" class="btn-submit">
-                        <span>Send Message</span>
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </form>
+                <div class="contact-form-box">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" name="name" id="name" placeholder=" " required>
+                            <label>Your Name</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" id="email" placeholder=" " required>
+                            <label>Email Address</label>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" id="message" rows="4" placeholder=" " required></textarea>
+                            <label>How can we help?</label>
+                        </div>
+                        <button type="submit" class="btn-submit">
+                            <span>Send Message</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <button class="fastsewa-chatbot-toggle" id="toggleBtn"><i class="fas fa-comment-dots"></i></button>
     <div class="fastsewa-chatbot-container" id="chatbox">
@@ -263,7 +254,7 @@
     <div id="fsAppPopup">
         <div class="fs-premium-card">
             <div class="fs-popup-top">
-                <span>📲 FastSewa App</span>
+                <span>FastSewa App</span>
                 <div class="fs-close-btns">
                     <button id="fsMin">—</button>
                     <button id="fsClose">✕</button>
@@ -280,7 +271,7 @@
             <p style="font-size: 12px; color: #64748b; margin-bottom: 15px; text-align: left; line-height: 1.4;">
                 Book services faster & get instant AI help on your smartphone. Experience India's Super Service Portal.
             </p>
-            <a href="public/fastsewa-release.apk" download="FastSewa_V3.apk" class="fs-download-btn" id="dlBtn">
+            <a href="/frontend/app-release.apk" download="FastSewa_V3.apk" class="fs-download-btn" id="dlBtn">
                 <i class="fas fa-download"></i> Download APK Now
             </a>
             <p style="font-size: 10px; color: #94a3b8; margin-top: 10px; text-align: center;">

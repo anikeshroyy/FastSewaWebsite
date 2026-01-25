@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 //     .then(() => console.log("MongoDB Connected Successfully"))
 //     .catch(err => console.error("MongoDB Connection Error:", err));
 
-// 2. MongoDB Connection using environment variable
+// MongoDB connection For Railway
 const mongoURI = process.env.MONGODB_URI;
 mongoose.connect(mongoURI)
     .then(() => console.log("MongoDB Atlas Connected Successfully"))

@@ -1,16 +1,16 @@
-# FastSewa Official Website 🏗️🏠
+# FastSewa Official Website
 
 The official web platform for **Jha Ji Fastsewa E-Facilities Private Limited**, a premier service provider based in Patna, Bihar. This website serves as a digital gateway for clients to explore construction services, interior design solutions, and e-governance facilities.
 
 ---
 
-## 📌 Project Overview
+## Project Overview
 
 FastSewa is dedicated to bridging the gap between quality construction services and the end consumer. This repository contains the frontend and backend logic required to showcase services, manage inquiries, and provide a seamless user experience for clients looking for home and business infrastructure solutions.
 
 ---
 
-## 🎯 Features
+## Features
 
 - **Service Showcase**: Explore diverse services including:
   - Construction & Renovation
@@ -33,7 +33,7 @@ FastSewa is dedicated to bridging the gap between quality construction services 
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 FastSewa/
@@ -49,14 +49,13 @@ FastSewa/
 │   ├── terms.html           # Terms & conditions
 │   ├── css/                 # Stylesheets
 │   │   ├── style.css        # Main styles
-│   │   ├── auth.css         # Authentication styles
-│   │   ├── chatbot.css      # Chatbot styles
-│   │   └── [service].css    # Service-specific styles
+│   │   ├── auth.css        # Main styles
+│   │   ├── footer.css        # Main styles
+│   │   ├── toast.css        # Main styles
 │   ├── js/                  # JavaScript files
 │   │   ├── script.js        # Main script
 │   │   ├── auth.js          # Authentication logic
-│   │   ├── chatbot.js       # Chatbot functionality
-│   │   └── [service].js     # Service-specific scripts
+│   │   ├── footer.js          # Authentication logic
 │   ├── images/              # Static images and assets
 │   └── services/            # Individual service pages
 │       ├── finance.html
@@ -69,14 +68,20 @@ FastSewa/
 │       ├── repair.html
 │       ├── security.html
 │       └── trademark.html
+│       └── newconstruction.html
 ├── backend/                # Backend application
+│   └── node_modules/  
+│   └── .gitignore  
+│   └── package-lock.json 
+│   └── package.json 
+│   └── server.js
 ├── README.md               # Project documentation
 └── LICENSE                 # Project license
 ```
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Web Browser (Chrome, Firefox, Safari, or Edge)
@@ -104,7 +109,7 @@ FastSewa/
 
 ---
 
-## 💻 Technologies Used
+## Technologies Used
 
 ### Frontend
 - **HTML5** - Semantic markup
@@ -117,7 +122,7 @@ FastSewa/
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please follow these steps:
 
@@ -129,13 +134,13 @@ We welcome contributions! Please follow these steps:
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ---
 
-## 👥 Team
+## Team
 
 **Jha Ji Fastsewa E-Facilities Private Limited**
 - Based in Patna, Bihar
@@ -144,4 +149,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-**Last Updated**: January 15, 2026
+**Last Updated**: January 25, 2026

@@ -103,7 +103,6 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
-
 //--------Booking Schema-----------
 const BookingSchema = new mongoose.Schema({
     category: {

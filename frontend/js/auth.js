@@ -158,7 +158,7 @@ function checkAndFillPendingForm() {
 
 async function performLogout() {
     try { await fastsewaAuth.logout(); }
-    finally { window.location.replace('/frontend/index.html'); }
+    finally { window.location.replace('/index.html'); }
 }
 
 const fastsewaAuth = new FastSewaAuth();
@@ -189,14 +189,14 @@ function initLogin() {
                         const { redirectTo } = JSON.parse(pending);
                         window.location.href = redirectTo.startsWith("/")
                             ? redirectTo
-                            : "/frontend/" + redirectTo;
+                            : "/" + redirectTo;
 
                     } else if (forcedRedirect) {
                         localStorage.removeItem("auth_redirect");
                         window.location.href = forcedRedirect;
 
                     } else {
-                        window.location.href = "/frontend/index.html";
+                        window.location.href = "/index.html";
                     }
                 }, 500);
             }

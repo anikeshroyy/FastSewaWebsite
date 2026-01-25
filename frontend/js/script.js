@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // ❌ NOT LOGGED IN
         if (!currentUser || !token) {
             authAction.innerHTML = `
-            <a href="/frontend/login.html" class="btn-nav" onclick="saveRedirect()">Login/Signup</a>
+            <a href="/login.html" class="btn-nav" onclick="saveRedirect()">Login/Signup</a>
         `;
         }
 
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             ${currentUser.email}
                         </p>
                     </div>
-                    <a href="/frontend/dashboard.html" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: #333; font-size: 14px;">
+                    <a href="/dashboard.html" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: #333; font-size: 14px;">
                         <i class="fas fa-th-large" style="color: #ff5722;"></i> Dashboard
                     </a>
                     <a href="#" id="logoutBtn" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: #ef4444; font-size: 14px;">
@@ -253,7 +253,7 @@ function logoutUser() {
     localStorage.removeItem("fastsewa_current_user");
     localStorage.removeItem("auth_redirect");
     localStorage.removeItem("pending_booking");
-    window.location.href = "/frontend/index.html";
+    window.location.href = "/index.html";
 }
 
 

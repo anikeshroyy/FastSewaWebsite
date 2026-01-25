@@ -1148,7 +1148,7 @@
                 <li><a href="../index.html#contact" class="nav-item">Contact</a></li>
                 <li><a href="../about.html" class="nav-item">About</a></li>
                 <li id="auth-action">
-                    <a href="/frontend/login.html" class="btn-nav" onclick="saveRedirect()">Login/Signup</a>
+                    <a href="/login.html" class="btn-nav" onclick="saveRedirect()">Login/Signup</a>
                 </li>
             </ul>
             <div class="hamburger" id="hamburger">
@@ -1500,18 +1500,17 @@
 
                 localStorage.setItem("pending_booking", JSON.stringify({
                     category: "construction",
-                    redirectTo: "/frontend/services/newconstruction.html",
+                    redirectTo: "/services/newconstruction.html",
                     formData
                 }));
 
                 alert("Please login to continue");
-                window.location.href = "/frontend/login.html";
+                window.location.href = "/login.html";
                 return;
             }
 
             submitBooking(formData, btn);
         });
-
 
         // RESTORE FORM AFTER LOGIN
         function restorePendingForm() {
@@ -1545,7 +1544,7 @@
                 };
 
                 // const response = await fetch("http://127.0.0.1:5000/api/bookings", {
-                    const response = await fetch('https://fastsewawebsite-production.up.railway.app/api/bookings', {
+                const response = await fetch('https://fastsewawebsite-production.up.railway.app/api/bookings', {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -1558,7 +1557,6 @@
                     localStorage.removeItem("pending_booking");
                     document.getElementById("constForm").reset();
                 }
-
             } catch (err) {
                 console.error(err);
                 alert("Something went wrong");

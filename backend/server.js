@@ -10,33 +10,41 @@ const app = express();
 // CORS for hosted frontend
 app.use(cors({
     origin: '*', // This allows requests from ANY website (local or hosted)
-    methods: ['GET', 'POST']
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 
 app.use(bodyParser.json());
 
 // MongoDB connection For LocalHost
-// mongoose.connect('mongodb://127.0.0.1:27017/fastsewa')
-//     .then(() => console.log("MongoDB Connected Successfully"))
-//     .catch(err => console.error("MongoDB Connection Error:", err));
+mongoose.connect('mongodb://127.0.0.1:27017/fastsewa')
+    .then(() => console.log("MongoDB Connected Successfully"))
+    .catch(err => console.error("MongoDB Connection Error:", err));
 
 // MongoDB connection For Railway
-const mongoURI = process.env.MONGODB_URI;
-mongoose.connect(mongoURI)
-    .then(() => console.log("MongoDB Atlas Connected Successfully"))
-    .catch(err => console.error("MongoDB Connection Error:", err));
+// const mongoURI = process.env.MONGODB_URI;
+// mongoose.connect(mongoURI)
+//     .then(() => console.log("MongoDB Atlas Connected Successfully"))
+//     .catch(err => console.error("MongoDB Connection Error:", err));
 
 
 // ---User Register SCHEMA ---
 const UserSchema = new mongoose.Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
+
+    // derived / display fields
+    fullName: { type: String },
+
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true }, // In a real app, hash this!
+    password: { type: String, required: true },
+
     phone: String,
+    address: String,
+
     userType: { type: String, default: 'customer' },
     date: { type: Date, default: Date.now }
 });
+
 
 const User = mongoose.model('User', UserSchema);
 
@@ -51,7 +59,15 @@ app.post('/api/auth/register', async (req, res) => {
             return res.status(400).json({ success: false, message: "User already exists" });
         }
 
-        const newUser = new User({ firstName, lastName, email, password, phone, userType });
+        const newUser = new User({
+            firstName,
+            lastName,
+            fullName: `${firstName} ${lastName}`,
+            email,
+            password,
+            phone,
+            userType
+        });
         await newUser.save();
 
         // Send back success and a "fake" token for now (since you're using fastsewa_token)
@@ -102,6 +118,62 @@ app.post('/api/auth/login', async (req, res) => {
         res.status(500).json({ success: false, error: err.message });
     }
 });
+
+// --- UPDATE USER PROFILE ---
+app.put('/api/auth/update', async (req, res) => {
+    try {
+        const authHeader = req.headers.authorization;
+        console.log("AUTH HEADER:", authHeader);
+
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ message: "Invalid token format" });
+        }
+
+        const token = authHeader.replace("Bearer ", "");
+        const userId = token.replace("mock-jwt-token-", "");
+        console.log("USER ID:", userId);
+
+
+        if (!userId) {
+            return res.status(401).json({ message: "Invalid token" });
+        }
+
+        const { fullName, phone, address } = req.body;
+        console.log("UPDATE DATA:", { fullName, phone, address });
+
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            {
+                fullName,
+                phone,
+                address
+            },
+            { new: true }
+        );
+        console.log("UPDATED USER FROM DB:", updatedUser);
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.json({
+            success: true,
+            user: {
+                id: updatedUser._id,
+                fullName: updatedUser.fullName,
+                email: updatedUser.email,
+                phone: updatedUser.phone,
+                address: updatedUser.address,
+                userType: updatedUser.userType
+            }
+        });
+
+    } catch (err) {
+        console.error("Profile Update Error:", err);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
 
 //--------Booking Schema-----------
 const BookingSchema = new mongoose.Schema({
@@ -159,8 +231,8 @@ app.get('/api/admin/bookings', async (req, res) => {
 
 // 5. PORT: Railway will provide a port via process.env.PORT
 // Note: '0.0.0.0' is important for Railway's network binding
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
 
-// const PORT = 5000;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const PORT = 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

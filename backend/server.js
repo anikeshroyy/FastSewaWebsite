@@ -110,7 +110,11 @@ app.post('/api/auth/login', async (req, res) => {
             user: {
                 id: user._id,
                 firstName: user.firstName,
+                lastName: user.lastName,
+                fullName: user.fullName,
                 email: user.email,
+                phone: user.phone,
+                address: user.address,
                 userType: user.userType
             }
         });
@@ -182,12 +186,6 @@ const BookingSchema = new mongoose.Schema({
         required: true,
         enum: ['construction', 'land', 'finance', 'legal', 'medical', 'gst', 'incometax', 'material', 'repair', 'security', 'trademark'] // Matches your folder structure
     },
-    // ADD THIS NEW FIELD
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // This must match the name of your User model
-        required: false // Set to false for now so old data doesn't break
-    },
     fullName: String,
     email: String,
     phone: String,
@@ -200,22 +198,49 @@ const BookingSchema = new mongoose.Schema({
     selectedDoc: String, // Medical Specific Fields
     bookDate: Date,
     timeSlot: String,
-    date: { type: Date, default: Date.now }
+    date: { type: Date, default: Date.now },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // This must match the name of your User model
+        required: false // Set to false for now so old data doesn't break
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'verified', 'assigned', 'completed', 'cancelled'],
+        default: 'pending'
+    }
 });
 
 const Booking = mongoose.model('Booking', BookingSchema);
 
 // 3. API Routes to save data (from the frontend form)
 app.post('/api/bookings', async (req, res) => {
-    console.log("Received Data:", req.body); // Check terminal for this!
     try {
-        const newBooking = new Booking(req.body);
+        const authHeader = req.headers.authorization;
+
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        const token = authHeader.replace("Bearer ", "");
+        const userId = token.replace("mock-jwt-token-", "");
+
+        const bookingData = {
+            ...req.body,
+            userId
+        };
+
+        const newBooking = new Booking(bookingData);
         const savedBooking = await newBooking.save();
-        console.log("Saved to DB:", savedBooking);
-        res.status(201).json({ message: "Booking saved successfully!", data: savedBooking });
+
+        res.status(201).json({
+            success: true,
+            booking: savedBooking
+        });
+
     } catch (err) {
-        console.error("Save Error:", err.message);
-        res.status(500).json({ error: err.message });
+        console.error("BOOKING SAVE ERROR:", err);
+        res.status(500).json({ message: "Server error" });
     }
 });
 
@@ -228,6 +253,63 @@ app.get('/api/admin/bookings', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+// --- GET CURRENT LOGGED-IN USER ---
+app.get('/api/auth/me', async (req, res) => {
+    try {
+        const authHeader = req.headers.authorization;
+
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        const token = authHeader.replace("Bearer ", "");
+        const userId = token.replace("mock-jwt-token-", "");
+
+        const user = await User.findById(userId).select("-password");
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.json({
+            success: true,
+            user
+        });
+
+    } catch (err) {
+        console.error("GET ME ERROR:", err);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+// --- GET LOGGED-IN USER BOOKINGS ---
+app.get('/api/bookings/my', async (req, res) => {
+    try {
+        const authHeader = req.headers.authorization;
+
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        const token = authHeader.replace("Bearer ", "");
+        const userId = token.replace("mock-jwt-token-", "");
+
+        const bookings = await Booking.find({ userId })
+            .sort({ date: -1 });
+
+        res.json({
+            success: true,
+            bookings
+        });
+
+    } catch (err) {
+        console.error("MY BOOKINGS ERROR:", err);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+
 
 // 5. PORT: Railway will provide a port via process.env.PORT
 // Note: '0.0.0.0' is important for Railway's network binding

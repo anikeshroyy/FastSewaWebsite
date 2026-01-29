@@ -102,8 +102,16 @@ class FastSewaAuth {
             const response = await this.apiRequest(API_CONFIG.ENDPOINTS.LOGIN, 'POST', { email, password });
             if (response.success) {
                 this.saveToken(response.token);
-                this.currentUser = new User(response.user);
-                localStorage.setItem('fastsewa_current_user', JSON.stringify(this.currentUser));
+
+                // fetch fresh user from DB
+                const me = await this.apiRequest('/auth/me');
+
+                this.currentUser = new User(me.user);
+                localStorage.setItem(
+                    'fastsewa_current_user',
+                    JSON.stringify(this.currentUser)
+                );
+
                 return { success: true, user: response.user };
             }
             return { success: false, message: response.message };
@@ -118,27 +126,26 @@ class FastSewaAuth {
     }
 
 
-    // async getCurrentUser() {
-    //     if (!this.token) return null;
-    //     try {
-    //         const response = await this.apiRequest(API_CONFIG.ENDPOINTS.GET_ME);
-    //         if (response.success) {
-    //             this.currentUser = new User(response.user);
-    //             localStorage.setItem('fastsewa_current_user', JSON.stringify(this.currentUser));
-    //             return this.currentUser;
-    //         }
-    //         this.clearAuth();
-    //         return null;
-    //     } catch (error) {
-    //         this.clearAuth();
-    //         return null;
-    //     }
-    // }
+    async getCurrentUser() {
+        if (!this.token) return null;
+        try {
+            const response = await this.apiRequest(API_CONFIG.ENDPOINTS.GET_ME);
+            if (response.success) {
+                this.currentUser = new User(response.user);
+                localStorage.setItem('fastsewa_current_user', JSON.stringify(this.currentUser));
+                return this.currentUser;
+            }
+            this.clearAuth();
+            return null;
+        } catch (error) {
+            this.clearAuth();
+            return null;
+        }
+    }
 
     isLoggedIn() {
         return !!this.token;
     }
-
 }
 
 // --- UTILITY: RESTORE FORM DATA ---
@@ -154,7 +161,6 @@ function checkAndFillPendingForm() {
         if (el) el.value = formData[key];
     });
 }
-
 
 async function performLogout() {
     try { await fastsewaAuth.logout(); }

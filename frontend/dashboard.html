@@ -468,6 +468,31 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .status-pending {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .status-verified {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .status-assigned {
+            background: #ecfeff;
+            color: #0f766e;
+        }
+
+        .status-completed {
+            background: #f0fdf4;
+            color: #15803d;
+        }
+
+        .status-cancelled {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
     </style>
 </head>
 
@@ -524,11 +549,11 @@
                     style="color: var(--primary); font-size: 0.9rem; text-decoration: none; border: 1px solid var(--primary); padding: 5px 15px; border-radius: 20px;">
                     <i class="fas fa-globe"></i> Visit Website
                 </a>
-                <div style="position: relative;">
+                <!-- <div style="position: relative;">
                     <i class="fas fa-bell" style="font-size: 1.2rem; color: #64748b; cursor: pointer;"></i>
                     <span
                         style="position: absolute; top: -5px; right: -5px; background: red; color: white; font-size: 10px; width: 15px; height: 15px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">3</span>
-                </div>
+                </div> -->
             </div>
         </header>
 
@@ -556,13 +581,13 @@
                             <p style="color: #64748b; font-size: 0.9rem;">Services Used</p>
                         </div>
                     </div>
-                    <div class="stat-card">
+                    <!-- <div class="stat-card">
                         <div class="stat-icon" style="background: #f59e0b;"><i class="fas fa-star"></i></div>
                         <div>
                             <h2>4.8</h2>
                             <p style="color: #64748b; font-size: 0.9rem;">My Rating</p>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="stat-card">
                         <div class="stat-icon" style="background: #8b5cf6;"><i class="fas fa-wallet"></i></div>
                         <div>
@@ -574,19 +599,19 @@
 
                 <h3 style="margin-bottom: 20px;">Quick Actions</h3>
                 <div class="actions-grid">
-                    <a href="newconstruction.html" class="action-btn">
+                    <a href="./services/newconstruction.html" class="action-btn">
                         <i class="fas fa-hard-hat"></i>
                         New Construction
                     </a>
-                    <a href="security.html" class="action-btn">
+                    <a href="./services/security.html" class="action-btn">
                         <i class="fas fa-shield-alt"></i>
                         Security Guard
                     </a>
-                    <a href="medical.html" class="action-btn">
+                    <a href="./services/medical.html" class="action-btn">
                         <i class="fas fa-user-md"></i>
                         Medical Aid
                     </a>
-                    <a href="repair.html" class="action-btn">
+                    <a href="./services/repair.html" class="action-btn">
                         <i class="fas fa-tools"></i>
                         Repair Service
                     </a>
@@ -600,10 +625,11 @@
                     <table>
                         <thead>
                             <tr>
+                                <th>Booking ID</th>
                                 <th>Service</th>
-                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Requested On</th>
                                 <th>Status</th>
-                                <th>Professional</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -647,29 +673,14 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Service ID</th>
-                                <th>Service Name</th>
+                                <th>Booking ID</th>
+                                <th>Service</th>
                                 <th>Date</th>
                                 <th>Amount</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>#FS-2023</td>
-                                <td>House Cleaning</td>
-                                <td>Dec 20, 2025</td>
-                                <td>₹1,200</td>
-                                <td><span class="status-badge status-completed">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>#FS-2024</td>
-                                <td>AC Repair</td>
-                                <td>Jan 02, 2026</td>
-                                <td>₹800</td>
-                                <td><span class="status-badge status-active">In Progress</span></td>
-                            </tr>
-                        </tbody>
+                        <tbody id="myBookingsTable"></tbody>
                     </table>
                 </div>
             </div>
@@ -691,129 +702,46 @@
         </div>
     </main>
 
+    <!-- Booking Details Modal -->
+    <div id="bookingModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999;">
+        <div style="
+    background:#fff;
+    max-width:600px;
+    margin:60px auto;
+    border-radius:16px;
+    padding:25px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.2);
+    position:relative;
+  ">
+            <h2 style="margin-bottom:15px;">Booking Details</h2>
+
+            <div id="bookingModalContent" style="font-size:0.95rem; line-height:1.6;"></div>
+
+            <button onclick="closeBookingModal()" style="
+        margin-top:20px;
+        padding:10px 20px;
+        border:none;
+        border-radius:8px;
+        background:#ff5722;
+        color:#fff;
+        cursor:pointer;
+      ">
+                Close
+            </button>
+
+            <span onclick="closeBookingModal()" style="
+        position:absolute;
+        top:15px;
+        right:20px;
+        cursor:pointer;
+        font-size:22px;
+      ">×</span>
+        </div>
+    </div>
+
+
     <script src="js/auth.js"></script>
-    <script>
-        // 1. AUTH CHECK (Redirect if not logged in)
-        document.addEventListener("DOMContentLoaded", () => {
-            const token = localStorage.getItem("fastsewa_token");
-            const user = JSON.parse(localStorage.getItem("fastsewa_current_user"));
-
-            if (!token || !user) {
-                window.location.href = "login.html";
-                return;
-            }
-
-            // Populate UI
-            const firstName = user.firstName || "User";
-
-            document.getElementById("sidebarName").innerText = user.fullName;
-            document.getElementById("sidebarAvatar").innerText = firstName.charAt(0);
-            document.getElementById("welcomeTitle").innerText =
-                `Welcome back, ${firstName}!`;
-
-            document.getElementById("pName").value = user.fullName;
-            document.getElementById("pEmail").value = user.email;
-        });
-
-        // 3. TAB SWITCHING LOGIC
-        function showSection(sectionId, element) {
-            // Hide all sections
-            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-            // Show selected section
-            document.getElementById(sectionId).classList.add('active');
-
-            // Update Sidebar Active State
-            if (element) {
-                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-                element.classList.add('active');
-            }
-
-            // Mobile Sidebar Close on Click
-            if (window.innerWidth < 900) {
-                document.getElementById("sidebar").classList.remove("active");
-            }
-
-            // Update Header Title
-            const titleMap = {
-                'dashboard': 'Overview', 'profile': 'My Profile', 'bookings': 'Bookings',
-                'services': 'Request Service', 'wallet': 'Wallet', 'settings': 'Settings'
-            };
-            document.querySelector('.header-title').innerText = titleMap[sectionId] || 'Dashboard';
-        }
-
-        // 4. MOBILE SIDEBAR TOGGLE
-        function toggleSidebar() {
-            document.getElementById("sidebar").classList.toggle("active");
-        }
-
-        // 5. LOGOUT LOGIC
-        function logout() {
-            if (confirm("Are you sure you want to log out?")) {
-                localStorage.removeItem("fastsewa_token");
-                localStorage.removeItem("fastsewa_current_user");
-                window.location.href = "/index.html";
-            }
-        }
-
-        // 6. FAKE DATA GENERATOR
-        function loadRecentData() {
-            const table = document.getElementById("recentServicesTable");
-            const data = [
-                { service: "AC Repair", date: "Jan 02, 2026", status: "In Progress", pro: "Rahul Singh", type: "active" },
-                { service: "Plumbing", date: "Dec 28, 2025", status: "Pending", pro: "Assigning...", type: "pending" },
-                { service: "Home Cleaning", date: "Dec 15, 2025", status: "Completed", pro: "Sita Devi", type: "completed" }
-            ];
-
-            let html = "";
-            data.forEach(item => {
-                html += `
-                <tr>
-                    <td><div style="font-weight:600;">${item.service}</div></td>
-                    <td>${item.date}</td>
-                    <td><span class="status-badge status-${item.type}">${item.status}</span></td>
-                    <td>${item.pro}</td>
-                    <td><button class="btn-view">Details</button></td>
-                </tr>`;
-            });
-            table.innerHTML = html;
-        }
-    </script>
-
-    <script>
-        document.getElementById("profileForm").addEventListener("submit", async function (e) {
-            e.preventDefault();
-
-            const fullName = document.getElementById("pName").value.trim();
-            const phone = document.getElementById("pPhone").value.trim();
-            const address = document.getElementById("pAddress").value.trim();
-
-            try {
-                const res = await fastsewaAuth.apiRequest(
-                    "/auth/update",
-                    "PUT",
-                    { fullName, phone, address }
-                );
-
-                if (res.success) {
-                    // update localStorage user
-                    const updatedUser = {
-                        ...fastsewaAuth.currentUser,
-                        fullName: res.user.fullName,
-                        phone: res.user.phone,
-                        address: res.user.address
-                    };
-
-                    fastsewaAuth.currentUser = updatedUser;
-                    localStorage.setItem("fastsewa_current_user", JSON.stringify(updatedUser));
-
-                    alert("✅ Profile updated successfully!");
-                }
-            } catch (err) {
-                alert("❌ Failed to update profile");
-            }
-        });
-    </script>
-
+    <script src="js/userdashboard.js"></script>
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 const API_CONFIG = {
-    BASE_URL: 'http://127.0.0.1:5000/api',
-    // BASE_URL: 'https://fastsewawebsite-production.up.railway.app/api',
+    // BASE_URL: 'http://127.0.0.1:5000/api',
+    BASE_URL: 'https://fastsewawebsite-production.up.railway.app/api',
     ENDPOINTS: {
         REGISTER: '/auth/register',
         LOGIN: '/auth/login',
@@ -188,21 +188,34 @@ function initLogin() {
                 showToast('Login successful!', 'success');
 
                 setTimeout(() => {
+                    const user =
+                        fastsewaAuth.currentUser ||
+                        JSON.parse(localStorage.getItem("fastsewa_current_user"));
+
                     const pending = localStorage.getItem("pending_booking");
                     const forcedRedirect = localStorage.getItem("auth_redirect");
 
+                    // 1️⃣ Booking resume
                     if (pending) {
                         const { redirectTo } = JSON.parse(pending);
                         window.location.href = redirectTo.startsWith("/")
                             ? redirectTo
                             : "/" + redirectTo;
+                        return;
+                    }
 
-                    } else if (forcedRedirect) {
+                    // 2️⃣ Guard redirect
+                    if (forcedRedirect) {
                         localStorage.removeItem("auth_redirect");
                         window.location.href = forcedRedirect;
+                        return;
+                    }
 
+                    // 3️⃣ Role-based redirect
+                    if (user?.userType === "admin") {
+                        window.location.href = "/admin/dashboard.html";
                     } else {
-                        window.location.href = "/index.html";
+                        window.location.href = "/dashboard.html";
                     }
                 }, 500);
             }

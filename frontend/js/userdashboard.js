@@ -33,6 +33,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
+    // BLOCK ADMINS FROM USER DASHBOARD
+    if (user.userType === "admin") {
+        window.location.href = "/admin/dashboard.html";
+        return;
+    }
+
     // Populate UI
     const firstName = user.firstName || "User";
 

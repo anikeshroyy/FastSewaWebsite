@@ -16,15 +16,15 @@ app.use(cors({
 app.use(bodyParser.json());
 
 // MongoDB connection For LocalHost
-mongoose.connect('mongodb://127.0.0.1:27017/fastsewa')
-    .then(() => console.log("MongoDB Connected Successfully"))
-    .catch(err => console.error("MongoDB Connection Error:", err));
+// mongoose.connect('mongodb://127.0.0.1:27017/fastsewa')
+//     .then(() => console.log("MongoDB Connected Successfully"))
+//     .catch(err => console.error("MongoDB Connection Error:", err));
 
 // MongoDB connection For Railway
-// const mongoURI = process.env.MONGODB_URI;
-// mongoose.connect(mongoURI)
-//     .then(() => console.log("MongoDB Atlas Connected Successfully"))
-//     .catch(err => console.error("MongoDB Connection Error:", err));
+const mongoURI = process.env.MONGODB_URI;
+mongoose.connect(mongoURI)
+    .then(() => console.log("MongoDB Atlas Connected Successfully"))
+    .catch(err => console.error("MongoDB Connection Error:", err));
 
 
 // ---User Register SCHEMA ---
@@ -310,11 +310,105 @@ app.get('/api/bookings/my', async (req, res) => {
 });
 
 
+async function requireAdmin(req, res, next) {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        const token = authHeader.replace("Bearer ", "");
+        const userId = token.replace("mock-jwt-token-", "");
+
+        const user = await User.findById(userId);
+
+        if (!user || user.userType !== "admin") {
+            return res.status(403).json({ message: "Admin access required" });
+        }
+
+        req.admin = user;
+        next();
+    } catch (err) {
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
+
+
+app.get('/api/admin/users', requireAdmin, async (req, res) => {
+    try {
+        const users = await User.find().select("-password").sort({ date: -1 });
+        res.json(users);
+    } catch (err) {
+        res.status(500).json({ message: "Failed to fetch users" });
+    }
+});
+
+
+app.post('/api/admin/users', requireAdmin, async (req, res) => {
+    try {
+        const { firstName, lastName, email, password, phone, userType } = req.body;
+
+        const exists = await User.findOne({ email });
+        if (exists) {
+            return res.status(400).json({ success: false, message: "User already exists" });
+        }
+
+        const user = new User({
+            firstName,
+            lastName,
+            fullName: `${firstName} ${lastName}`,
+            email,
+            password,
+            phone,
+            userType
+        });
+
+        await user.save();
+
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ success: false, message: "Failed to create user" });
+    }
+});
+
+
+app.delete('/api/admin/users/:id', requireAdmin, async (req, res) => {
+    try {
+        await User.findByIdAndDelete(req.params.id);
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ message: "Failed to delete user" });
+    }
+});
+
+
+app.put('/api/admin/bookings/:id', requireAdmin, async (req, res) => {
+    try {
+        const { status } = req.body;
+
+        await Booking.findByIdAndUpdate(req.params.id, { status });
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ message: "Failed to update booking" });
+    }
+});
+
+
+app.delete('/api/admin/bookings/:id', requireAdmin, async (req, res) => {
+    try {
+        await Booking.findByIdAndDelete(req.params.id);
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ message: "Failed to delete booking" });
+    }
+});
+
 
 // 5. PORT: Railway will provide a port via process.env.PORT
 // Note: '0.0.0.0' is important for Railway's network binding
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
 
-const PORT = 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// const PORT = 5000;
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

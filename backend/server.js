@@ -3,24 +3,21 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
+console.log("MONGODB_URI:", process.env.MONGODB_URI ? "LOADED" : "MISSING");
+
 
 const app = express();
 
 // 1. Middleware
 // CORS for hosted frontend
 app.use(cors({
-    origin: '*', // This allows requests from ANY website (local or hosted)
-    methods: ['GET', 'POST', 'PUT', 'DELETE']
+    origin: process.env.FRONTEND_URL || '*',
+    credentials: true
 }));
 
 app.use(bodyParser.json());
 
-// MongoDB connection For LocalHost
-// mongoose.connect('mongodb://127.0.0.1:27017/fastsewa')
-//     .then(() => console.log("MongoDB Connected Successfully"))
-//     .catch(err => console.error("MongoDB Connection Error:", err));
-
-// MongoDB connection For Railway
+// MongoDB connection For Railway + LocalHost
 const mongoURI = process.env.MONGODB_URI;
 mongoose.connect(mongoURI)
     .then(() => console.log("MongoDB Atlas Connected Successfully"))
@@ -404,11 +401,7 @@ app.delete('/api/admin/bookings/:id', requireAdmin, async (req, res) => {
     }
 });
 
-
 // 5. PORT: Railway will provide a port via process.env.PORT
 // Note: '0.0.0.0' is important for Railway's network binding
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
-
-// const PORT = 5000;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

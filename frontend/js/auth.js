@@ -1,15 +1,10 @@
 const API_CONFIG = {
-    // BASE_URL: 'http://127.0.0.1:5000/api',
-    BASE_URL: 'https://fastsewawebsite-production.up.railway.app/api',
+    BASE_URL: window.API_BASE_URL,
     ENDPOINTS: {
         REGISTER: '/auth/register',
         LOGIN: '/auth/login',
-        LOGOUT: '/auth/logout',
         GET_ME: '/auth/me',
-        UPDATE_PROFILE: '/auth/update',
-        CHANGE_PASSWORD: '/auth/change-password',
-        SERVICES: '/services',
-        DASHBOARD_STATS: '/services/dashboard/stats'
+        UPDATE_PROFILE: '/auth/update'
     }
 };
 

@@ -83,10 +83,14 @@ async function checkAdminAuth() {
 // ========================================
 async function loadDashboardStats() {
     try {
-        const [users, bookings] = await Promise.all([
+        const [usersResponse, bookingsResponse] = await Promise.all([
             fetch(API + "/admin/users", { headers: authHeaders() }).then(r => r.json()),
             fetch(API + "/admin/bookings", { headers: authHeaders() }).then(r => r.json())
         ]);
+
+        // Extract arrays from response objects
+        const users = usersResponse.users || usersResponse;
+        const bookings = bookingsResponse.bookings || bookingsResponse;
 
         // Calculate stats
         const customers = users.filter(u => u.userType === "customer");
@@ -113,14 +117,17 @@ async function loadDashboardStats() {
 // ========================================
 async function loadBookings() {
     try {
-        const bookings = await fetch(API + "/admin/bookings", {
+        const response = await fetch(API + "/admin/bookings", {
             headers: authHeaders()
         }).then(r => r.json());
+
+        // Extract bookings array from response
+        const bookings = response.bookings || response;
 
         const table = document.getElementById("allBookingsTable");
         table.innerHTML = "";
 
-        if (bookings.length === 0) {
+        if (!Array.isArray(bookings) || bookings.length === 0) {
             table.innerHTML = `
                 <tr>
                     <td colspan="8" class="empty-state">
@@ -167,7 +174,7 @@ function loadRecentBookings(bookings) {
     const table = document.getElementById("recentBookingsTable");
     table.innerHTML = "";
 
-    if (bookings.length === 0) {
+    if (!Array.isArray(bookings) || bookings.length === 0) {
         table.innerHTML = `
             <tr>
                 <td colspan="5" class="empty-state">No recent bookings</td>
@@ -193,15 +200,21 @@ function loadRecentBookings(bookings) {
 
 async function updateStatus(bookingId, newStatus) {
     try {
-        await fetch(API + "/admin/bookings/" + bookingId, {
+        const response = await fetch(API + "/admin/bookings/" + bookingId, {
             method: "PUT",
             headers: authHeaders(),
             body: JSON.stringify({ status: newStatus })
         });
 
-        showToast("Status updated successfully", "success");
-        loadBookings();
-        loadDashboardStats();
+        const data = await response.json();
+
+        if (data.success) {
+            showToast("Status updated successfully", "success");
+            loadBookings();
+            loadDashboardStats();
+        } else {
+            showToast(data.message || "Failed to update status", "error");
+        }
 
     } catch (err) {
         console.error("Failed to update status:", err);
@@ -213,14 +226,20 @@ async function deleteBooking(bookingId) {
     if (!confirm("Are you sure you want to delete this booking?")) return;
 
     try {
-        await fetch(API + "/admin/bookings/" + bookingId, {
+        const response = await fetch(API + "/admin/bookings/" + bookingId, {
             method: "DELETE",
             headers: authHeaders()
         });
 
-        showToast("Booking deleted successfully", "success");
-        loadBookings();
-        loadDashboardStats();
+        const data = await response.json();
+
+        if (data.success) {
+            showToast("Booking deleted successfully", "success");
+            loadBookings();
+            loadDashboardStats();
+        } else {
+            showToast(data.message || "Failed to delete booking", "error");
+        }
 
     } catch (err) {
         console.error("Failed to delete booking:", err);
@@ -233,9 +252,18 @@ async function deleteBooking(bookingId) {
 // ========================================
 async function loadUsers() {
     try {
-        const users = await fetch(API + "/admin/users", {
+        const response = await fetch(API + "/admin/users", {
             headers: authHeaders()
         }).then(r => r.json());
+
+        // Extract users array from response
+        const users = response.users || response;
+
+        if (!Array.isArray(users)) {
+            console.error("Invalid users data:", users);
+            showToast("Failed to load users - invalid data format", "error");
+            return;
+        }
 
         const customers = users.filter(u => u.userType === "customer");
         const table = document.getElementById("usersTable");
@@ -277,14 +305,20 @@ async function deleteUser(userId) {
     if (!confirm("Are you sure you want to delete this user?")) return;
 
     try {
-        await fetch(API + "/admin/users/" + userId, {
+        const response = await fetch(API + "/admin/users/" + userId, {
             method: "DELETE",
             headers: authHeaders()
         });
 
-        showToast("User deleted successfully", "success");
-        loadUsers();
-        loadDashboardStats();
+        const data = await response.json();
+
+        if (data.success) {
+            showToast("User deleted successfully", "success");
+            loadUsers();
+            loadDashboardStats();
+        } else {
+            showToast(data.message || "Failed to delete user", "error");
+        }
 
     } catch (err) {
         console.error("Failed to delete user:", err);
@@ -297,9 +331,18 @@ async function deleteUser(userId) {
 // ========================================
 async function loadAdmins() {
     try {
-        const users = await fetch(API + "/admin/users", {
+        const response = await fetch(API + "/admin/users", {
             headers: authHeaders()
         }).then(r => r.json());
+
+        // Extract users array from response
+        const users = response.users || response;
+
+        if (!Array.isArray(users)) {
+            console.error("Invalid users data:", users);
+            showToast("Failed to load admins - invalid data format", "error");
+            return;
+        }
 
         const admins = users.filter(u => u.userType === "admin");
         const table = document.getElementById("adminsTable");
@@ -449,14 +492,20 @@ function showSection(sectionId, element) {
     if (sectionId === "users") loadUsers();
     if (sectionId === "admins") loadAdmins();
 
-    // Close mobile sidebar
-    if (window.innerWidth < 900) {
-        document.getElementById("sidebar").classList.remove("active");
+    // Close mobile sidebar and overlay
+    if (window.innerWidth <= 900) {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebarOverlay");
+        sidebar.classList.remove("active");
+        overlay.classList.remove("active");
     }
 }
 
 function toggleSidebar() {
-    document.getElementById("sidebar").classList.toggle("active");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebarOverlay");
+    sidebar.classList.toggle("active");
+    overlay.classList.toggle("active");
 }
 
 function logout() {

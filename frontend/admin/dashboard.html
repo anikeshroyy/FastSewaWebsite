@@ -41,6 +41,22 @@
             overflow: hidden;
         }
 
+        /* Overlay for mobile sidebar */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
         /* Sidebar */
         .sidebar {
             width: 280px;
@@ -48,23 +64,38 @@
             color: white;
             display: flex;
             flex-direction: column;
-            transition: 0.3s;
+            transition: transform 0.3s ease;
             position: relative;
             z-index: 100;
+            flex-shrink: 0;
         }
 
         .brand {
             padding: 25px;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 10px;
             font-size: 1.5rem;
             font-weight: 700;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        .brand-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .brand span {
             color: var(--primary);
+        }
+
+        .close-sidebar {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-muted);
         }
 
         .admin-panel {
@@ -159,6 +190,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            min-width: 0;
         }
 
         .top-header {
@@ -170,6 +202,7 @@
             padding: 0 30px;
             box-shadow: var(--shadow);
             z-index: 10;
+            flex-shrink: 0;
         }
 
         .header-title {
@@ -244,6 +277,7 @@
             justify-content: center;
             font-size: 1.5rem;
             color: white;
+            flex-shrink: 0;
         }
 
         .stat-content h2 {
@@ -263,6 +297,7 @@
             padding: 25px;
             box-shadow: var(--shadow);
             margin-bottom: 25px;
+            overflow-x: auto;
         }
 
         .table-header {
@@ -270,6 +305,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
         .table-header h2 {
@@ -285,6 +322,7 @@
             font-size: 0.9rem;
             font-weight: 500;
             transition: 0.3s;
+            white-space: nowrap;
         }
 
         .btn-primary {
@@ -310,6 +348,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 600px;
         }
 
         th {
@@ -318,6 +357,7 @@
             color: var(--text-muted);
             font-weight: 500;
             border-bottom: 2px solid var(--border);
+            white-space: nowrap;
         }
 
         td {
@@ -339,6 +379,7 @@
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 500;
+            white-space: nowrap;
         }
 
         .status-pending {
@@ -383,6 +424,7 @@
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
 
         .modal.active {
@@ -394,8 +436,10 @@
             padding: 30px;
             border-radius: 16px;
             max-width: 500px;
-            width: 90%;
+            width: 100%;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-header {
@@ -433,6 +477,7 @@
             border-radius: 10px;
             outline: none;
             transition: 0.3s;
+            font-size: 0.95rem;
         }
 
         .form-input:focus {
@@ -442,23 +487,6 @@
 
         select.form-input {
             cursor: pointer;
-        }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-            .sidebar {
-                position: fixed;
-                left: -280px;
-                height: 100%;
-            }
-
-            .sidebar.active {
-                left: 0;
-            }
-
-            .mobile-toggle {
-                display: block;
-            }
         }
 
         .mobile-toggle {
@@ -478,15 +506,247 @@
             margin-bottom: 15px;
             opacity: 0.3;
         }
+
+        /* ========================================
+           RESPONSIVE BREAKPOINTS
+        ======================================== */
+
+        /* Tablet (900px and below) */
+        @media (max-width: 900px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                height: 100%;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .close-sidebar {
+                display: block;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .top-header {
+                padding: 0 20px;
+            }
+
+            .content-scroll {
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .table-container {
+                padding: 20px;
+            }
+
+            .header-title {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Mobile (600px and below) */
+        @media (max-width: 600px) {
+            .top-header {
+                height: 60px;
+                padding: 0 15px;
+            }
+
+            .header-title {
+                font-size: 1rem;
+            }
+
+            .header-actions span {
+                display: none;
+            }
+
+            .content-scroll {
+                padding: 15px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .stat-card {
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .stat-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .stat-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .stat-content p {
+                font-size: 0.85rem;
+            }
+
+            .table-container {
+                padding: 15px;
+                border-radius: 12px;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .table-header h2 {
+                font-size: 1.1rem;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 12px 20px;
+            }
+
+            table {
+                font-size: 0.85rem;
+                min-width: 500px;
+            }
+
+            th,
+            td {
+                padding: 10px 8px;
+            }
+
+            .modal-content {
+                padding: 20px;
+                border-radius: 12px;
+            }
+
+            .modal-header h2 {
+                font-size: 1.1rem;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .form-input {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+
+            .brand {
+                padding: 20px;
+                font-size: 1.3rem;
+            }
+
+            .admin-panel {
+                padding: 20px;
+            }
+
+            .admin-avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .nav-item {
+                padding: 12px 20px;
+            }
+
+            .logout-btn {
+                padding: 15px 20px;
+            }
+        }
+
+        /* Small Mobile (400px and below) */
+        @media (max-width: 400px) {
+            .sidebar {
+                width: 100%;
+            }
+
+            .header-title {
+                font-size: 0.9rem;
+            }
+
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .stat-content h2 {
+                font-size: 1.8rem;
+            }
+
+            table {
+                min-width: 450px;
+            }
+
+            th,
+            td {
+                padding: 8px 6px;
+                font-size: 0.8rem;
+            }
+
+            .btn-danger {
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+
+            .status-badge {
+                font-size: 0.75rem;
+                padding: 4px 10px;
+            }
+        }
+
+        /* Landscape mobile fixes */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .admin-panel {
+                padding: 15px;
+            }
+
+            .admin-avatar {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+                margin-bottom: 10px;
+            }
+
+            .admin-name {
+                font-size: 0.9rem;
+            }
+
+            .nav-item {
+                padding: 10px 20px;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
     <aside class="sidebar" id="sidebar">
         <div class="brand">
-            <i class="fas fa-shield-alt"></i>
-            FastSewa<span>Admin</span>
+            <div class="brand-text">
+                <i class="fas fa-shield-alt"></i>
+                FastSewa<span>Admin</span>
+            </div>
+            <i class="fas fa-times close-sidebar" onclick="toggleSidebar()"></i>
         </div>
 
         <div class="admin-panel">

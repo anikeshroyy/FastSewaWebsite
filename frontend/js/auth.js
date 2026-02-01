@@ -20,14 +20,15 @@ class User {
         this.lastName = data.lastName;
         this.fullName = data.fullName || `${data.firstName} ${data.lastName}`;
         this.email = data.email;
-        this.phone = data.phone;
+        this.phone = data.phone || '';
+        this.address = data.address || '';
         this.userType = data.userType || 'customer';
         this.profilePic = data.profilePic;
         this.walletBalance = data.walletBalance || 0;
         this.totalServices = data.totalServices || 0;
         this.rating = data.rating || 0;
         this.activeBookings = data.activeBookings || 0;
-        this.createdAt = data.createdAt || new Date().toISOString();
+        this.createdAt = data.createdAt || data.date || new Date().toISOString();
     }
 }
 
@@ -181,6 +182,8 @@ function initLogin() {
 
         try {
             loginBtn.disabled = true;
+            loginBtn.textContent = 'Logging in...';
+            
             const result = await fastsewaAuth.login(email, password);
 
             if (result.success) {
@@ -217,16 +220,22 @@ function initLogin() {
                         window.location.href = "/dashboard.html";
                     }
                 }, 500);
+            } else {
+                // Login failed - show error message
+                showToast(result.message || 'Invalid email or password', 'error');
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Login';
             }
 
         } catch (error) {
-            showToast('Network error.', 'error');
+            showToast(error.message || 'Network error. Please try again.', 'error');
             loginBtn.disabled = false;
+            loginBtn.textContent = 'Login';
         }
     });
 }
 
-// Global Toast function
+// Global Toast function - appears from top center
 function showToast(message, type = "success") {
     let toast = document.getElementById("fastsewa-toast");
 
@@ -249,7 +258,7 @@ function showToast(message, type = "success") {
 
     setTimeout(() => {
         toast.style.opacity = "0";
-        toast.style.transform = "translateY(20px)";
+        toast.style.transform = "translateY(-20px)";
     }, 3000);
 }
 

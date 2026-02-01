@@ -78,8 +78,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             </div>
         </footer>
-            <span class="pulse"></span>
-        </a>
         `;
     }
 });

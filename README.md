@@ -36,7 +36,7 @@ FastSewa is dedicated to bridging the gap between quality construction services 
 ## Project Structure
 
 ```
-FastSewa/
+FastSewaWebsite/
 ├── frontend/                # Frontend application
 │   ├── index.html           # Home page
 │   ├── login.html           # User login
@@ -47,15 +47,18 @@ FastSewa/
 │   ├── team.html            # Team information
 │   ├── support1.html        # Support page
 │   ├── terms.html           # Terms & conditions
+│   ├── admin/                
+│   │   ├── admin.js        
+│   │   ├── dashboard.html        
 │   ├── css/                 # Stylesheets
 │   │   ├── style.css        # Main styles
-│   │   ├── auth.css        # Main styles
-│   │   ├── footer.css        # Main styles
+│   │   ├── auth.css         # Main styles
+│   │   ├── footer.css       # Main styles
 │   │   ├── toast.css        # Main styles
 │   ├── js/                  # JavaScript files
 │   │   ├── script.js        # Main script
 │   │   ├── auth.js          # Authentication logic
-│   │   ├── footer.js          # Authentication logic
+│   │   ├── footer.js        # Authentication logic
 │   ├── images/              # Static images and assets
 │   └── services/            # Individual service pages
 │       ├── finance.html

@@ -1,0 +1,12 @@
+{
+  "name": "fastsewa",
+  "private": true,
+  "scripts": {
+    "frontend": "cd frontend && npx live-server --port=3000",
+    "backend": "cd backend && npm run dev",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}

@@ -74,13 +74,10 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="footer-bottom">
                 <div class="bottom-container">
                     <p>&copy; 2026 FastSewa Super Portal. All rights reserved.</p>
-                    <p class="dev-credits">Developed by <a href="https://www.anikeshroy.xyz" target="_blank">Anikesh Roy</a> & <a href="#">Amit Kumar Verma</a></p>
+                    <p class="dev-credits">Developed by <a href="https://www.anikeshroy.xyz" target="_blank">Anikesh Roy</a></p>
                 </div>
             </div>
         </footer>
-
-        <a href="https://wa.me/918275723755" class="whatsapp-modern" target="_blank" title="Chat on WhatsApp">
-            <i class="fab fa-whatsapp"></i>
             <span class="pulse"></span>
         </a>
         `;

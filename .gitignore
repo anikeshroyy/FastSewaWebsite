@@ -1,0 +1,36 @@
+# Dependencies (Frontend & Backend)
+node_modules/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Build outputs
+dist/
+build/
+.cache/
+.parcel-cache/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Editor / IDE configs
+.vscode/
+.idea/
+
+# Temporary / test files
+test.txt
+tmp/
+temp/
+
+# Runtime / tooling
+coverage/

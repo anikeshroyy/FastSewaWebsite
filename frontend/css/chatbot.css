@@ -1,0 +1,192 @@
+:root {
+    --primary: #ff5722;
+    --primary-dark: #e64a19;
+    --dark: #1f2937;
+    --border: #e5e7eb;
+    --light-bg: #f9fafb;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* --- STACKED FLOATING BUTTONS --- */
+/* Chatbot Toggle: Positioned at Bottom Right */
+.fastsewa-chatbot-toggle {
+    position: fixed;
+    bottom: 25px;
+    /* Standard bottom position */
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+    z-index: 99999;
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: floatChat 3s ease-in-out infinite;
+}
+
+
+@keyframes floatChat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* --- CHAT CONTAINER --- */
+.fastsewa-chatbot-container {
+    position: fixed;
+    bottom: 100px;
+    /* Opens above the toggle button */
+    right: 25px;
+    width: 380px;
+    height: 600px;
+    max-height: 70vh;
+    background: #fff;
+    display: none;
+    /* Controlled by JS */
+    flex-direction: column;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    z-index: 100000;
+    overflow: hidden;
+    animation: slideInChat 0.3s ease-out;
+}
+
+@keyframes slideInChat {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fastsewa-chatbot-header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fastsewa-chatbot-header button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.fastsewa-chatbot-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    background: var(--light-bg);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.fastsewa-message {
+    max-width: 85%;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.fastsewa-bot-message {
+    background: #fff;
+    border: 1px solid var(--border);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+.fastsewa-user-message {
+    background: var(--primary);
+    color: #fff;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
+.service-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.service-btn {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.service-btn:hover {
+    background: #fff3e0;
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.fastsewa-chatbot-footer {
+    padding: 12px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+}
+
+.fastsewa-chatbot-input {
+    flex: 1;
+    padding: 12px 15px;
+    border-radius: 25px;
+    border: 1px solid var(--border);
+    outline: none;
+}
+
+.fastsewa-chatbot-send-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    background: var(--primary);
+    color: #fff;
+    cursor: pointer;
+}
+
+@media (max-width: 480px) {
+    .fastsewa-chatbot-container {
+        width: 90%;
+        right: 5%;
+        bottom: 90px;
+    }
+}

@@ -1,6 +1,6 @@
 const API_CONFIG = {
-    // BASE_URL: 'http://127.0.0.1:5000/api',
-    BASE_URL: 'https://fastsewawebsite-production.up.railway.app/api',
+    BASE_URL: 'http://127.0.0.1:5000/api',
+    // BASE_URL: 'https://fastsewawebsite-production.up.railway.app/api',
     ENDPOINTS: {
         REGISTER: '/auth/register',
         LOGIN: '/auth/login',
@@ -45,7 +45,6 @@ class FastSewaAuth {
         }
     }
 
-
     async apiRequest(endpoint, method = 'GET', data = null) {
         const url = `${API_CONFIG.BASE_URL}${endpoint}`;
         const headers = { 'Content-Type': 'application/json' };
@@ -82,9 +81,9 @@ class FastSewaAuth {
         localStorage.removeItem('fastsewa_current_user');
     }
 
-    async signup(firstName, lastName, email, phone, password, userType) {
+    async signup(firstName, lastName, email, password, userType) {
         try {
-            const response = await this.apiRequest(API_CONFIG.ENDPOINTS.REGISTER, 'POST', { firstName, lastName, email, phone, password, userType });
+            const response = await this.apiRequest(API_CONFIG.ENDPOINTS.REGISTER, 'POST', { firstName, lastName, email, password, userType });
             if (response.success) {
                 this.saveToken(response.token);
                 this.currentUser = new User(response.user);

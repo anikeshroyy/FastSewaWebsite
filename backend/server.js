@@ -16,15 +16,15 @@ app.use(cors({
 app.use(bodyParser.json());
 
 // MongoDB connection For LocalHost
-// mongoose.connect('mongodb://127.0.0.1:27017/fastsewa')
-//     .then(() => console.log("MongoDB Connected Successfully"))
-//     .catch(err => console.error("MongoDB Connection Error:", err));
+mongoose.connect('mongodb://127.0.0.1:27017/fastsewa')
+    .then(() => console.log("MongoDB Connected Successfully"))
+    .catch(err => console.error("MongoDB Connection Error:", err));
 
 // MongoDB connection For Railway
-const mongoURI = process.env.MONGODB_URI;
-mongoose.connect(mongoURI)
-    .then(() => console.log("MongoDB Atlas Connected Successfully"))
-    .catch(err => console.error("MongoDB Connection Error:", err));
+// const mongoURI = process.env.MONGODB_URI;
+// mongoose.connect(mongoURI)
+//     .then(() => console.log("MongoDB Atlas Connected Successfully"))
+//     .catch(err => console.error("MongoDB Connection Error:", err));
 
 
 // ---User Register SCHEMA ---
@@ -51,6 +51,7 @@ const User = mongoose.model('User', UserSchema);
 // ---SIGNUP ROUTE ---
 app.post('/api/auth/register', async (req, res) => {
     try {
+        console.log("REQ BODY:", req.body);
         const { firstName, lastName, email, password, phone, userType } = req.body;
 
         // Check if user already exists
@@ -407,8 +408,8 @@ app.delete('/api/admin/bookings/:id', requireAdmin, async (req, res) => {
 
 // 5. PORT: Railway will provide a port via process.env.PORT
 // Note: '0.0.0.0' is important for Railway's network binding
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
 
-// const PORT = 5000;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const PORT = 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

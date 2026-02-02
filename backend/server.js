@@ -9,9 +9,19 @@ const app = express();
 // 1. Middleware
 // CORS for hosted frontend
 app.use(cors({
-    origin: '*', // This allows requests from ANY website (local or hosted)
-    methods: ['GET', 'POST', 'PUT', 'DELETE']
+    origin: [
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+        'https://fastsewa.vercel.app',
+        'https://fastsewawebsite-production.up.railway.app'
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Explicitly handle OPTIONS preflight for all routes
+app.options('*', cors());
 
 app.use(bodyParser.json());
 

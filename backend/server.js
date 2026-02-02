@@ -8,20 +8,33 @@ const app = express();
 
 // 1. Middleware
 // CORS for hosted frontend
+const allowedOrigins = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://fastsewa.vercel.app',
+    'https://fastsewawebsite-production.up.railway.app'
+];
+
 app.use(cors({
-    origin: [
-        'http://localhost:3000',
-        'http://127.0.0.1:3000',
-        'https://fastsewa.vercel.app',
-        'https://fastsewawebsite-production.up.railway.app'
-    ],
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+
+        console.log("Incoming Origin:", origin); // Debug log for production
+
+        if (allowedOrigins.indexOf(origin) === -1) {
+            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    },
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Explicitly handle OPTIONS preflight for all routes
-// app.options('*', cors()); // REMOVED: Causes PathError in Express 5
+// Explicitly handle OPTIONS preflight for all routes using regex (Express 5 safe)
+app.options(/.*/, cors());
 
 app.use(bodyParser.json());
 

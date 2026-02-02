@@ -21,10 +21,22 @@ app.use(bodyParser.json());
 //     .catch(err => console.error("MongoDB Connection Error:", err));
 
 // MongoDB connection For Railway
+// MongoDB connection For Railway
 const mongoURI = process.env.MONGODB_URI;
-mongoose.connect(mongoURI)
-    .then(() => console.log("MongoDB Atlas Connected Successfully"))
-    .catch(err => console.error("MongoDB Connection Error:", err));
+
+if (!mongoURI) {
+    console.error("CRITICAL ERROR: MONGODB_URI is not defined in environment variables!");
+    console.error("If running locally, make sure .env file exists and has MONGODB_URI.");
+    // We do NOT exit strictly here to allow local fallback if you really want it, 
+    // but for debugging this let's make it clear.
+}
+
+mongoose.connect(mongoURI || 'mongodb://127.0.0.1:27017/fastsewa') // Fallback only if you really intend it
+    .then(() => console.log(mongoURI ? "MongoDB Atlas Connected Successfully" : "MongoDB Connected (Local Fallback)"))
+    .catch(err => {
+        console.error("MongoDB Connection Error Details:");
+        console.error(err);
+    });
 
 
 // ---User Register SCHEMA ---
@@ -56,18 +68,18 @@ app.post('/api/auth/register', async (req, res) => {
 
         // Validate required fields
         if (!firstName || !lastName || !email || !password) {
-            return res.status(400).json({ 
-                success: false, 
-                message: "Please fill in all required fields" 
+            return res.status(400).json({
+                success: false,
+                message: "Please fill in all required fields"
             });
         }
 
         // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ 
-                success: false, 
-                message: "Email already registered. Please login instead." 
+            return res.status(400).json({
+                success: false,
+                message: "Email already registered. Please login instead."
             });
         }
 
@@ -99,9 +111,9 @@ app.post('/api/auth/register', async (req, res) => {
         });
     } catch (err) {
         console.error("SIGNUP ERROR:", err);
-        res.status(500).json({ 
-            success: false, 
-            message: "Registration failed. Please try again." 
+        res.status(500).json({
+            success: false,
+            message: "Registration failed. Please try again."
         });
     }
 });
@@ -113,26 +125,26 @@ app.post('/api/auth/login', async (req, res) => {
 
         // Validate input
         if (!email || !password) {
-            return res.status(400).json({ 
-                success: false, 
-                message: "Please enter both email and password" 
+            return res.status(400).json({
+                success: false,
+                message: "Please enter both email and password"
             });
         }
 
         // 1. Find user by email
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(401).json({ 
-                success: false, 
-                message: "Invalid email or password" 
+            return res.status(401).json({
+                success: false,
+                message: "Invalid email or password"
             });
         }
 
         // 2. Check password (Direct comparison for now, use bcrypt later!)
         if (user.password !== password) {
-            return res.status(401).json({ 
-                success: false, 
-                message: "Invalid email or password" 
+            return res.status(401).json({
+                success: false,
+                message: "Invalid email or password"
             });
         }
 
@@ -154,9 +166,9 @@ app.post('/api/auth/login', async (req, res) => {
         });
     } catch (err) {
         console.error("LOGIN ERROR:", err);
-        res.status(500).json({ 
-            success: false, 
-            message: "Login failed. Please try again." 
+        res.status(500).json({
+            success: false,
+            message: "Login failed. Please try again."
         });
     }
 });
@@ -168,9 +180,9 @@ app.put('/api/auth/update', async (req, res) => {
         console.log("AUTH HEADER:", authHeader);
 
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
-            return res.status(401).json({ 
+            return res.status(401).json({
                 success: false,
-                message: "Unauthorized - Please login again" 
+                message: "Unauthorized - Please login again"
             });
         }
 
@@ -180,9 +192,9 @@ app.put('/api/auth/update', async (req, res) => {
 
 
         if (!userId) {
-            return res.status(401).json({ 
+            return res.status(401).json({
                 success: false,
-                message: "Invalid token - Please login again" 
+                message: "Invalid token - Please login again"
             });
         }
 
@@ -201,9 +213,9 @@ app.put('/api/auth/update', async (req, res) => {
         console.log("UPDATED USER FROM DB:", updatedUser);
 
         if (!updatedUser) {
-            return res.status(404).json({ 
+            return res.status(404).json({
                 success: false,
-                message: "User not found" 
+                message: "User not found"
             });
         }
 
@@ -222,9 +234,9 @@ app.put('/api/auth/update', async (req, res) => {
 
     } catch (err) {
         console.error("Profile Update Error:", err);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            message: "Update failed. Please try again." 
+            message: "Update failed. Please try again."
         });
     }
 });
@@ -270,9 +282,9 @@ app.post('/api/bookings', async (req, res) => {
         const authHeader = req.headers.authorization;
 
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
-            return res.status(401).json({ 
+            return res.status(401).json({
                 success: false,
-                message: "Unauthorized - Please login to book a service" 
+                message: "Unauthorized - Please login to book a service"
             });
         }
 
@@ -295,9 +307,9 @@ app.post('/api/bookings', async (req, res) => {
 
     } catch (err) {
         console.error("BOOKING SAVE ERROR:", err);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            message: "Booking failed. Please try again." 
+            message: "Booking failed. Please try again."
         });
     }
 });
@@ -312,9 +324,9 @@ app.get('/api/admin/bookings', async (req, res) => {
         });
     } catch (err) {
         console.error("GET BOOKINGS ERROR:", err);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            message: "Failed to fetch bookings" 
+            message: "Failed to fetch bookings"
         });
     }
 });
@@ -325,9 +337,9 @@ app.get('/api/auth/me', async (req, res) => {
         const authHeader = req.headers.authorization;
 
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
-            return res.status(401).json({ 
+            return res.status(401).json({
                 success: false,
-                message: "Unauthorized - Please login" 
+                message: "Unauthorized - Please login"
             });
         }
 
@@ -337,9 +349,9 @@ app.get('/api/auth/me', async (req, res) => {
         const user = await User.findById(userId).select("-password");
 
         if (!user) {
-            return res.status(404).json({ 
+            return res.status(404).json({
                 success: false,
-                message: "User not found" 
+                message: "User not found"
             });
         }
 
@@ -350,9 +362,9 @@ app.get('/api/auth/me', async (req, res) => {
 
     } catch (err) {
         console.error("GET ME ERROR:", err);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            message: "Failed to get user info" 
+            message: "Failed to get user info"
         });
     }
 });
@@ -363,9 +375,9 @@ app.get('/api/bookings/my', async (req, res) => {
         const authHeader = req.headers.authorization;
 
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
-            return res.status(401).json({ 
+            return res.status(401).json({
                 success: false,
-                message: "Unauthorized - Please login" 
+                message: "Unauthorized - Please login"
             });
         }
 
@@ -382,9 +394,9 @@ app.get('/api/bookings/my', async (req, res) => {
 
     } catch (err) {
         console.error("MY BOOKINGS ERROR:", err);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            message: "Failed to fetch your bookings" 
+            message: "Failed to fetch your bookings"
         });
     }
 });
@@ -394,9 +406,9 @@ async function requireAdmin(req, res, next) {
     try {
         const authHeader = req.headers.authorization;
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
-            return res.status(401).json({ 
+            return res.status(401).json({
                 success: false,
-                message: "Unauthorized - Admin access required" 
+                message: "Unauthorized - Admin access required"
             });
         }
 
@@ -406,9 +418,9 @@ async function requireAdmin(req, res, next) {
         const user = await User.findById(userId);
 
         if (!user || user.userType !== "admin") {
-            return res.status(403).json({ 
+            return res.status(403).json({
                 success: false,
-                message: "Forbidden - Admin access required" 
+                message: "Forbidden - Admin access required"
             });
         }
 
@@ -416,9 +428,9 @@ async function requireAdmin(req, res, next) {
         next();
     } catch (err) {
         console.error("ADMIN CHECK ERROR:", err);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            message: "Server error" 
+            message: "Server error"
         });
     }
 }
@@ -434,9 +446,9 @@ app.get('/api/admin/users', requireAdmin, async (req, res) => {
         });
     } catch (err) {
         console.error("GET USERS ERROR:", err);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            message: "Failed to fetch users" 
+            message: "Failed to fetch users"
         });
     }
 });
@@ -448,9 +460,9 @@ app.post('/api/admin/users', requireAdmin, async (req, res) => {
 
         const exists = await User.findOne({ email });
         if (exists) {
-            return res.status(400).json({ 
-                success: false, 
-                message: "User with this email already exists" 
+            return res.status(400).json({
+                success: false,
+                message: "User with this email already exists"
             });
         }
 
@@ -466,15 +478,15 @@ app.post('/api/admin/users', requireAdmin, async (req, res) => {
 
         await user.save();
 
-        res.json({ 
+        res.json({
             success: true,
-            message: "User created successfully" 
+            message: "User created successfully"
         });
     } catch (err) {
         console.error("CREATE USER ERROR:", err);
-        res.status(500).json({ 
-            success: false, 
-            message: "Failed to create user" 
+        res.status(500).json({
+            success: false,
+            message: "Failed to create user"
         });
     }
 });
@@ -483,23 +495,23 @@ app.post('/api/admin/users', requireAdmin, async (req, res) => {
 app.delete('/api/admin/users/:id', requireAdmin, async (req, res) => {
     try {
         const deleted = await User.findByIdAndDelete(req.params.id);
-        
+
         if (!deleted) {
-            return res.status(404).json({ 
+            return res.status(404).json({
                 success: false,
-                message: "User not found" 
+                message: "User not found"
             });
         }
 
-        res.json({ 
+        res.json({
             success: true,
-            message: "User deleted successfully" 
+            message: "User deleted successfully"
         });
     } catch (err) {
         console.error("DELETE USER ERROR:", err);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            message: "Failed to delete user" 
+            message: "Failed to delete user"
         });
     }
 });
@@ -510,28 +522,28 @@ app.put('/api/admin/bookings/:id', requireAdmin, async (req, res) => {
         const { status } = req.body;
 
         const updated = await Booking.findByIdAndUpdate(
-            req.params.id, 
+            req.params.id,
             { status },
             { new: true }
         );
 
         if (!updated) {
-            return res.status(404).json({ 
+            return res.status(404).json({
                 success: false,
-                message: "Booking not found" 
+                message: "Booking not found"
             });
         }
 
-        res.json({ 
+        res.json({
             success: true,
             message: "Booking updated successfully",
-            booking: updated 
+            booking: updated
         });
     } catch (err) {
         console.error("UPDATE BOOKING ERROR:", err);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            message: "Failed to update booking" 
+            message: "Failed to update booking"
         });
     }
 });
@@ -542,21 +554,21 @@ app.delete('/api/admin/bookings/:id', requireAdmin, async (req, res) => {
         const deleted = await Booking.findByIdAndDelete(req.params.id);
 
         if (!deleted) {
-            return res.status(404).json({ 
+            return res.status(404).json({
                 success: false,
-                message: "Booking not found" 
+                message: "Booking not found"
             });
         }
 
-        res.json({ 
+        res.json({
             success: true,
-            message: "Booking deleted successfully" 
+            message: "Booking deleted successfully"
         });
     } catch (err) {
         console.error("DELETE BOOKING ERROR:", err);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            message: "Failed to delete booking" 
+            message: "Failed to delete booking"
         });
     }
 });
@@ -566,6 +578,21 @@ app.delete('/api/admin/bookings/:id', requireAdmin, async (req, res) => {
 // Note: '0.0.0.0' is important for Railway's network binding
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
+
+// Graceful Shutdown
+const gracefulShutdown = async () => {
+    try {
+        await mongoose.connection.close();
+        console.log('MongoDB disconnected through app termination');
+        process.exit(0);
+    } catch (err) {
+        console.error('Error during database disconnection', err);
+        process.exit(1);
+    }
+};
+
+process.on('SIGINT', gracefulShutdown);
+process.on('SIGTERM', gracefulShutdown);
 
 // const PORT = 5000;
 // app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

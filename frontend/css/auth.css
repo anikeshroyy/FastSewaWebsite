@@ -1,5 +1,3 @@
-/* FastSewa Authentication Styles - Fixed Version */
-
 /* Reset some conflicting styles */
 .auth-page * {
     box-sizing: border-box;
@@ -45,10 +43,10 @@
     font-family: 'Poppins', sans-serif;
 }
 
-.floating-label input:focus + label,
-.floating-label input:not(:placeholder-shown) + label,
-.floating-label select:focus + label,
-.floating-label select:not(:invalid) + label {
+.floating-label input:focus+label,
+.floating-label input:not(:placeholder-shown)+label,
+.floating-label select:focus+label,
+.floating-label select:not(:invalid)+label {
     top: -0.7rem;
     left: 2.2rem;
     font-size: 0.85rem;
@@ -113,7 +111,8 @@
 .auth-info-side {
     flex: 1;
     position: relative;
-    display: none; /* Hide on all screens initially */
+    display: none;
+    /* Hide on all screens initially */
 }
 
 .auth-image {
@@ -481,8 +480,13 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .hidden {
@@ -519,6 +523,7 @@
         transform: translateX(100%);
         opacity: 0;
     }
+
     to {
         transform: translateX(0);
         opacity: 1;
@@ -573,7 +578,7 @@
     .auth-info-side {
         display: block;
     }
-    
+
     .auth-card {
         min-height: 700px;
     }
@@ -584,31 +589,31 @@
     .auth-container {
         padding: 1rem;
     }
-    
+
     .auth-card {
         border-radius: 15px;
         min-height: auto;
         max-height: none;
     }
-    
+
     .auth-form-side {
         padding: 2rem 1.5rem;
         max-height: none;
     }
-    
+
     .auth-header h1 {
         font-size: 2rem;
     }
-    
+
     .form-row {
         flex-direction: column;
         gap: 1.5rem;
     }
-    
+
     .social-login {
         flex-direction: column;
     }
-    
+
     .divider {
         margin: 1.5rem 0;
     }
@@ -618,11 +623,11 @@
     .auth-header h1 {
         font-size: 1.75rem;
     }
-    
+
     .auth-form-side {
         padding: 1.5rem 1rem;
     }
-    
+
     .btn-block {
         padding: 0.875rem;
     }
@@ -684,7 +689,8 @@ select:focus:invalid {
    ============================= */
 
 .dashboard-container {
-    padding-top: 90px; /* fixed navbar offset */
+    padding-top: 90px;
+    /* fixed navbar offset */
     min-height: 100vh;
     background: var(--bg-light);
     display: flex;
@@ -1320,11 +1326,11 @@ select:focus:invalid {
     transition: transform 0.3s;
 }
 
-.toggle input:checked + .toggle-slider {
+.toggle input:checked+.toggle-slider {
     background-color: var(--primary-color);
 }
 
-.toggle input:checked + .toggle-slider:before {
+.toggle input:checked+.toggle-slider:before {
     transform: translateX(26px);
 }
 

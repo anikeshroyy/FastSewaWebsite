@@ -237,19 +237,7 @@
         </div>
     </section>
 
-    <button class="fastsewa-chatbot-toggle" id="toggleBtn"><i class="fas fa-comment-dots"></i></button>
-    <div class="fastsewa-chatbot-container" id="chatbox">
-        <div class="fastsewa-chatbot-header">
-            <div><i class="fas fa-robot"></i> FastSewa AI</div>
-            <button id="closeBtn" style="background:none; border:none; color:white; cursor:pointer;">✕</button>
-        </div>
-        <div class="fastsewa-chatbot-body" id="chatBody"></div>
-        <div class="fastsewa-chatbot-footer">
-            <input id="chatInput" class="fastsewa-chatbot-input" placeholder="Type message..." />
-            <button class="fastsewa-chatbot-send-btn" onclick="sendMessage()"><i
-                    class="fas fa-paper-plane"></i></button>
-        </div>
-    </div>
+    <div id="chatbot-root"></div>
 
     <div id="fsAppPopup">
         <div class="fs-premium-card">
@@ -287,6 +275,19 @@
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script src="js/footer.js"></script>
     <script src="js/script.js"></script>
+
+    <script>
+        fetch("/partials/chatbot.html")
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById("chatbot-root").innerHTML = html;
+
+                const script = document.createElement("script");
+                script.src = "/js/chatbot.js";
+                script.onload = () => window.initChatbot(); // 🔥 THIS LINE
+                document.body.appendChild(script);
+            });
+    </script>
 
 </body>
 

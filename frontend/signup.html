@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>FastSewa - Create Account</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./css/toast.css">
 
     <style>
-        /* --- THEME VARIABLES (Same as Login) --- */
+        /* --- THEME VARIABLES --- */
         :root {
             --primary: #ff5722;
             --primary-hover: #e64a19;
@@ -31,26 +31,44 @@
             font-family: 'Poppins', sans-serif;
         }
 
+        html {
+            overflow-x: hidden;
+            width: 100%;
+            height: 100%;
+        }
+
         body {
             background-color: var(--dark-bg);
             color: var(--text-light);
             min-height: 100vh;
+            min-height: -webkit-fill-available;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow-x: hidden;
+            overflow-y: auto;
             position: relative;
             padding: 20px;
+            width: 100%;
+            transition: padding 0.3s ease;
+        }
+
+        /* Keyboard open state - shifts content up */
+        body.keyboard-open {
+            align-items: flex-start;
+            padding-top: 20px;
+            padding-bottom: 20px;
         }
 
         /* --- ANIMATED BACKGROUND (Blobs) --- */
         .blob {
-            position: absolute;
+            position: fixed;
             border-radius: 50%;
             filter: blur(80px);
             opacity: 0.5;
-            z-index: -1;
+            z-index: 0;
             animation: float 10s infinite alternate;
+            pointer-events: none;
         }
 
         .blob-1 {
@@ -84,12 +102,19 @@
         .signup-wrapper {
             width: 100%;
             max-width: 500px;
-            /* Wider than login for more fields */
+            padding: 0;
             z-index: 10;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        /* Smooth transition when keyboard opens/closes */
+        .signup-wrapper.shift-up {
+            transform: translateY(0);
         }
 
         .signup-card {
-            background: rgba(15, 23, 42, 0.7);
+            background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
@@ -97,14 +122,12 @@
             padding: 40px 30px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             animation: slideUp 0.8s ease forwards;
+            opacity: 0;
+            transform: translateY(30px);
+            width: 100%;
         }
 
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -118,12 +141,14 @@
         }
 
         .logo-img {
-            height: 50px;
-            margin-bottom: 10px;
+            height: 60px;
+            margin-bottom: 15px;
+            max-width: 100%;
+            object-fit: contain;
         }
 
         .auth-header h2 {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 700;
             margin-bottom: 5px;
         }
@@ -155,37 +180,73 @@
 
         .input-group {
             position: relative;
+            display: flex;
+            align-items: center;
         }
 
-        .input-group i {
+        .input-group i.icon-left {
             position: absolute;
             left: 15px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
-            font-size: 15px;
-            transition: 0.3s;
+            font-size: 16px;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 2;
+            pointer-events: auto;
+            padding: 10px;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+            background: rgba(255, 87, 34, 0.1);
+        }
+
+        .password-toggle:active {
+            transform: translateY(-50%) scale(0.95);
         }
 
         .form-control {
             width: 100%;
-            padding: 12px 15px 12px 40px;
+            padding: 14px 45px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--glass-border);
-            border-radius: 10px;
+            border-radius: 12px;
             color: white;
-            font-size: 14px;
-            outline: none;
-            transition: 0.3s;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control.has-toggle {
+            padding-right: 50px;
         }
 
         .form-control:focus {
             border-color: var(--primary);
             background: rgba(255, 255, 255, 0.1);
             box-shadow: 0 0 0 4px rgba(255, 87, 34, 0.1);
+            outline: none;
         }
 
-        .form-control:focus+i {
+        .input-group:focus-within i.icon-left {
             color: var(--primary);
         }
 
@@ -194,6 +255,10 @@
             color: #fff;
             cursor: pointer;
             appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 40px;
         }
 
         select option {
@@ -216,11 +281,21 @@
             transition: 0.3s;
             box-shadow: 0 10px 20px rgba(255, 87, 34, 0.3);
             margin-top: 10px;
+            position: relative;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 15px 25px rgba(255, 87, 34, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
         }
 
         .auth-footer {
@@ -238,25 +313,40 @@
 
         /* --- BACK HOME --- */
         .back-home {
-            position: absolute;
+            position: fixed;
             top: 20px;
             left: 20px;
-            color: white;
+            color: var(--text-light);
             text-decoration: none;
-            display: flex;
+            display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
             font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            transition: 0.3s;
-            z-index: 20;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
         }
 
         .back-home:hover {
             background: var(--primary);
+            border-color: var(--primary);
+            transform: translateX(-3px);
+            box-shadow: 0 5px 15px rgba(255, 87, 34, 0.3);
+        }
+
+        .back-home i {
+            font-size: 14px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-home:hover i {
+            transform: translateX(-2px);
         }
 
         /* Spinner */
@@ -267,33 +357,363 @@
             border-top: 3px solid transparent;
             border-radius: 50%;
             animation: spin 1s linear infinite;
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .spinner.hidden {
             display: none;
-            margin: 0 auto;
         }
 
         @keyframes spin {
             0% {
-                transform: rotate(0deg);
+                transform: translateY(-50%) rotate(0deg);
             }
 
             100% {
-                transform: rotate(360deg);
+                transform: translateY(-50%) rotate(360deg);
             }
         }
 
-        /* Responsive */
-        @media (max-width: 600px) {
+        /* Checkbox styling */
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            accent-color: #ff5722;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        /* ============================================ */
+        /* RESPONSIVE DESIGN */
+        /* ============================================ */
+
+        /* Tablet Devices (Portrait) */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+
+            body.keyboard-open {
+                padding-top: 15px;
+            }
+
+            .signup-card {
+                padding: 35px 25px;
+                border-radius: 20px;
+            }
+
+            .auth-header h2 {
+                font-size: 26px;
+            }
+
+            .logo-img {
+                height: 55px;
+            }
+
+            .blob-1 {
+                width: 400px;
+                height: 400px;
+            }
+
+            .blob-2 {
+                width: 350px;
+                height: 350px;
+            }
+
+            .back-home {
+                top: 15px;
+                left: 15px;
+                padding: 10px 18px;
+                font-size: 13px;
+            }
+        }
+
+        /* Mobile Devices */
+        @media (max-width: 576px) {
+            body {
+                padding: 15px 10px;
+                min-height: 100vh;
+            }
+
+            body.keyboard-open {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+            .signup-wrapper {
+                max-width: 100%;
+            }
+
+            .signup-card {
+                padding: 30px 20px;
+                border-radius: 18px;
+            }
+
+            .auth-header {
+                margin-bottom: 25px;
+            }
+
+            .logo-img {
+                height: 50px;
+                margin-bottom: 12px;
+            }
+
+            .auth-header h2 {
+                font-size: 24px;
+            }
+
+            .auth-header p {
+                font-size: 13px;
+            }
+
             .form-row {
                 grid-template-columns: 1fr;
                 gap: 0;
+            }
+
+            .form-group {
+                margin-bottom: 18px;
+            }
+
+            .form-control {
+                padding: 13px 45px;
+                font-size: 16px;
+            }
+
+            .form-control.has-toggle {
+                padding-right: 50px;
+            }
+
+            .btn-primary {
+                padding: 13px;
+                font-size: 15px;
+            }
+
+            .auth-footer {
+                font-size: 13px;
+            }
+
+            .blob {
+                filter: blur(100px);
+                opacity: 0.35;
+            }
+
+            .blob-1 {
+                width: 350px;
+                height: 350px;
+            }
+
+            .blob-2 {
+                width: 300px;
+                height: 300px;
             }
 
             .back-home span {
                 display: none;
             }
 
+            .back-home {
+                padding: 10px;
+                top: 10px;
+                left: 10px;
+            }
+
+            .back-home i {
+                font-size: 16px;
+            }
+
+            .password-toggle {
+                padding: 8px;
+                right: 10px;
+            }
+        }
+
+        /* Small Mobile Devices */
+        @media (max-width: 400px) {
+            body {
+                padding: 10px;
+            }
+
+            body.keyboard-open {
+                padding-top: 5px;
+            }
+
             .signup-card {
-                padding: 30px 20px;
+                padding: 25px 18px;
+                border-radius: 16px;
+            }
+
+            .auth-header {
+                margin-bottom: 20px;
+            }
+
+            .auth-header h2 {
+                font-size: 22px;
+            }
+
+            .auth-header p {
+                font-size: 12px;
+            }
+
+            .logo-img {
+                height: 45px;
+                margin-bottom: 10px;
+            }
+
+            .form-control {
+                padding: 12px 43px;
+                font-size: 16px;
+            }
+
+            .form-control.has-toggle {
+                padding-right: 48px;
+            }
+
+            .input-group i.icon-left {
+                left: 13px;
+                font-size: 15px;
+            }
+
+            .password-toggle {
+                right: 8px;
+                padding: 8px;
+                font-size: 15px;
+            }
+
+            .btn-primary {
+                padding: 12px;
+                font-size: 15px;
+            }
+
+            .blob-1 {
+                width: 300px;
+                height: 300px;
+            }
+
+            .blob-2 {
+                width: 250px;
+                height: 250px;
+            }
+        }
+
+        /* Extra Small Devices */
+        @media (max-width: 360px) {
+            .signup-card {
+                padding: 22px 15px;
+            }
+
+            .auth-header h2 {
+                font-size: 20px;
+            }
+
+            .form-control {
+                padding: 11px 40px;
+                font-size: 16px;
+            }
+
+            .form-control.has-toggle {
+                padding-right: 46px;
+            }
+
+            .input-group i.icon-left {
+                left: 12px;
+                font-size: 14px;
+            }
+
+            .password-toggle {
+                right: 6px;
+                padding: 7px;
+                font-size: 14px;
+            }
+        }
+
+        /* Landscape Mode for Mobile */
+        @media (max-height: 650px) and (orientation: landscape) {
+            body {
+                padding: 10px;
+                align-items: flex-start;
+            }
+
+            .signup-card {
+                padding: 15px 25px;
+                margin: 10px 0;
+            }
+
+            .auth-header {
+                margin-bottom: 12px;
+            }
+
+            .logo-img {
+                height: 35px;
+                margin-bottom: 6px;
+            }
+
+            .auth-header h2 {
+                font-size: 18px;
+            }
+
+            .auth-header p {
+                font-size: 11px;
+            }
+
+            .form-group {
+                margin-bottom: 10px;
+            }
+
+            .form-control {
+                padding: 10px 40px;
+            }
+
+            .form-control.has-toggle {
+                padding-right: 45px;
+            }
+
+            .btn-primary {
+                padding: 10px;
+                margin-top: 5px;
+            }
+
+            .auth-footer {
+                margin-top: 12px;
+                font-size: 12px;
+            }
+        }
+
+        /* Short height devices - keyboard open */
+        @media (max-height: 700px) {
+            body.keyboard-open {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+            body.keyboard-open .auth-header {
+                margin-bottom: 15px;
+            }
+
+            body.keyboard-open .logo-img {
+                height: 40px;
+            }
+
+            body.keyboard-open .form-group {
+                margin-bottom: 12px;
+            }
+        }
+
+        /* Prevent text size adjustment on iOS */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                -webkit-text-size-adjust: 100%;
             }
         }
     </style>
@@ -321,15 +741,15 @@
                     <div class="form-group">
                         <label>First Name</label>
                         <div class="input-group">
-                            <input type="text" id="firstName" class="form-control" placeholder="John" required>
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-user icon-left"></i>
+                            <input type="text" id="firstName" class="form-control" placeholder="John" required autocomplete="given-name">
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Last Name</label>
                         <div class="input-group">
-                            <input type="text" id="lastName" class="form-control" placeholder="Doe" required>
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-user icon-left"></i>
+                            <input type="text" id="lastName" class="form-control" placeholder="Doe" required autocomplete="family-name">
                         </div>
                     </div>
                 </div>
@@ -337,21 +757,21 @@
                 <div class="form-group">
                     <label>Email Address</label>
                     <div class="input-group">
+                        <i class="fas fa-envelope icon-left"></i>
                         <input type="email" id="signupEmail" class="form-control" placeholder="example@mail.com"
-                            required>
-                        <i class="fas fa-envelope"></i>
+                            required autocomplete="email">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>I want to join as</label>
                     <div class="input-group">
+                        <i class="fas fa-users icon-left"></i>
                         <select id="userType" class="form-control" required>
                             <option value="customer">Customer (Service Seeker)</option>
                             <option value="provider">Service Provider</option>
                             <option value="vendor">Material Vendor</option>
                         </select>
-                        <i class="fas fa-users"></i>
                     </div>
                 </div>
 
@@ -359,31 +779,36 @@
                     <div class="form-group">
                         <label>Password</label>
                         <div class="input-group">
-                            <input type="password" id="signupPassword" class="form-control" placeholder="******"
-                                required>
-                            <i class="fas fa-lock"></i>
+                            <i class="fas fa-lock icon-left"></i>
+                            <input type="password" id="signupPassword" class="form-control has-toggle" placeholder="******"
+                                required autocomplete="new-password">
+                            <button type="button" class="password-toggle" data-target="signupPassword" aria-label="Toggle password visibility">
+                                <i class="fas fa-eye"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Confirm</label>
                         <div class="input-group">
-                            <input type="password" id="confirmPassword" class="form-control" placeholder="******"
-                                required>
-                            <i class="fas fa-lock"></i>
+                            <i class="fas fa-lock icon-left"></i>
+                            <input type="password" id="confirmPassword" class="form-control has-toggle" placeholder="******"
+                                required autocomplete="new-password">
+                            <button type="button" class="password-toggle" data-target="confirmPassword" aria-label="Toggle password visibility">
+                                <i class="fas fa-eye"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label
-                        style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: #94a3b8; font-size: 12px;">
-                        <input type="checkbox" required style="accent-color: #ff5722;"> I agree to Terms & Conditions
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="termsCheckbox" required> I agree to Terms & Conditions
                     </label>
                 </div>
 
                 <button type="submit" class="btn-primary" id="signupBtn">
                     <span id="btnText">Create Account</span>
-                    <div class="spinner" id="btnSpinner"></div>
+                    <div class="spinner hidden" id="btnSpinner"></div>
                 </button>
             </form>
 
@@ -394,7 +819,142 @@
     </div>
 
     <script>
-        // Ensure auth.js is loaded before this script runs
+        // Password toggle functionality for multiple fields
+        const passwordToggles = document.querySelectorAll('.password-toggle');
+        
+        passwordToggles.forEach(toggleBtn => {
+            toggleBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const targetId = toggleBtn.getAttribute('data-target');
+                const passwordInput = document.getElementById(targetId);
+                
+                if (passwordInput) {
+                    const isPassword = passwordInput.type === 'password';
+                    passwordInput.type = isPassword ? 'text' : 'password';
+                    
+                    const icon = toggleBtn.querySelector('i');
+                    if (icon) {
+                        icon.className = isPassword ? 'fas fa-eye-slash' : 'fas fa-eye';
+                    }
+                }
+            });
+        });
+
+        // ===================================================
+        // KEYBOARD DETECTION AND FORM SHIFT FUNCTIONALITY
+        // ===================================================
+
+        const body = document.body;
+        const signupWrapper = document.querySelector('.signup-wrapper');
+        const formInputs = document.querySelectorAll('.form-control');
+        
+        let initialViewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+        let isKeyboardOpen = false;
+
+        // Detect keyboard opening/closing
+        function handleViewportChange() {
+            const currentHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+            const heightDifference = initialViewportHeight - currentHeight;
+
+            // If height decreased by more than 150px, keyboard is likely open
+            if (heightDifference > 150) {
+                if (!isKeyboardOpen) {
+                    isKeyboardOpen = true;
+                    body.classList.add('keyboard-open');
+                    signupWrapper.classList.add('shift-up');
+                }
+            } else {
+                if (isKeyboardOpen) {
+                    isKeyboardOpen = false;
+                    body.classList.remove('keyboard-open');
+                    signupWrapper.classList.remove('shift-up');
+                }
+            }
+        }
+
+        // Listen for viewport changes (works on mobile)
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', handleViewportChange);
+        } else {
+            window.addEventListener('resize', handleViewportChange);
+        }
+
+        // Alternative method: Focus/Blur events on inputs
+        formInputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                // Small delay to ensure keyboard is open
+                setTimeout(() => {
+                    body.classList.add('keyboard-open');
+                    signupWrapper.classList.add('shift-up');
+                    
+                    // Scroll the focused input into view
+                    input.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center',
+                        inline: 'nearest'
+                    });
+                }, 300);
+            });
+
+            input.addEventListener('blur', () => {
+                // Check if another input is being focused
+                setTimeout(() => {
+                    const activeElement = document.activeElement;
+                    const isInputFocused = activeElement && (
+                        activeElement.classList.contains('form-control') || 
+                        activeElement.tagName === 'SELECT'
+                    );
+                    
+                    if (!isInputFocused) {
+                        body.classList.remove('keyboard-open');
+                        signupWrapper.classList.remove('shift-up');
+                    }
+                }, 100);
+            });
+        });
+
+        // Update initial height on orientation change
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                initialViewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+            }, 200);
+        });
+
+        // Prevent zoom on input focus for iOS (16px minimum font size)
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+            const inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    input.style.fontSize = '16px';
+                });
+            });
+        }
+
+        // Prevent double-tap zoom
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (event) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // iOS Safari viewport height fix
+        function setVH() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        
+        setVH();
+        window.addEventListener('resize', setVH);
+
+        // ===================================================
+        // FORM SUBMISSION
+        // ===================================================
+
         document.getElementById("signupForm").addEventListener("submit", async function (e) {
             e.preventDefault();
 
@@ -418,12 +978,18 @@
 
             // 3. UI Loading State
             btnText.style.display = "none";
-            spinner.style.display = "block";
+            spinner.classList.remove("hidden");
             btn.disabled = true;
+
+            // Close keyboard
+            formInputs.forEach(input => input.blur());
+            setTimeout(() => {
+                body.classList.remove('keyboard-open');
+                signupWrapper.classList.remove('shift-up');
+            }, 100);
 
             try {
                 // 4. Call your real auth.js signup function
-                // window.fastsewaAuth is initialized in your auth.js file
                 const result = await window.fastsewaAuth.signup(
                     firstName,
                     lastName,
@@ -434,9 +1000,6 @@
 
                 if (result.success) {
                     alert("Account created successfully!");
-
-                    // 5. Check for pending data (Logic inside auth.js handles this redirect)
-                    const pendingBooking = localStorage.getItem('pending_booking');
 
                     setTimeout(() => {
                         const pending = localStorage.getItem("pending_booking");
@@ -462,7 +1025,7 @@
 
         function resetBtn(btn, text, spinner) {
             text.style.display = "block";
-            spinner.style.display = "none";
+            spinner.classList.add("hidden");
             btn.disabled = false;
         }
     </script>

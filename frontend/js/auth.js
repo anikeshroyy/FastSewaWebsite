@@ -1,6 +1,6 @@
 const API_CONFIG = {
     // BASE_URL: 'http://127.0.0.1:5000/api',
-    BASE_URL: 'https://fastsewawebsite-production.up.railway.app/api',
+    BASE_URL: 'hhttps://fastsewawebsite.onrender.com/api',
     ENDPOINTS: {
         REGISTER: '/auth/register',
         LOGIN: '/auth/login',

@@ -1,5 +1,5 @@
 // const API = "http://localhost:5000/api";
-const API = "https://fastsewawebsite-production.up.railway.app/api";
+const API = "https://fastsewawebsite.onrender.com/api";
 
 // Get token from localStorage
 function getToken() {

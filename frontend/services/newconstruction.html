@@ -145,6 +145,9 @@
             line-height: 1.1;
             background: linear-gradient(120deg, #fff 0%, #fbbf24 50%, #fff 100%);
             background-size: 200% auto;
+            /* Standard property */
+            background-clip: text;
+            /* Webkit support */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: shimmer 3s linear infinite;
@@ -321,9 +324,16 @@
             border-radius: 32px;
             padding: 2px;
             background: linear-gradient(135deg, var(--accent), var(--primary));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
+            /* Standard property */
+            mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
             mask-composite: exclude;
+            /* Webkit support */
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
             opacity: 0;
             transition: var(--transition);
         }
@@ -1536,27 +1546,33 @@
                 btn.innerText = "Processing...";
 
                 const user = JSON.parse(localStorage.getItem("fastsewa_current_user"));
+                const token = localStorage.getItem("fastsewa_token"); // 👈 GET TOKEN
 
                 const payload = {
                     ...formData,
-                    category: "construction",
-                    userId: user.id
+                    category: "construction"
                 };
 
                 // const response = await fetch("http://127.0.0.1:5000/api/bookings", {
                 const response = await fetch('https://fastsewawebsite.onrender.com/api/bookings', {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token   // 👈 ADD THIS
                     },
                     body: JSON.stringify(payload)
                 });
+
+                const data = await response.json();
 
                 if (response.ok) {
                     alert("Booking successful!");
                     localStorage.removeItem("pending_booking");
                     document.getElementById("constForm").reset();
+                } else {
+                    alert(data.message);
                 }
+
             } catch (err) {
                 console.error(err);
                 alert("Something went wrong");

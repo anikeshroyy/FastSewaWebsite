@@ -1,36 +1,68 @@
 #fastsewa-toast {
     position: fixed;
-    top: 25px;
+    top: 0;
     left: 50%;
-    transform: translate(-50%, -20px);
-    min-width: 260px;
-    max-width: 340px;
+    transform: translate(-50%, -120%);
+    min-width: 280px;
+    max-width: 380px;
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 14px 18px;
-    border-radius: 12px;
+    padding: 16px 20px;
+    border-radius: 14px;
     font-size: 14px;
     font-weight: 500;
     color: #fff;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
     z-index: 9999;
     opacity: 0;
-    transition: all 0.35s ease;
+    transition: transform 0.5s cubic-bezier(.34,1.56,.64,1), opacity 0.3s ease;
     pointer-events: none;
+    overflow: hidden;
 }
 
+/* Show state */
+#fastsewa-toast.show {
+    top: 25px;
+    transform: translate(-50%, 0);
+    opacity: 1;
+}
+
+/* Icon */
 .fs-toast-icon {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background: rgba(255,255,255,0.2);
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    font-size: 16px;
 }
 
+/* Message */
+.fs-toast-message {
+    flex: 1;
+}
+
+/* Progress bar */
+.fs-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background: rgba(255,255,255,0.4);
+    animation: progress 3s linear forwards;
+}
+
+@keyframes progress {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+/* Types */
 .fs-success {
     background: linear-gradient(135deg, #10b981, #059669);
 }
@@ -41,4 +73,14 @@
 
 .fs-info {
     background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+/* 📱 Mobile Optimization */
+@media (max-width: 480px) {
+    #fastsewa-toast {
+        width: 90%;
+        left: 50%;
+        transform: translate(-50%, -120%);
+        font-size: 13px;
+    }
 }

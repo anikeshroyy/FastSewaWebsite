@@ -236,7 +236,7 @@ function initLogin() {
 }
 
 // Global Toast function - appears from top center
-function showToast(message, type = "success") {
+function showToast(message, type = "success", duration = 3000) {
     let toast = document.getElementById("fastsewa-toast");
 
     if (!toast) {
@@ -245,22 +245,26 @@ function showToast(message, type = "success") {
         document.body.appendChild(toast);
     }
 
-    toast.className = `fs-toast fs-${type}`;
+    toast.className = `fs-${type}`;
     toast.innerHTML = `
         <div class="fs-toast-icon">
             ${type === "success" ? "✔" : type === "error" ? "✖" : "ℹ"}
         </div>
         <div class="fs-toast-message">${message}</div>
+        <div class="fs-progress"></div>
     `;
 
-    toast.style.opacity = "1";
-    toast.style.transform = "translateY(0)";
-
+    // Trigger bounce animation
     setTimeout(() => {
-        toast.style.opacity = "0";
-        toast.style.transform = "translateY(-20px)";
-    }, 3000);
+        toast.classList.add("show");
+    }, 10);
+
+    // Auto hide
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, duration);
 }
+
 
 
 // --- INITIALIZATION ON LOAD ---

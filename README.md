@@ -49,13 +49,13 @@ FastSewa/
 │   ├── terms.html           # Terms & conditions
 │   ├── css/                 # Stylesheets
 │   │   ├── style.css        # Main styles
-│   │   ├── auth.css        # Main styles
-│   │   ├── footer.css        # Main styles
-│   │   ├── toast.css        # Main styles
+│   │   ├── auth.css
+│   │   ├── footer.css
+│   │   ├── toast.css
 │   ├── js/                  # JavaScript files
 │   │   ├── script.js        # Main script
 │   │   ├── auth.js          # Authentication logic
-│   │   ├── footer.js          # Authentication logic
+│   │   ├── footer.js
 │   ├── images/              # Static images and assets
 │   └── services/            # Individual service pages
 │       ├── finance.html
@@ -70,10 +70,10 @@ FastSewa/
 │       └── trademark.html
 │       └── newconstruction.html
 ├── backend/                # Backend application
-│   └── node_modules/  
-│   └── .gitignore  
-│   └── package-lock.json 
-│   └── package.json 
+│   └── node_modules/
+│   └── .gitignore
+│   └── package-lock.json
+│   └── package.json
 │   └── server.js
 ├── README.md               # Project documentation
 └── LICENSE                 # Project license
@@ -84,18 +84,21 @@ FastSewa/
 ## Getting Started
 
 ### Prerequisites
+
 - Web Browser (Chrome, Firefox, Safari, or Edge)
 - Node.js (v14.0 or higher) - for backend development
 
 ### Installation
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/Anikeshroy/FastSewaWebsite.git
    cd FastSewa
    ```
 
 2. **Frontend Setup:**
+
    ```bash
    cd frontend
    # Open index.html in your web browser
@@ -112,13 +115,15 @@ FastSewa/
 ## Technologies Used
 
 ### Frontend
+
 - **HTML5** - Semantic markup
 - **CSS3** - Responsive styling
 - **JavaScript** - Client-side interactivity
 - **Responsive Design** - Mobile-first approach
 
 ### Backend
-- *To be configured based on backend framework*
+
+- _To be configured based on backend framework_
 
 ---
 
@@ -143,10 +148,10 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Team
 
 **Jha Ji Fastsewa E-Facilities Private Limited**
+
 - Based in Patna, Bihar
 - Dedicated to quality service delivery
 
-
 ---
 
-**Last Updated**: January 25, 2026
+**Last Updated**: February 12, 2026

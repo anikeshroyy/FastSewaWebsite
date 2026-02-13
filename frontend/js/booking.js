@@ -1,7 +1,7 @@
 // Handles all service form submissions with authentication
 const BOOKING_CONFIG = {
     // API_URL: 'http://127.0.0.1:5000/api/bookings',
-    API_URL: 'https://fastsewawebsite.onrender.com/api/bookings', // Use this for production
+    API_URL: 'https://fastsewawebsite-1.onrender.com/api/bookings', // Use this for production
 };
 
 // Service category mapping based on HTML file names

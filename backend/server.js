@@ -42,6 +42,12 @@ const UserSchema = new mongoose.Schema({
     address: String,
 
     userType: { type: String, default: 'customer' },
+    role: {
+        type: String,
+        enum: ["superadmin", "admin"],
+        default: "admin"
+    },
+
     date: { type: Date, default: Date.now }
 });
 
@@ -303,7 +309,7 @@ app.post('/api/bookings', async (req, res) => {
 });
 
 // 4. Route to get all data (for Admin Dashboard)
-app.get('/api/admin/bookings', async (req, res) => {
+app.get('/api/admin/bookings', requireAdmin, async (req, res) => {
     try {
         const bookings = await Booking.find().sort({ date: -1 });
         res.json({
@@ -482,19 +488,38 @@ app.post('/api/admin/users', requireAdmin, async (req, res) => {
 
 app.delete('/api/admin/users/:id', requireAdmin, async (req, res) => {
     try {
-        const deleted = await User.findByIdAndDelete(req.params.id);
+        const targetUser = await User.findById(req.params.id);
 
-        if (!deleted) {
+        if (!targetUser) {
             return res.status(404).json({
                 success: false,
                 message: "User not found"
             });
         }
 
+        // Prevent deleting superadmin
+        if (targetUser.role === "superadmin") {
+            return res.status(403).json({
+                success: false,
+                message: "Super Admin cannot be deleted"
+            });
+        }
+
+        // Only superadmin can delete admins
+        if (targetUser.userType === "admin" && req.admin.role !== "superadmin") {
+            return res.status(403).json({
+                success: false,
+                message: "Only Super Admin can remove other admins"
+            });
+        }
+
+        await User.findByIdAndDelete(req.params.id);
+
         res.json({
             success: true,
             message: "User deleted successfully"
         });
+
     } catch (err) {
         console.error("DELETE USER ERROR:", err);
         res.status(500).json({
@@ -503,7 +528,6 @@ app.delete('/api/admin/users/:id', requireAdmin, async (req, res) => {
         });
     }
 });
-
 
 app.put('/api/admin/bookings/:id', requireAdmin, async (req, res) => {
     try {

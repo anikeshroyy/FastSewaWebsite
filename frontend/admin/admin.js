@@ -83,10 +83,14 @@ async function checkAdminAuth() {
 // ========================================
 async function loadDashboardStats() {
     try {
-        const [users, bookings] = await Promise.all([
+        const [usersRes, bookingsRes] = await Promise.all([
             fetch(API + "/admin/users", { headers: authHeaders() }).then(r => r.json()),
             fetch(API + "/admin/bookings", { headers: authHeaders() }).then(r => r.json())
         ]);
+
+        const users = usersRes.users || [];
+        const bookings = bookingsRes.bookings || [];
+
 
         // Calculate stats
         const customers = users.filter(u => u.userType === "customer");
@@ -113,9 +117,12 @@ async function loadDashboardStats() {
 // ========================================
 async function loadBookings() {
     try {
-        const bookings = await fetch(API + "/admin/bookings", {
+        const res = await fetch(API + "/admin/bookings", {
             headers: authHeaders()
         }).then(r => r.json());
+
+        const bookings = res.bookings || [];
+
 
         const table = document.getElementById("allBookingsTable");
         table.innerHTML = "";
@@ -233,10 +240,11 @@ async function deleteBooking(bookingId) {
 // ========================================
 async function loadUsers() {
     try {
-        const users = await fetch(API + "/admin/users", {
+        const res = await fetch(API + "/admin/users", {
             headers: authHeaders()
         }).then(r => r.json());
 
+        const users = res.users || [];
         const customers = users.filter(u => u.userType === "customer");
         const table = document.getElementById("usersTable");
         table.innerHTML = "";
@@ -277,12 +285,19 @@ async function deleteUser(userId) {
     if (!confirm("Are you sure you want to delete this user?")) return;
 
     try {
-        await fetch(API + "/admin/users/" + userId, {
+        const res = await fetch(API + "/admin/users/" + userId, {
             method: "DELETE",
             headers: authHeaders()
         });
 
-        showToast("User deleted successfully", "success");
+        const data = await res.json();
+
+        if (!res.ok) {
+            showToast(data.message || "Delete failed", "error");
+            return;
+        }
+
+        showToast(data.message || "User deleted successfully", "success");
         loadUsers();
         loadDashboardStats();
 
@@ -292,16 +307,18 @@ async function deleteUser(userId) {
     }
 }
 
-// ========================================
+// =======================================
 // ADMINS MANAGEMENT
 // ========================================
 async function loadAdmins() {
     try {
-        const users = await fetch(API + "/admin/users", {
+        const res = await fetch(API + "/admin/users", {
             headers: authHeaders()
         }).then(r => r.json());
 
+        const users = res.users || [];
         const admins = users.filter(u => u.userType === "admin");
+
         const table = document.getElementById("adminsTable");
         table.innerHTML = "";
 

@@ -1,6 +1,6 @@
 const API_CONFIG = {
     // BASE_URL: 'http://127.0.0.1:5000/api',
-    BASE_URL: 'https://fastsewawebsite-1.onrender.com/api',
+    BASE_URL: 'https://fastsewawebsite.onrender.com/api',
     ENDPOINTS: {
         REGISTER: '/auth/register',
         LOGIN: '/auth/login',

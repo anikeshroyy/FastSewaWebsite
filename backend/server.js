@@ -616,25 +616,28 @@ app.post("/api/contact", async (req, res) => {
 
         // Send Email
         const transporter = nodemailer.createTransport({
-            service: "gmail",
+            host: "smtp-relay.brevo.com",
+            port: 587,
+            secure: false, // MUST be false for 587
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            }
+                user: process.env.BREVO_USER,
+                pass: process.env.BREVO_PASS,
+            },
         });
 
-        await transporter.sendMail({
-            from: `"FastSewa Contact" <${process.env.EMAIL_USER}>`,
+        const info = await transporter.sendMail({
+            from: process.env.EMAIL_USER,
             to: process.env.EMAIL_USER,
             subject: "New Contact Form - FastSewa Website",
             html: `
-                <h2>New Contact Enquiry</h2>
-                <p><b>Name:</b> ${name}</p>
-                <p><b>Email:</b> ${email}</p>
-                <p><b>Message:</b> ${message}</p>
-            `
+        <h2>New Contact Enquiry</h2>
+        <p><b>Name:</b> ${name}</p>
+        <p><b>Email:</b> ${email}</p>
+        <p><b>Message:</b> ${message}</p>
+    `
         });
 
+        console.log("EMAIL RESPONSE:", info.response);
         res.json({ success: true });
 
     } catch (error) {

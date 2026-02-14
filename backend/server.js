@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const axios = require("axios");
-const nodemailer = require("nodemailer");
 require('dotenv').config();
 
 const app = express();
@@ -599,7 +598,6 @@ app.delete('/api/admin/bookings/:id', requireAdmin, async (req, res) => {
     }
 });
 
-// Nodemailer
 app.post("/api/contact", async (req, res) => {
     try {
         const { name, email, message } = req.body;
@@ -614,37 +612,43 @@ app.post("/api/contact", async (req, res) => {
         // Save to Database
         await Contact.create({ name, email, message });
 
-        // Send Email
-        const transporter = nodemailer.createTransport({
-            host: "smtp-relay.brevo.com",
-            port: 587,
-            secure: false, // MUST be false for 587
-            auth: {
-                user: process.env.BREVO_USER,
-                pass: process.env.BREVO_PASS,
+        // Send Email using Brevo API (NOT SMTP)
+        await axios.post(
+            "https://api.brevo.com/v3/smtp/email",
+            {
+                sender: {
+                    name: "FastSewa",
+                    email: process.env.EMAIL_USER
+                },
+                to: [
+                    {
+                        email: process.env.EMAIL_USER
+                    }
+                ],
+                subject: "New Contact Form - FastSewa Website",
+                htmlContent: `
+                    <h2>New Contact Enquiry</h2>
+                    <p><b>Name:</b> ${name}</p>
+                    <p><b>Email:</b> ${email}</p>
+                    <p><b>Message:</b> ${message}</p>
+                `
             },
-        });
+            {
+                headers: {
+                    "api-key": process.env.BREVO_API_KEY,
+                    "Content-Type": "application/json"
+                }
+            }
+        );
 
-        const info = await transporter.sendMail({
-            from: `"FastSewa" <${process.env.EMAIL_USER}>`,
-            to: process.env.EMAIL_USER,
-            subject: "New Contact Form - FastSewa Website",
-            html: `
-        <h2>New Contact Enquiry</h2>
-        <p><b>Name:</b> ${name}</p>
-        <p><b>Email:</b> ${email}</p>
-        <p><b>Message:</b> ${message}</p>
-    `
-        });
-
-        console.log("EMAIL RESPONSE:", info.response);
         res.json({ success: true });
 
     } catch (error) {
-        console.error("CONTACT ERROR:", error.message);
+        console.error("CONTACT ERROR:", error.response?.data || error.message);
         res.status(500).json({ success: false });
     }
 });
+
 
 // 5. PORT: Railway will provide a port via process.env.PORT
 // Note: '0.0.0.0' is important for Railway's network binding

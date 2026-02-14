@@ -329,9 +329,9 @@
         }
 
         .status-badge {
-            padding: 5px 12px;
+            padding: 5px 6px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 12px;
             font-weight: 500;
         }
 
@@ -355,13 +355,16 @@
             background: var(--bg-body);
             color: var(--text-main);
             border-radius: 8px;
+            border: 1px solid rgba(17, 112, 200, 0.989);
             text-decoration: none;
             font-size: 0.85rem;
             transition: 0.2s;
+            cursor: pointer;
+            font-weight: 600;
         }
 
         .btn-view:hover {
-            background: var(--primary);
+            background: rgba(17, 112, 200, 0.989);
             color: white;
         }
 
@@ -493,6 +496,119 @@
             background: #fef2f2;
             color: #b91c1c;
         }
+
+        @media (max-width: 768px) {
+
+            table thead {
+                display: none;
+            }
+
+            table,
+            table tbody,
+            table tr,
+            table td {
+                display: block;
+                width: 100%;
+            }
+
+            table tr {
+                background: var(--bg-card);
+                margin-bottom: 15px;
+                border-radius: 12px;
+                box-shadow: var(--shadow);
+                padding: 15px;
+                border: 1px solid rgba(32, 143, 240, 0.767);
+
+            }
+
+            table td {
+                text-align: right;
+                padding: 4px 0px 10px 45%;
+                border: none;
+                position: relative;
+                font-size: 12px;
+            }
+
+            table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 15px;
+                width: 40%;
+                font-weight: 600;
+                color: var(--text-muted);
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .content-scroll {
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .stat-card {
+                padding: 18px;
+                gap: 15px;
+            }
+
+            .stat-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .stat-card h2 {
+                font-size: 1.3rem;
+            }
+
+        }
+
+        @media (max-width: 768px) {
+
+            .actions-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+
+            .action-btn {
+                padding: 16px;
+                font-size: 0.9rem;
+            }
+
+            .action-btn i {
+                font-size: 1.5rem;
+                margin-bottom: 8px;
+            }
+
+        }
+
+        @media (max-width: 768px) {
+
+            .welcome-banner {
+                padding: 25px;
+                border-radius: 15px;
+            }
+
+            .welcome-banner h1 {
+                font-size: 1.4rem;
+            }
+
+            .welcome-banner p {
+                font-size: 0.9rem;
+            }
+
+            .banner-decoration {
+                font-size: 5rem;
+                right: -10px;
+                bottom: -10px;
+            }
+
+        }
     </style>
 </head>
 
@@ -549,11 +665,6 @@
                     style="color: var(--primary); font-size: 0.9rem; text-decoration: none; border: 1px solid var(--primary); padding: 5px 15px; border-radius: 20px;">
                     <i class="fas fa-globe"></i> Visit Website
                 </a>
-                <!-- <div style="position: relative;">
-                    <i class="fas fa-bell" style="font-size: 1.2rem; color: #64748b; cursor: pointer;"></i>
-                    <span
-                        style="position: absolute; top: -5px; right: -5px; background: red; color: white; font-size: 10px; width: 15px; height: 15px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">3</span>
-                </div> -->
             </div>
         </header>
 
@@ -581,13 +692,6 @@
                             <p style="color: #64748b; font-size: 0.9rem;">Services Used</p>
                         </div>
                     </div>
-                    <!-- <div class="stat-card">
-                        <div class="stat-icon" style="background: #f59e0b;"><i class="fas fa-star"></i></div>
-                        <div>
-                            <h2>4.8</h2>
-                            <p style="color: #64748b; font-size: 0.9rem;">My Rating</p>
-                        </div>
-                    </div> -->
                     <div class="stat-card">
                         <div class="stat-icon" style="background: #8b5cf6;"><i class="fas fa-wallet"></i></div>
                         <div>
@@ -703,7 +807,8 @@
     </main>
 
     <!-- Booking Details Modal -->
-    <div id="bookingModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999;">
+    <div id="bookingModal"
+        style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999; padding: 15px;">
         <div style="
     background:#fff;
     max-width:600px;

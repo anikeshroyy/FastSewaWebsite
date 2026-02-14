@@ -123,11 +123,12 @@ async function loadMyBookings() {
 
         if (!res.bookings || res.bookings.length === 0) {
             allTable.innerHTML = `
-        <tr>
-          <td colspan="6" style="text-align:center;color:#64748b;">
-            No bookings yet
-          </td>
-        </tr>`;
+<tr>
+  <td data-label="Status" colspan="6" style="text-align:center;color:#64748b;">
+    No bookings yet
+  </td>
+</tr>`;
+
             return;
         }
 
@@ -136,47 +137,75 @@ async function loadMyBookings() {
         -------------------------- */
         res.bookings.forEach(b => {
             allTable.innerHTML += `
-        <tr>
-          <td>FS-${b._id.slice(-6).toUpperCase()}</td>
-          <td>${CATEGORY_LABELS[b.category] || b.category}</td>
-          <td>${b.serviceType || "-"}</td>
-          <td>${new Date(b.date).toLocaleDateString()}</td>
-          <td>
-            <span class="status-badge status-${b.status}">
-              ${STATUS_LABELS[b.status]}
-            </span>
-          </td>
-          <td>
-            <button class="btn-view" onclick="viewBooking('${b._id}')">
-              View
-            </button>
-          </td>
-        </tr>`;
+<tr>
+  <td data-label="Booking ID">
+    FS-${b._id.slice(-6).toUpperCase()}
+  </td>
+
+  <td data-label="Service">
+    ${CATEGORY_LABELS[b.category] || b.category}
+  </td>
+
+  <td data-label="Type">
+    ${b.serviceType || "-"}
+  </td>
+
+  <td data-label="Date">
+    ${new Date(b.date).toLocaleDateString()}
+  </td>
+
+  <td data-label="Status">
+    <span class="status-badge status-${b.status}">
+      ${STATUS_LABELS[b.status]}
+    </span>
+  </td>
+
+  <td data-label="Action">
+    <button class="btn-view" onclick="viewBooking('${b._id}')">
+      View
+    </button>
+  </td>
+</tr>`;
         });
+
 
         /* -------------------------
            📌 RECENT REQUESTS (TOP 3)
         -------------------------- */
         res.bookings.slice(0, 3).forEach(b => {
             recentTable.innerHTML += `
-        <tr>
-        <td>FS-${b._id.slice(-6).toUpperCase()}</td>
-        <td>${CATEGORY_LABELS[b.category]}</td>
-        <td>${b.serviceType || "-"}</td>
-        <td>${new Date(b.date).toLocaleDateString()}</td>
-        <td>
-          <span class="status-badge status-${b.status}">
-            ${STATUS_LABELS[b.status]}
-          </span>
-        </td>
-        <td>
-          <button class="btn-view" onclick="viewBooking('${b._id}')">
-            View
-          </button>
-        </td>
-        </tr>
-            `;
+<tr>
+  <td data-label="Booking ID">
+    FS-${b._id.slice(-6).toUpperCase()}
+  </td>
+
+  <td data-label="Service">
+    ${CATEGORY_LABELS[b.category]}
+  </td>
+
+  <td data-label="Type">
+    ${b.serviceType || "-"}
+  </td>
+
+  <td data-label="Requested On">
+    ${new Date(b.date).toLocaleDateString()}
+  </td>
+
+  <td data-label="Status">
+    <span class="status-badge status-${b.status}">
+      ${STATUS_LABELS[b.status]}
+    </span>
+  </td>
+
+  <td data-label="Action">
+    <button class="btn-view" onclick="viewBooking('${b._id}')">
+      View
+    </button>
+  </td>
+</tr>
+    `;
         });
+
 
         // Dashboard stats
         document.getElementById("activeBookings").innerText =

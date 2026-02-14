@@ -141,26 +141,46 @@ async function loadBookings() {
         bookings.forEach(b => {
             table.innerHTML += `
                 <tr>
-                    <td><strong>FS-${b._id.slice(-6).toUpperCase()}</strong></td>
-                    <td>${b.fullName || "N/A"}</td>
-                    <td>${b.email || "N/A"}</td>
-                    <td>${b.phone || "N/A"}</td>
-                    <td>${CATEGORY_LABELS[b.category] || b.category}</td>
-                    <td>${new Date(b.date).toLocaleDateString()}</td>
-                    <td>
-                        <select class="status-select" onchange="updateStatus('${b._id}', this.value)">
-                            ${["pending", "verified", "assigned", "completed", "cancelled"].map(s => `
-                                <option value="${s}" ${b.status === s ? "selected" : ""}>
-                                    ${STATUS_LABELS[s]}
-                                </option>
-                            `).join("")}
-                        </select>
-                    </td>
-                    <td>
-                        <button class="btn btn-danger" onclick="deleteBooking('${b._id}')">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
+                    <td data-label="Booking ID">
+    <strong>FS-${b._id.slice(-6).toUpperCase()}</strong>
+</td>
+
+<td data-label="Customer Name">
+    ${b.fullName || "N/A"}
+</td>
+
+<td data-label="Email">
+    ${b.email || "N/A"}
+</td>
+
+<td data-label="Phone">
+    ${b.phone || "N/A"}
+</td>
+
+<td data-label="Service">
+    ${CATEGORY_LABELS[b.category] || b.category}
+</td>
+
+<td data-label="Date">
+    ${new Date(b.date).toLocaleDateString()}
+</td>
+
+<td data-label="Status">
+    <select class="status-select" onchange="updateStatus('${b._id}', this.value)">
+        ${["pending", "verified", "assigned", "completed", "cancelled"].map(s => `
+            <option value="${s}" ${b.status === s ? "selected" : ""}>
+                ${STATUS_LABELS[s]}
+            </option>
+        `).join("")}
+    </select>
+</td>
+
+<td data-label="Action">
+    <button class="btn btn-danger" onclick="deleteBooking('${b._id}')">
+        <i class="fas fa-trash"></i>
+    </button>
+</td>
+
                 </tr>`;
         });
 
@@ -185,15 +205,28 @@ function loadRecentBookings(bookings) {
     bookings.forEach(b => {
         table.innerHTML += `
             <tr>
-                <td><strong>FS-${b._id.slice(-6).toUpperCase()}</strong></td>
-                <td>${b.fullName || "N/A"}</td>
-                <td>${CATEGORY_LABELS[b.category] || b.category}</td>
-                <td>${new Date(b.date).toLocaleDateString()}</td>
-                <td>
-                    <span class="status-badge status-${b.status}">
-                        ${STATUS_LABELS[b.status]}
-                    </span>
-                </td>
+                <td data-label="Booking ID">
+    <strong>FS-${b._id.slice(-6).toUpperCase()}</strong>
+</td>
+
+<td data-label="Customer">
+    ${b.fullName || "N/A"}
+</td>
+
+<td data-label="Service">
+    ${CATEGORY_LABELS[b.category] || b.category}
+</td>
+
+<td data-label="Date">
+    ${new Date(b.date).toLocaleDateString()}
+</td>
+
+<td data-label="Status">
+    <span class="status-badge status-${b.status}">
+        ${STATUS_LABELS[b.status]}
+    </span>
+</td>
+
             </tr>`;
     });
 }
@@ -262,12 +295,25 @@ async function loadUsers() {
 
         customers.forEach(u => {
             table.innerHTML += `
-                <tr>
-                    <td>${u.fullName || u.firstName + " " + u.lastName}</td>
-                    <td>${u.email}</td>
-                    <td>${u.phone || "N/A"}</td>
-                    <td>${new Date(u.date).toLocaleDateString()}</td>
-                    <td>
+                    <tr>
+    <td data-label="Name">
+        ${u.fullName || u.firstName + " " + u.lastName}
+    </td>
+
+    <td data-label="Email">
+        ${u.email}
+    </td>
+
+    <td data-label="Phone">
+        ${u.phone || "N/A"}
+    </td>
+
+    <td data-label="Joined">
+        ${new Date(u.date).toLocaleDateString()}
+    </td>
+
+    <td data-label="Action">
+
                         <button class="btn btn-danger" onclick="deleteUser('${u._id}')">
                             <i class="fas fa-trash"></i> Delete
                         </button>
@@ -336,11 +382,24 @@ async function loadAdmins() {
 
             table.innerHTML += `
                 <tr>
-                    <td>${u.fullName || u.firstName + " " + u.lastName}</td>
-                    <td>${u.email}</td>
-                    <td><span class="admin-badge">ADMIN</span></td>
-                    <td>${new Date(u.date).toLocaleDateString()}</td>
-                    <td>
+                    <td data-label="Name">
+    ${u.fullName || u.firstName + " " + u.lastName}
+</td>
+
+<td data-label="Email">
+    ${u.email}
+</td>
+
+<td data-label="Role">
+    <span class="admin-badge">ADMIN</span>
+</td>
+
+<td data-label="Added On">
+    ${new Date(u.date).toLocaleDateString()}
+</td>
+
+<td data-label="Action">
+
                         ${!isSelf ? `
                             <button class="btn btn-danger" onclick="deleteUser('${u._id}')">
                                 <i class="fas fa-user-minus"></i> Remove
@@ -469,12 +528,18 @@ function showSection(sectionId, element) {
     // Close mobile sidebar
     if (window.innerWidth < 900) {
         document.getElementById("sidebar").classList.remove("active");
+        document.getElementById("sidebarOverlay").classList.remove("active");
     }
 }
 
 function toggleSidebar() {
-    document.getElementById("sidebar").classList.toggle("active");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebarOverlay");
+
+    sidebar.classList.toggle("active");
+    overlay.classList.toggle("active");
 }
+
 
 function logout() {
     if (confirm("Are you sure you want to log out?")) {

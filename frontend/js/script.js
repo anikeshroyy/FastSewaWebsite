@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // 4. SCROLL REVEAL ANIMATION
+    // SCROLL REVEAL ANIMATION
     function reveal() {
         var reveals = document.querySelectorAll('.reveal');
         for (var i = 0; i < reveals.length; i++) {
@@ -15,38 +15,35 @@ document.addEventListener('DOMContentLoaded', function () {
     reveal(); // Run on load
     setTimeout(reveal, 500);
 
-    // 5. MOBILE NAVIGATION TOGGLE
-// 5. MOBILE NAVIGATION TOGGLE
-const hamburger = document.querySelector('.hamburger');
-const navLinks = document.querySelector('.nav-links');
+    // MOBILE NAVIGATION TOGGLE
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
 
-if (hamburger && navLinks) {
-    hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        hamburger.classList.toggle('active');
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
 
-        // 🔥 Hide chatbot when navbar opens
-        if (navLinks.classList.contains('active')) {
-            document.body.classList.add('hide-chatbot');
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.classList.remove('hide-chatbot');
-            document.body.style.overflow = "initial";
-        }
-    });
+            // Hide chatbot when navbar opens
+            if (navLinks.classList.contains('active')) {
+                document.body.classList.add('hide-chatbot');
+                document.body.style.overflow = "hidden";
+            } else {
+                document.body.classList.remove('hide-chatbot');
+                document.body.style.overflow = "initial";
+            }
+        });
 
-    document.querySelectorAll('.nav-links li a').forEach(n =>
-        n.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navLinks.classList.remove('active');
-            document.body.classList.remove('hide-chatbot');
-            document.body.style.overflow = "initial";
-        })
-    );
-}
-    // ======================================================
-    // 3. SMOOTH SCROLLING
-    // ======================================================
+        document.querySelectorAll('.nav-links li a').forEach(n =>
+            n.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.classList.remove('hide-chatbot');
+                document.body.style.overflow = "initial";
+            })
+        );
+    }
+    // SMOOTH SCROLLING
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -58,9 +55,7 @@ if (hamburger && navLinks) {
         });
     });
 
-    // ======================================================
-    // 4. STATS COUNTER ANIMATION
-    // ======================================================
+    // STATS COUNTER ANIMATION
     const statsSection = document.querySelector('.stats-section');
     const counters = document.querySelectorAll('.counter');
     const speed = 200;
@@ -93,9 +88,7 @@ if (hamburger && navLinks) {
         statsObserver.observe(statsSection);
     }
 
-    // ======================================================
-    // 6. PREMIUM APP POPUP LOGIC
-    // ======================================================
+    // PREMIUM APP POPUP LOGIC
     const popup = document.getElementById("fsAppPopup");
     const mini = document.getElementById("fsAppMin");
     const minBtn = document.getElementById("fsMin");
@@ -125,55 +118,47 @@ if (hamburger && navLinks) {
         };
     }
 
-    // ======================================================
-    // 7. AUTHENTICATION PERSISTENCE (REAL APP)
-    // ======================================================
+    // AUTHENTICATION PERSISTENCE (REAL APP)
     const authAction = document.getElementById("auth-action");
     const currentUser = JSON.parse(localStorage.getItem("fastsewa_current_user"));
     const token = localStorage.getItem("fastsewa_token");
 
     if (authAction) {
 
-        // ❌ NOT LOGGED IN
+        // NOT LOGGED IN
         if (!currentUser || !token) {
             authAction.innerHTML = `
             <a href="/login.html" class="btn-nav" onclick="saveRedirect()">Login/Signup</a>
         `;
         }
 
-        // ✅ LOGGED IN
+        // LOGGED IN
         else {
             const firstName = currentUser.firstName || "User";
             const initial = firstName.charAt(0).toUpperCase();
 
             authAction.innerHTML = `
-            <div class="user-nav-profile" style="position: relative; display: inline-block;">
-                <div id="profileTrigger" style="display: flex; align-items: center; gap: 10px; cursor: pointer; background: rgba(255,87,34,0.1); padding: 5px 15px 5px 5px; border-radius: 30px; border: 1px solid rgba(255,87,34,0.2);">
-                    <div style="width: 35px; height: 35px; background: #ff5722; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">
-                        ${initial}
-                    </div>
-                    <span style="font-weight: 600; font-size: 14px; color: #333;">
-                        ${firstName}
-                    </span>
-                    <i class="fas fa-chevron-down" style="font-size: 12px; color: #666;"></i>
-                </div>
+<li class="user-nav-profile">
+    <div id="profileTrigger" class="profile-trigger">
+        <div class="profile-avatar">${initial}</div>
+        <span class="profile-name">${firstName}</span>
+        <i class="fas fa-chevron-down"></i>
+    </div>
 
-                <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 50px; background: white; width: 200px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-radius: 12px; padding: 10px; z-index: 1000; border: 1px solid #eee;">
-                    <div style="padding: 10px; border-bottom: 1px solid #eee; margin-bottom: 5px;">
-                        <p style="font-size: 12px; color: #888;">Signed in as</p>
-                        <p style="font-weight: 600; color: #333; overflow: hidden; text-overflow: ellipsis;">
-                            ${currentUser.email}
-                        </p>
-                    </div>
-                    <a href="/dashboard.html" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: #333; font-size: 14px;">
-                        <i class="fas fa-th-large" style="color: #ff5722;"></i> Dashboard
-                    </a>
-                    <a href="#" id="logoutBtn" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: #ef4444; font-size: 14px;">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
-                </div>
-            </div>
-        `;
+    <div id="userDropdown" class="profile-dropdown">
+        <div class="dropdown-header">
+            <p>Signed in as</p>
+            <strong>${currentUser.email}</strong>
+        </div>
+        <a href="/dashboard.html" class="dropdown-link">
+            <i class="fas fa-th-large"></i> Dashboard
+        </a>
+        <a href="#" id="logoutBtn" class="dropdown-link logout">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+</li>
+`;
 
             document.getElementById("profileTrigger").addEventListener("click", toggleDropdown);
             document.getElementById("logoutBtn").addEventListener("click", logoutUser);
@@ -183,16 +168,17 @@ if (hamburger && navLinks) {
     // Global Helper Functions
     function toggleDropdown() {
         const dropdown = document.getElementById("userDropdown");
-        if (dropdown) dropdown.style.display = (dropdown.style.display === "none") ? "block" : "none";
+        dropdown.style.display =
+            dropdown.style.display === "block" ? "none" : "block";
     }
 
-function logoutUser() {
-    localStorage.removeItem("fastsewa_token");
-    localStorage.removeItem("fastsewa_current_user");
-    localStorage.removeItem("auth_redirect");
-    localStorage.removeItem("pending_booking");
-    window.location.href = "/index.html";
-}
+    function logoutUser() {
+        localStorage.removeItem("fastsewa_token");
+        localStorage.removeItem("fastsewa_current_user");
+        localStorage.removeItem("auth_redirect");
+        localStorage.removeItem("pending_booking");
+        window.location.href = "/index.html";
+    }
 
 
     window.onclick = function (event) {

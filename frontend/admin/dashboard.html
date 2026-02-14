@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="admindashboard.css">
+    <link rel="stylesheet" href="admindashboard.css">
 </head>
 
 <body>
@@ -45,19 +45,23 @@
         </div>
     </aside>
 
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
     <main class="main-content">
         <header class="top-header">
-            <div style="display: flex; align-items: center; gap: 15px;">
+            <div class="header-left">
                 <i class="fas fa-bars mobile-toggle" onclick="toggleSidebar()"></i>
-                <div class="header-title">Dashboard Overview</div>
-            </div>
 
-            <div class="header-actions">
-                <span style="color: var(--text-muted); font-size: 0.9rem;">
-                    <i class="far fa-clock"></i> <span id="currentTime"></span>
-                </span>
+                <div class="header-text">
+                    <div class="header-title">Dashboard Overview</div>
+                    <div class="header-time">
+                        <i class="far fa-clock"></i>
+                        <span id="currentTime"></span>
+                    </div>
+                </div>
             </div>
         </header>
+
 
         <div class="content-scroll">
 

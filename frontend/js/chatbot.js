@@ -114,5 +114,5 @@ function initChatbot() {
         };
 }
 
-// 👇 expose globally so index.html can call it
+// expose globally so index.html can call it
 window.initChatbot = initChatbot;

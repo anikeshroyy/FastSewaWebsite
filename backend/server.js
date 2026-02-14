@@ -626,7 +626,7 @@ app.post("/api/contact", async (req, res) => {
         });
 
         const info = await transporter.sendMail({
-            from: process.env.EMAIL_USER,
+            from: `"FastSewa" <${process.env.EMAIL_USER}>`,
             to: process.env.EMAIL_USER,
             subject: "New Contact Form - FastSewa Website",
             html: `

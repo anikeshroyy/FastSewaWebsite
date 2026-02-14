@@ -1,39 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const hamburger = document.querySelector('.hamburger');
-        const navLinks = document.querySelector('.nav-links');
-        const navbar = document.querySelector('.navbar');
-
-        // 1. Mobile Toggle
-        if (hamburger) {
-            hamburger.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-                hamburger.classList.toggle('active');
-                // Prevent body scroll when menu is open
-                document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : 'initial';
-            });
-        }
-
-        // 2. Close menu when a link is clicked
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('active');
-                document.body.style.overflow = 'initial';
-            });
-        });
-
-        // 3. Navbar Scroll Effect
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-    });
-
     // 4. SCROLL REVEAL ANIMATION
     function reveal() {
         var reveals = document.querySelectorAll('.reveal');
@@ -51,21 +16,34 @@ document.addEventListener('DOMContentLoaded', function () {
     setTimeout(reveal, 500);
 
     // 5. MOBILE NAVIGATION TOGGLE
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
+// 5. MOBILE NAVIGATION TOGGLE
+const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('.nav-links');
 
-    if (hamburger && navLinks) {
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            hamburger.classList.toggle('active');
-        });
+if (hamburger && navLinks) {
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        hamburger.classList.toggle('active');
 
-        document.querySelectorAll('.nav-links li a').forEach(n => n.addEventListener('click', () => {
+        // 🔥 Hide chatbot when navbar opens
+        if (navLinks.classList.contains('active')) {
+            document.body.classList.add('hide-chatbot');
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.classList.remove('hide-chatbot');
+            document.body.style.overflow = "initial";
+        }
+    });
+
+    document.querySelectorAll('.nav-links li a').forEach(n =>
+        n.addEventListener('click', () => {
             hamburger.classList.remove('active');
             navLinks.classList.remove('active');
-        }));
-    }
-
+            document.body.classList.remove('hide-chatbot');
+            document.body.style.overflow = "initial";
+        })
+    );
+}
     // ======================================================
     // 3. SMOOTH SCROLLING
     // ======================================================
@@ -113,46 +91,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }, { threshold: 0.2 });
         statsObserver.observe(statsSection);
-    }
-
-    // ======================================================
-    // 5. CONTACT FORM & EMAIL JS
-    // ======================================================
-    const contactForm = document.getElementById("contactForm");
-
-    if (contactForm) {
-        contactForm.addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            const btn = this.querySelector('button');
-            const originalContent = btn.innerHTML;
-
-            // Visual Feedback: Loading State
-            btn.disabled = true;
-            btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Sending...`;
-            btn.style.opacity = "0.7";
-
-            emailjs.sendForm("service_ap93y7a", "template_hvuzvq9", this)
-                .then(() => {
-                    // Success: Update UI
-                    btn.innerHTML = `<i class="fas fa-check"></i> Sent Successfully!`;
-                    btn.style.background = "#10b981"; // Green color
-                    this.reset();
-
-                    setTimeout(() => {
-                        btn.disabled = false;
-                        btn.innerHTML = originalContent;
-                        btn.style.background = ""; // Revert to CSS default
-                        btn.style.opacity = "1";
-                    }, 4000);
-                }, (err) => {
-                    // Error handling
-                    alert("❌ Failed to send. Please try again or call us.");
-                    btn.disabled = false;
-                    btn.innerHTML = originalContent;
-                    btn.style.opacity = "1";
-                });
-        });
     }
 
     // ======================================================

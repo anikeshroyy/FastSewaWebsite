@@ -661,8 +661,15 @@ ul {
 }
 
 /* Info Side */
-.info-card { margin-bottom: 30px; }
-.info-title { font-size: 1.8rem; margin-bottom: 25px; color: var(--primary); }
+.info-card {
+    margin-bottom: 30px;
+}
+
+.info-title {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: var(--primary);
+}
 
 .info-item {
     display: flex;
@@ -685,23 +692,37 @@ ul {
     border: 1px solid rgba(255, 87, 34, 0.2);
 }
 
-.info-item h4 { font-size: 1rem; margin-bottom: 2px; color: #f8fafc; }
-.info-item p { color: #94a3b8; font-size: 0.95rem; }
+.info-item h4 {
+    font-size: 1rem;
+    margin-bottom: 2px;
+    color: #f8fafc;
+}
+
+.info-item p {
+    color: #94a3b8;
+    font-size: 0.95rem;
+}
 
 /* Socials */
-.social-links { display: flex; gap: 15px; margin-top: 30px; }
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
 .social-links a {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.05);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     transition: 0.3s;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .social-links a:hover {
     background: var(--primary);
     transform: translateY(-3px);
@@ -709,8 +730,13 @@ ul {
 }
 
 /* Form Styles */
-.form-group { position: relative; margin-bottom: 25px; }
-.form-group input, .form-group textarea {
+.form-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.form-group input,
+.form-group textarea {
     width: 100%;
     padding: 16px;
     /* background: rgba(15, 23, 42, 0.6); */
@@ -750,8 +776,14 @@ ul {
 
 /* Responsive */
 @media (max-width: 992px) {
-    .contact-wrapper { grid-template-columns: 1fr; padding: 30px; }
-    .contact-section { padding: 60px 0; }
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+        padding: 30px;
+    }
+
+    .contact-section {
+        padding: 60px 0;
+    }
 }
 
 /* --- PREMIUM APP DOWNLOAD POPUP --- */
@@ -849,7 +881,7 @@ ul {
 
 #fsAppMin {
     position: fixed;
-    bottom: 30px;
+    bottom: 10px;
     left: 30px;
     width: 60px;
     height: 60px;
@@ -868,7 +900,7 @@ ul {
 /* --- CHATBOT CSS --- */
 .fastsewa-chatbot-toggle {
     position: fixed;
-    bottom: 25px;
+    bottom: 10px;
     right: 25px;
     width: 60px;
     height: 60px;
@@ -1018,6 +1050,10 @@ ul {
     .hamburger.active .bar:nth-child(3) {
         transform: translateY(-8px) rotate(-45deg);
     }
+
+    .social-links {
+        margin-top: 15px;
+    }
 }
 
 /* --- ANIMATIONS --- */
@@ -1029,5 +1065,39 @@ ul {
 
 .reveal.active {
     opacity: 1;
+    transform: translateY(0);
+}
+
+/* MOBILE: Hide FS App Popup & Icon */
+@media (max-width: 768px) {
+
+    #fsAppPopup,
+    #fsAppMin {
+        display: none !important;
+    }
+}
+
+
+.hide-chatbot .fastsewa-chatbot-toggle,
+.hide-chatbot .fastsewa-chatbot-container {
+    display: none !important;
+}
+
+/* Initially hidden until scroll */
+.fastsewa-chatbot-toggle,
+#fsAppMin,
+#fsAppPopup {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: translateY(20px);
+}
+
+/* Visible state */
+.show-floating-ui .fastsewa-chatbot-toggle,
+.show-floating-ui #fsAppMin,
+.show-floating-ui #fsAppPopup {
+    opacity: 1;
+    visibility: visible;
     transform: translateY(0);
 }

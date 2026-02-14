@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <a href="tel:+918275723755" class="s-link"><i class="fas fa-phone-alt"></i></a>
                     </div>
                 </div>
-
+ 
                 <div class="footer-col">
                     <h3 class="col-title">Our Services</h3>
                     <ul class="footer-links">
@@ -45,13 +45,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         <li><a href="terms.html">Terms & Conditions</a></li>
                     </ul>
                 </div>
-
+              
                 <div class="footer-col">
                     <h3 class="col-title">Contact Us</h3>
                     <div class="contact-box">
                         <div class="c-item">
                             <i class="fas fa-map-marker-alt"></i>
-                            <span>B Hub, Gandhi Maidan, Patna, Bihar 800001</span>
+                            <span>B Hub, Gandhi Maidan, Patna, 800001</span>
                         </div>
                         <div class="c-item">
                             <i class="fas fa-phone-alt"></i>
@@ -67,8 +67,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         </div>
                     </div>
                 </div>
-
-                
             </div>
 
             <div class="footer-bottom">
@@ -78,11 +76,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             </div>
         </footer>
-
-        <a href="https://wa.me/918275723755" class="whatsapp-modern" target="_blank" title="Chat on WhatsApp">
-            <i class="fab fa-whatsapp"></i>
-            <span class="pulse"></span>
-        </a>
         `;
     }
 });

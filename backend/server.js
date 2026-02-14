@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const axios = require("axios");
+const nodemailer = require("nodemailer");
 require('dotenv').config();
 
 const app = express();
@@ -269,6 +271,18 @@ const BookingSchema = new mongoose.Schema({
 });
 
 const Booking = mongoose.model('Booking', BookingSchema);
+
+
+// -------- Contact Schema ----------
+const ContactSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    message: { type: String, required: true },
+    date: { type: Date, default: Date.now }
+});
+
+const Contact = mongoose.model("Contact", ContactSchema);
+
 
 // 3. API Routes to save data (from the frontend form)
 app.post('/api/bookings', async (req, res) => {
@@ -582,6 +596,50 @@ app.delete('/api/admin/bookings/:id', requireAdmin, async (req, res) => {
             success: false,
             message: "Failed to delete booking"
         });
+    }
+});
+
+// Nodemailer
+app.post("/api/contact", async (req, res) => {
+    try {
+        const { name, email, message } = req.body;
+
+        if (!name || !email || !message) {
+            return res.status(400).json({
+                success: false,
+                message: "All fields are required"
+            });
+        }
+
+        // Save to Database
+        await Contact.create({ name, email, message });
+
+        // Send Email
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+
+        await transporter.sendMail({
+            from: `"FastSewa Contact" <${process.env.EMAIL_USER}>`,
+            to: process.env.EMAIL_USER,
+            subject: "New Contact Form - FastSewa Website",
+            html: `
+                <h2>New Contact Enquiry</h2>
+                <p><b>Name:</b> ${name}</p>
+                <p><b>Email:</b> ${email}</p>
+                <p><b>Message:</b> ${message}</p>
+            `
+        });
+
+        res.json({ success: true });
+
+    } catch (error) {
+        console.error("CONTACT ERROR:", error.message);
+        res.status(500).json({ success: false });
     }
 });
 

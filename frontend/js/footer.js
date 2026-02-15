@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     </p>
                     <div class="social-links">
                         <a href="https://facebook.com/fastsewa.20" target="_blank" class="s-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://instagram.com" target="_blank" class="s-link"><i class="fab fa-instagram"></i></a>
-                        <a href="https://linkedin.com/in/fastsewa-facilities" target="_blank" class="s-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.instagram.com/fastsewa2020/" target="_blank" class="s-link"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/fastsewa-facilities-2a062b2a2/" target="_blank" class="s-link"><i class="fab fa-linkedin-in"></i></a>
                         <a href="https://wa.me/918275723755" target="_blank" class="s-link"><i class="fab fa-whatsapp"></i></a>
                         <a href="tel:+918275723755" class="s-link"><i class="fas fa-phone-alt"></i></a>
                     </div>
